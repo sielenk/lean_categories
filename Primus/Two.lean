@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-inductive twoOb.{n}: Type n
+inductive twoOb.{m}: Type m
   | ob1: twoOb
   | ob2: twoOb
 
@@ -10,7 +10,7 @@ inductive twoHom.{m, n}: twoOb.{m} -> twoOb.{m} -> Type n
   | id2: twoHom twoOb.ob2 twoOb.ob2
   | f12: twoHom twoOb.ob1 twoOb.ob2
 
- def two: category := {
+ def two.{m, n}: category.{m+1, n+1} := {
   Ob := twoOb
   Hom := twoHom
   id A := match A with

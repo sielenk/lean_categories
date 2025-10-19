@@ -39,7 +39,7 @@ def threeComp.{m, n}{A B C: threeOb.{m}}(g: threeHom.{m, n} B C)(f: threeHom.{m,
 @[simp] def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f := by
   cases f <;> rfl
 
-def three: category := {
+def three.{m, n}: category.{m+1, n+1} := {
   Ob := threeOb,
   Hom := threeHom,
   id := threeId,
