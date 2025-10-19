@@ -1,5 +1,6 @@
 import Primus.Category
 
+
 inductive twoOb: Type
   | ob1: twoOb
   | ob2: twoOb

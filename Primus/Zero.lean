@@ -1,5 +1,6 @@
 import Primus.Category
 
+
 def zero: category.{0, 0} := {
   Ob := Empty
   Hom _ _ := Empty

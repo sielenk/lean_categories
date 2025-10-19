@@ -1,6 +1,7 @@
 import Primus.Category
 
-def op(CC: category.{n}): category.{n} := {
+
+def op(CC: category): category := {
   Ob := CC.Ob,
   Hom A B := CC.Hom B A,
   id A := CC.id A,

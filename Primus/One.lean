@@ -1,5 +1,6 @@
 import Primus.Category
 
+
 def one: category.{0, 0} := {
   Ob := PUnit,
   Hom _ _ := PUnit,

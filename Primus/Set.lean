@@ -1,5 +1,6 @@
 import Primus.Category
 
+
 def Set.{m}: category.{m+1, m} := {
   Ob := Type m,
   Hom A B :=  A -> B,

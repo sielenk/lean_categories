@@ -1,5 +1,6 @@
 import Primus.Category
 
+
 inductive threeOb: Type
   | ob1: threeOb
   | ob2: threeOb
@@ -32,23 +33,11 @@ def threeComp{A B C: threeOb}(g: threeHom B C)(f: threeHom A B): threeHom A C :=
   | threeHom.f13, threeHom.id3 => threeHom.f13
   | threeHom.f23, threeHom.id3 => threeHom.f23
 
-def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f :=
-  match f with
-  | threeHom.id1 => rfl
-  | threeHom.id2 => rfl
-  | threeHom.id3 => rfl
-  | threeHom.f12 => rfl
-  | threeHom.f23 => rfl
-  | threeHom.f13 => rfl
+def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f := by
+  cases f <;> rfl
 
-def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f :=
-  match f with
-  | threeHom.id1 => rfl
-  | threeHom.id2 => rfl
-  | threeHom.id3 => rfl
-  | threeHom.f12 => rfl
-  | threeHom.f23 => rfl
-  | threeHom.f13 => rfl
+def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f := by
+  cases f <;> rfl
 
 def three: category.{0} := {
   Ob := threeOb,
