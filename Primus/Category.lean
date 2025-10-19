@@ -8,6 +8,8 @@ structure category.{m, n}: Type _ where
   assoc{A B C D: Ob}(h: Hom C D)(g: Hom B C)(f: Hom A B):
          compose h (compose g f) = compose (compose h g) f
 
+attribute [simp] category.left_id category.right_id
+
 structure initialObject(CC: category): Type _ where
   I: CC.Ob
   hom(X: CC.Ob): CC.Hom I X
