@@ -9,15 +9,9 @@ def prodCat(CC DD: category): category := {
   left_id f := by
     cases f
     simp
-    and_intros
-    apply CC.left_id
-    apply DD.left_id
   right_id f := by
     cases f
     simp
-    and_intros
-    apply CC.right_id
-    apply DD.right_id
   assoc h g f:= by
     cases h
     cases g

@@ -26,12 +26,8 @@ def coneCat: category := {
     rw [CC.assoc, ←g.comm, ←f.comm]
   left_id {A B} f := by
     simp
-    congr
-    apply CC.left_id
   right_id {A B} f := by
     simp
-    congr
-    apply CC.right_id
   assoc {A B C D} h g f := by
     simp
     apply CC.assoc

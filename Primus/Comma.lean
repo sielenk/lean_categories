@@ -28,14 +28,8 @@ def commaCat: category := {
     rw [S.compose, CC.assoc, g.comm, T.compose, ← CC.assoc, ← CC.assoc, f.comm]
   left_id {A B} f := by
     simp
-    congr
-    apply AA.left_id
-    apply BB.left_id
   right_id {A B} f := by
     simp
-    congr
-    apply AA.right_id
-    apply BB.right_id
   assoc {A B C D} h g f := by
     simp
     and_intros
