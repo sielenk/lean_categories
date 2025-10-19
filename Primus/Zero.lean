@@ -1,12 +1,12 @@
 import Primus.Category
 
 
-def zero: category.{0, 0} := {
-  Ob := Empty
-  Hom _ _ := Empty
+def zero: category := {
+  Ob := PEmpty
+  Hom _ _ := PEmpty
   id A := A
-  compose A _ := A
+  compose _ f := f
   left_id f := f.elim
   right_id f := f.elim
-  assoc _ f _ := f.elim
+  assoc _ g _ := g.elim
 }

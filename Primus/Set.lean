@@ -1,15 +1,12 @@
 import Primus.Category
 
 
-def Set.{m}: category.{m+1, m} := {
-  Ob := Type m,
+def SetCat.{m}: category.{m+1, m} := {
+  Ob := Sort m,
   Hom A B :=  A -> B,
-  id A x := x,
-  compose{A B C} g f := g ∘ f
-  left_id{A B} f := by
-    rfl
-  right_id{A B} f := by
-    rfl
-  assoc{A B C D} h g f := by
-    rfl
+  id _ := fun x => x,
+  compose g f := g ∘ f
+  left_id _ := rfl
+  right_id _ := rfl
+  assoc _ _ _ := rfl
 }

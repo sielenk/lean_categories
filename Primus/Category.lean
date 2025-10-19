@@ -1,6 +1,6 @@
-structure category.{m, n}: Type _ where
-  Ob: Type m
-  Hom: Ob -> Ob -> Type n
+structure category.{m, n}: Sort _ where
+  Ob: Sort m
+  Hom: Ob -> Ob -> Sort n
   id(A:Ob): Hom A A
   compose{A B C: Ob}: Hom B C -> Hom A B -> Hom A C
   left_id {A B: Ob}(f: Hom A B): compose (id B) f = f
@@ -10,12 +10,12 @@ structure category.{m, n}: Type _ where
 
 attribute [simp] category.left_id category.right_id
 
-structure initialObject(CC: category): Type _ where
+structure initialObject(CC: category): Sort _ where
   I: CC.Ob
   hom(X: CC.Ob): CC.Hom I X
   unique{X: CC.Ob}(g: CC.Hom I X): hom X = g
 
-structure terminalObject(CC: category): Type _ where
+structure terminalObject(CC: category): Sort _ where
   T: CC.Ob
   hom(X: CC.Ob): CC.Hom X T
   unique{X: CC.Ob}(g: CC.Hom X T): hom X = g

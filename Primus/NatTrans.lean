@@ -2,7 +2,7 @@ import Primus.Category
 import Primus.Functor
 
 
-structure naturalTransformation{CC DD: category}(F G: functor CC DD): Type _ where
+structure naturalTransformation{CC DD: category}(F G: functor CC DD): Sort _ where
   eta: (A: CC.Ob) -> DD.Hom (F.onOb A) (G.onOb A)
   naturality{A B: CC.Ob}(f: CC.Hom A B): DD.compose (eta B) (F.onHom f) = DD.compose (G.onHom f) (eta A)
 
@@ -29,14 +29,10 @@ def FunctorCat(CC DD: category): category := {
     unfold natTransComp natTransId
     cases f
     simp
-    funext
-    rw [DD.left_id]
   right_id {A B} f := by
     unfold natTransComp natTransId
     cases f
     simp
-    funext
-    rw [DD.right_id]
   assoc {A B C D} h g f := by
     unfold natTransComp
     cases h

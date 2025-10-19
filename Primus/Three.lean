@@ -1,12 +1,12 @@
 import Primus.Category
 
 
-inductive threeOb: Type
+inductive threeOb.{n}: Type n
   | ob1: threeOb
   | ob2: threeOb
   | ob3: threeOb
 
-inductive threeHom: threeOb -> threeOb -> Type
+inductive threeHom.{m, n}: threeOb.{m} -> threeOb.{m} -> Type n
   | id1: threeHom threeOb.ob1 threeOb.ob1
   | id2: threeHom threeOb.ob2 threeOb.ob2
   | id3: threeHom threeOb.ob3 threeOb.ob3
@@ -20,7 +20,7 @@ def threeId(A: threeOb): threeHom A A :=
   | threeOb.ob2 => threeHom.id2
   | threeOb.ob3 => threeHom.id3
 
-def threeComp{A B C: threeOb}(g: threeHom B C)(f: threeHom A B): threeHom A C :=
+def threeComp.{m, n}{A B C: threeOb.{m}}(g: threeHom.{m, n} B C)(f: threeHom.{m, n} A B): threeHom.{m, n} A C :=
   match f, g with
   | threeHom.id1, threeHom.id1 => threeHom.id1
   | threeHom.id1, threeHom.f12 => threeHom.f12
@@ -33,13 +33,13 @@ def threeComp{A B C: threeOb}(g: threeHom B C)(f: threeHom A B): threeHom A C :=
   | threeHom.f13, threeHom.id3 => threeHom.f13
   | threeHom.f23, threeHom.id3 => threeHom.f23
 
-def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f := by
+@[simp] def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f := by
   cases f <;> rfl
 
-def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f := by
+@[simp] def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f := by
   cases f <;> rfl
 
-def three: category.{0} := {
+def three: category := {
   Ob := threeOb,
   Hom := threeHom,
   id := threeId,
@@ -52,34 +52,29 @@ def three: category.{0} := {
       have H1: threeHom.id1 = threeId threeOb.ob1 := rfl
       rw [H1]
       clear H1
-      rw [threeLeftId f]
-      rw [threeRightId h]
+      simp
     . case id2 =>
       have H1: threeHom.id2 = threeId threeOb.ob2 := rfl
       rw [H1]
       clear H1
-      rw [threeLeftId f]
-      rw [threeRightId h]
+      simp
     . case id3 =>
       have H1: threeHom.id3 = threeId threeOb.ob3 := rfl
       rw [H1]
       clear H1
-      rw [threeLeftId f]
-      rw [threeRightId h]
+      simp
     . case f12 =>
       cases f
       have H1: threeHom.id1 = threeId threeOb.ob1 := rfl
       rw [H1]
       clear H1
-      rw [threeRightId (threeComp h threeHom.f12)]
-      rw [threeRightId threeHom.f12]
+      simp
     . case f23 =>
       cases h
       have H1: threeHom.id3 = threeId threeOb.ob3 := rfl
       rw [H1]
       clear H1
-      rw [threeLeftId (threeComp threeHom.f23 f)]
-      rw [threeLeftId threeHom.f23]
+      simp
     . case f13 =>
       cases f
       cases h
@@ -89,7 +84,5 @@ def three: category.{0} := {
       have H1: threeHom.id3 = threeId threeOb.ob3 := rfl
       rw [H1]
       clear H1
-      rw [threeRightId threeHom.f13]
-      rw [threeLeftId threeHom.f13]
-      rw [threeRightId threeHom.f13]
+      simp
 }
