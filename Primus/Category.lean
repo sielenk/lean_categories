@@ -25,23 +25,30 @@ def isomorphic{CC: category}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
 
 
-def mono{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∀{X: CC.Ob}(g1 g2: CC.Hom X A), CC.compose f g1 = CC.compose f g2 → g1 = g2
+section MorphismProperties
+  variable {CC: category}
+  variable {A B: CC.Ob}
+  variable (f: CC.Hom A B)
 
-def epi{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∀{X: CC.Ob}(g1 g2: CC.Hom B X), CC.compose g1 f = CC.compose g2 f → g1 = g2
+  def mono: Prop :=
+    ∀{X: CC.Ob}(g1 g2: CC.Hom X A), CC.compose f g1 = CC.compose f g2 → g1 = g2
 
-def splitMono{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∃(g: CC.Hom B A), CC.compose g f = CC.id A
+  def epi: Prop :=
+    ∀{X: CC.Ob}(g1 g2: CC.Hom B X), CC.compose g1 f = CC.compose g2 f → g1 = g2
 
-def splitEpi{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∃(g: CC.Hom B A), CC.compose f g = CC.id B
+  def splitMono: Prop :=
+    ∃(g: CC.Hom B A), CC.compose g f = CC.id A
 
-def inverse{CC: category}{A B: CC.Ob}(f: CC.Hom A B)(g: CC.Hom B A): Prop :=
-  CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+  def splitEpi: Prop :=
+    ∃(g: CC.Hom B A), CC.compose f g = CC.id B
 
-def iso{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∃(g: CC.Hom B A), inverse f g
+  def inverse(g: CC.Hom B A): Prop :=
+    CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+
+  def iso: Prop :=
+    ∃(g: CC.Hom B A), inverse f g
+
+end MorphismProperties
 
 
 theorem splitMono_is_mono{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
