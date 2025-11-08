@@ -17,6 +17,9 @@ def full{CC DD: category}(F: functor CC DD): Prop :=
 def fullyFaithful{CC DD: category}(F: functor CC DD): Prop :=
   full F ∧ faithful F
 
+def essentiallySurjective{CC DD: category}(F: functor CC DD): Prop :=
+  ∀(D: DD.Ob), ∃(C: CC.Ob), isomorpic (F.onOb C) D
+
 
 def functorId(CC: category): functor CC CC := {
   onOb A := A,
