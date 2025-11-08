@@ -8,17 +8,27 @@ structure functor(CC DD: category) : Sort _ where
   compose{A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
          onHom (CC.compose g f) = DD.compose (onHom g) (onHom f)
 
-def faithful{CC DD: category}(F: functor CC DD): Prop :=
+
+section FunctorProperties
+  variable {CC DD: category}
+  variable (F: functor CC DD)
+
+  def faithful: Prop :=
   ∀{A B: CC.Ob}, Function.Injective (@F.onHom A B)
 
-def full{CC DD: category}(F: functor CC DD): Prop :=
+  def full: Prop :=
   ∀{A B: CC.Ob}, Function.Surjective (@F.onHom A B)
 
-def fullyFaithful{CC DD: category}(F: functor CC DD): Prop :=
+  def fullyFaithful: Prop :=
   full F ∧ faithful F
 
-def essentiallySurjective{CC DD: category}(F: functor CC DD): Prop :=
-  ∀(D: DD.Ob), ∃(C: CC.Ob), isomorpic (F.onOb C) D
+  def essentiallySurjective: Prop :=
+    ∀(D: DD.Ob), ∃(C: CC.Ob), isomorphic (F.onOb C) D
+
+  def equivalence: Prop :=
+    fullyFaithful F ∧ essentiallySurjective F
+
+end FunctorProperties
 
 
 def functorId(CC: category): functor CC CC := {

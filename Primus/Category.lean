@@ -21,7 +21,7 @@ structure terminalObject(CC: category): Sort _ where
   hom(X: CC.Ob): CC.Hom X T
   unique{X: CC.Ob}(g: CC.Hom X T): hom X = g
 
-def isomorpic{CC: category}(A B: CC.Ob): Prop :=
+def isomorphic{CC: category}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
 
 
@@ -37,8 +37,11 @@ def splitMono{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
 def splitEpi{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
   ∃(g: CC.Hom B A), CC.compose f g = CC.id B
 
+def inverse{CC: category}{A B: CC.Ob}(f: CC.Hom A B)(g: CC.Hom B A): Prop :=
+  CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+
 def iso{CC: category}{A B: CC.Ob}(f: CC.Hom A B): Prop :=
-  ∃(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+  ∃(g: CC.Hom B A), inverse f g
 
 
 theorem splitMono_is_mono{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
