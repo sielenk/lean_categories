@@ -8,6 +8,16 @@ structure functor(CC DD: category) : Sort _ where
   compose{A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
          onHom (CC.compose g f) = DD.compose (onHom g) (onHom f)
 
+def faithful{CC DD: category}(F: functor CC DD): Prop :=
+  ∀{A B: CC.Ob}, Function.Injective (@F.onHom A B)
+
+def full{CC DD: category}(F: functor CC DD): Prop :=
+  ∀{A B: CC.Ob}, Function.Surjective (@F.onHom A B)
+
+def fullyFaithful{CC DD: category}(F: functor CC DD): Prop :=
+  full F ∧ faithful F
+
+
 def functorId(CC: category): functor CC CC := {
   onOb A := A,
   onHom{_ _} f:= f,
@@ -33,3 +43,22 @@ def CategoryCat : category := {
   right_id _ := by funext; rfl,
   assoc _ _ _ := by funext; rfl
 }
+
+
+theorem faithful_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+  faithful F ∧ faithful G → faithful (functorComp G F) := by
+  intro ⟨H1, H2⟩ A B f1 f2 H3
+  apply H1
+  apply H2
+  assumption
+
+theorem full_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+  full F ∧ full G → full (functorComp G F) := by
+  intro ⟨H1, H2⟩ A B g
+  let ⟨a, H3⟩ := (H2 g)
+  let ⟨b, H4⟩ := (H1 a)
+  exists b
+  rw [←H3]
+  unfold functorComp
+  simp
+  congr
