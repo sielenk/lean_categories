@@ -11,9 +11,9 @@ def homFun.{m, n}{CC: category.{m, n}}(X: CC.Ob):
   onHom := (op CC).compose,
   id{A} := by
     funext h
-    unfold SortCat; simp,
+    simp [SortCat],
   compose{A B C g f} := by
     funext h
-    unfold SortCat; simp
-    rw [(op CC).assoc]
+    simp [SortCat, op]
+    rw [CC.assoc]
 }
