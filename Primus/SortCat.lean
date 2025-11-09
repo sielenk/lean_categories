@@ -6,7 +6,7 @@ import Primus.Two
 import Mathlib.Data.Set.Image
 
 
-def SetCat.{m}: category.{m+1, m} := {
+def SortCat: category.{m+1, m} := {
   Ob := Sort m,
   Hom A B :=  A -> B,
   id _ := fun x => x,
@@ -16,7 +16,7 @@ def SetCat.{m}: category.{m+1, m} := {
   assoc _ _ _ := rfl
 }
 
-def setTerminal: terminalObject SetCat := {
+def sortTerminal: terminalObject SortCat := {
   T := PUnit
   hom X := fun _ => PUnit.unit
   unique g := by
@@ -25,7 +25,7 @@ def setTerminal: terminalObject SetCat := {
     rfl
 }
 
-def setInitial: initialObject SetCat := {
+def sortInitial: initialObject SortCat := {
   I := PEmpty
   hom X := fun e => PEmpty.elim e
   unique g := by
@@ -33,18 +33,18 @@ def setInitial: initialObject SetCat := {
     cases x
 }
 
-def obToHom{A: SetCat.Ob}(x: A): SetCat.Hom (setTerminal.T) A :=
+def obToHom{A: SortCat.Ob}(x: A): SortCat.Hom (sortTerminal.T) A :=
   fun _ => x
 
-theorem obToHom_injective(A: SetCat.Ob): Function.Injective (@obToHom A) := by
+theorem obToHom_injective(A: SortCat.Ob): Function.Injective (@obToHom A) := by
   intro x1 x2 H1
   exact congrFun H1 PUnit.unit
 
-theorem obToHom_surjective(A: SetCat.Ob): Function.Surjective (@obToHom A) := by
+theorem obToHom_surjective(A: SortCat.Ob): Function.Surjective (@obToHom A) := by
   intro f
   exists (f PUnit.unit)
 
-theorem mono_injective{A B: SetCat.Ob}(f: SetCat.Hom A B):
+theorem sort_mono_injective{A B: SortCat.Ob}(f: SortCat.Hom A B):
   mono f ↔ Function.Injective f :=
 by
   constructor
@@ -56,11 +56,11 @@ by
   · intro H1 X g1 g2 H2
     funext x
     apply H1
-    have H3: f (g1 x) = (SetCat.compose f g1) x := by rfl
+    have H3: f (g1 x) = (SortCat.compose f g1) x := by rfl
     rw [H3, H2]
     rfl
 
-theorem set_epi_surjective.{m}{A B: SetCat.{m+1}.Ob}(f: SetCat.Hom A B):
+theorem sort_epi_surjective{A B: SortCat.{m+1}.Ob}(f: SortCat.Hom A B):
   epi f ↔ Function.Surjective f :=
 by
   constructor
@@ -74,15 +74,15 @@ by
       intro a H3
       apply H2
       exists a
-    let g1: SetCat.Hom B twoOb := fun b' => twoOb.ob1
-    let g2: SetCat.Hom B twoOb := fun b' =>
+    let g1: SortCat.Hom B twoOb := fun b' => twoOb.ob1
+    let g2: SortCat.Hom B twoOb := fun b' =>
       match Classical.propDecidable (b' = b) with
       | isTrue _  => twoOb.ob2
       | isFalse _ => twoOb.ob1
     have H3: g1 b = g2 b := by
       rw  [H1 g1 g2]
       funext a
-      unfold SetCat g1 g2; simp
+      unfold SortCat g1 g2; simp
       cases Classical.propDecidable (f a = b)
       . rfl
       . exfalso
@@ -97,29 +97,29 @@ by
     funext b
     have ⟨a, H3⟩ := H1 b
     rw [←H3]
-    have H4: (SetCat.compose g1 f) a = (SetCat.compose g2 f) a := by
+    have H4: (SortCat.compose g1 f) a = (SortCat.compose g2 f) a := by
       rw [H2]
-    unfold SetCat at H4; simp at H4
+    unfold SortCat at H4; simp at H4
     assumption
 
-theorem set_splitEpi_surjective{A B: SetCat.Ob}(f: SetCat.Hom A B):
+theorem sort_splitEpi_surjective{A B: SortCat.Ob}(f: SortCat.Hom A B):
   splitEpi f ↔ Function.Surjective f :=
 by
   constructor
   · intro ⟨g, H1⟩ b
     exists (g b)
-    have H2: f (g b) = (SetCat.compose f g) b := by rfl
+    have H2: f (g b) = (SortCat.compose f g) b := by rfl
     rw [H2, H1]
     rfl
   . intro H1
     exists (fun b => Classical.choose (H1 b))
     funext b
-    unfold SetCat
+    unfold SortCat
     simp
     exact Classical.choose_spec (H1 b)
 
-theorem set_splitEpi_epi.{m}{A B: SetCat.{m+1}.Ob}(f: SetCat.Hom A B):
+theorem sort_splitEpi_epi.{m}{A B: SortCat.{m+1}.Ob}(f: SortCat.Hom A B):
   epi f → splitEpi f :=
 by
-  rw [set_splitEpi_surjective, ←set_epi_surjective]
+  rw [sort_splitEpi_surjective, ←sort_epi_surjective]
   tauto
