@@ -11,8 +11,8 @@ inductive twoHom.{m, n}: twoOb.{m} -> twoOb.{m} -> Type n
   | f12: twoHom twoOb.ob1 twoOb.ob2
 
  def two.{m, n}: category.{m+1, n+1} := {
-  Ob := twoOb
-  Hom := twoHom
+  Ob := twoOb.{m}
+  Hom := twoHom.{m, n}
   id A := match A with
     | twoOb.ob1 => twoHom.id1
     | twoOb.ob2 => twoHom.id2

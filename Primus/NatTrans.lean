@@ -3,11 +3,11 @@ import Primus.Functor
 
 
 structure naturalTransformation{CC DD: category}(F G: functor CC DD): Sort _ where
-  eta: (A: CC.Ob) -> DD.Hom (F.onOb A) (G.onOb A)
-  naturality{A B: CC.Ob}(f: CC.Hom A B): DD.compose (eta B) (F.onHom f) = DD.compose (G.onHom f) (eta A)
+  η: (A: CC.Ob) -> DD.Hom (F.onOb A) (G.onOb A)
+  naturality{A B: CC.Ob}(f: CC.Hom A B): DD.compose (η B) (F.onHom f) = DD.compose (G.onHom f) (η A)
 
 def natTransId{CC DD: category}(F: functor CC DD): naturalTransformation F F := {
-  eta A := DD.id (F.onOb A),
+  η A := DD.id (F.onOb A),
   naturality{A B} f := by
     rw [DD.left_id, DD.right_id]
 }
@@ -15,7 +15,7 @@ def natTransId{CC DD: category}(F: functor CC DD): naturalTransformation F F := 
 def natTransComp{CC DD: category}{F G H: functor CC DD}
   (ntG: naturalTransformation G H)
   (ntF: naturalTransformation F G): naturalTransformation F H := {
-  eta A := DD.compose (ntG.eta A) (ntF.eta A),
+  η A := DD.compose (ntG.η A) (ntF.η A),
   naturality{A B} f := by
     rw [DD.assoc, ←ntG.naturality f, ←DD.assoc, ntF.naturality f, DD.assoc]
   }

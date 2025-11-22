@@ -6,11 +6,11 @@ import Primus.Two
 import Mathlib.Data.Set.Image
 
 
-def SortCat: category.{m+1, m} := {
+def SortCat.{m}: category.{m+1, m} := {
   Ob := Sort m,
   Hom A B :=  A -> B,
-  id _ := fun x => x,
-  compose g f := g ∘ f
+  id _ x := x,
+  compose g f x := g (f x)
   left_id _ := rfl
   right_id _ := rfl
   assoc _ _ _ := rfl

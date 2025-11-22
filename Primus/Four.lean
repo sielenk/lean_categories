@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-inductive fourOb.{n}: Type n
+inductive fourOb.{m}: Type m
   | ob1: fourOb
   | ob2: fourOb
   | ob3: fourOb
@@ -26,7 +26,7 @@ def fourId(A: fourOb): fourHom A A :=
   | fourOb.ob3 => fourHom.id3
   | fourOb.ob4 => fourHom.id4
 
-def fourComp.{m, n}{A B C: fourOb.{m}}(g: fourHom.{m, n} B C)(f: fourHom.{m, n} A B): fourHom.{m, n} A C :=
+def fourComp{A B C: fourOb}(g: fourHom B C)(f: fourHom A B): fourHom A C :=
   match f, g with
   | fourHom.id1, fourHom.id1 => fourHom.id1
   | fourHom.id1, fourHom.f12 => fourHom.f12
@@ -50,8 +50,8 @@ def fourComp.{m, n}{A B C: fourOb.{m}}(g: fourHom.{m, n} B C)(f: fourHom.{m, n} 
   | fourHom.f34, fourHom.id4 => fourHom.f34
 
 def four.{m, n}: category.{m+1, n+1} := {
-  Ob := fourOb
-  Hom := fourHom
+  Ob := fourOb.{m}
+  Hom := fourHom.{m, n}
   id := fourId
   compose := fourComp
   left_id f := by

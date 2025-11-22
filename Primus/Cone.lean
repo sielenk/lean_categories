@@ -11,7 +11,7 @@ structure coneOb: Sort _ where
 
 structure coneHom(X Y: coneOb F): Sort _ where
   h: CC.Hom X.N Y.N
-  comm: ∀ J: JJ.Ob, X.π J = CC.compose (Y.π J) h
+  comm J: X.π J = CC.compose (Y.π J) h
 
 def coneCat: category := {
   Ob := coneOb F,

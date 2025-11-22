@@ -4,7 +4,7 @@ import Primus.Category
 def op(CC: category): category := {
   Ob := CC.Ob,
   Hom A B := CC.Hom B A,
-  id A := CC.id A,
+  id := CC.id,
   compose g f := CC.compose f g,
   left_id := CC.right_id
   right_id := CC.left_id

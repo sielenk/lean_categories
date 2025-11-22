@@ -1,4 +1,6 @@
 import Primus.Category
+import Primus.Zero
+import Primus.One
 
 
 structure functor(CC DD: category) : Sort _ where
@@ -14,13 +16,13 @@ section FunctorProperties
   variable (F: functor CC DD)
 
   def faithful: Prop :=
-  ∀{A B: CC.Ob}, Function.Injective (@F.onHom A B)
+    ∀{A B: CC.Ob}, Function.Injective (@F.onHom A B)
 
   def full: Prop :=
-  ∀{A B: CC.Ob}, Function.Surjective (@F.onHom A B)
+    ∀{A B: CC.Ob}, Function.Surjective (@F.onHom A B)
 
   def fullyFaithful: Prop :=
-  full F ∧ faithful F
+    full F ∧ faithful F
 
   def essentiallySurjective: Prop :=
     ∀(D: DD.Ob), ∃(C: CC.Ob), isomorphic (F.onOb C) D
@@ -57,6 +59,17 @@ def CategoryCat : category := {
   assoc _ _ _ := by funext; rfl
 }
 
+def oneTerminal: terminalObject CategoryCat := {
+  T := one,
+  hom X := {
+    onOb A := PUnit.unit,
+    onHom f := PUnit.unit,
+    id := rfl,
+    compose := rfl
+  },
+  unique {CC} F := by
+    congr
+}
 
 theorem faithful_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   faithful F ∧ faithful G → faithful (functorComp G F) := by
@@ -75,3 +88,7 @@ theorem full_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   unfold functorComp
   simp
   congr
+
+
+def equivalent(CC DD: category): Prop :=
+  ∃(F: functor CC DD), equivalence F

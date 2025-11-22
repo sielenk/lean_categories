@@ -13,7 +13,7 @@ def delta JJ {CC}(C: CC.Ob): functor JJ CC := {
 def deltaFun JJ CC: functor CC (FunctorCat JJ CC) := {
   onOb := delta JJ,
   onHom f := {
-    eta _ := f,
+    η _ := f,
     naturality _ := Eq.trans (CC.right_id f) (Eq.symm (CC.left_id f))
   },
   id := Eq.refl _,

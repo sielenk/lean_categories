@@ -2,8 +2,8 @@ import Primus.Category
 
 
 def one.{m, n}: category.{m, n} := {
-  Ob := PUnit,
-  Hom _ _ := PUnit,
+  Ob := PUnit.{m},
+  Hom _ _ := PUnit.{n},
   id _ := PUnit.unit,
   compose _ _ := PUnit.unit,
   left_id := Eq.refl
