@@ -87,9 +87,9 @@ theorem yoneda_fully_faithful(CC: category):
     let g := λ x ↦ CC.compose (nt.η X x) f
     change _ = g at H1
     trans  g (CC.id X)
-    rfl
-    rw [←H1]
-    simp
+    . rfl
+    . rw [←H1]
+      simp
   . intro X Y f1 f2 H1
     let ye := yoneda_embedding CC
     let nt₁ := (ye.onHom f1)
