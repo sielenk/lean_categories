@@ -20,7 +20,7 @@ def SortCat.{m}: category.{m+1, m} := {
 def sortTerminal: terminalObject SortCat := {
   T := PUnit
   hom X := fun _ => PUnit.unit
-  unique g := by
+  unique X g := by
     funext x
     cases g x
     rfl
@@ -29,7 +29,7 @@ def sortTerminal: terminalObject SortCat := {
 def sortInitial: initialObject SortCat := {
   I := PEmpty
   hom X := fun e => PEmpty.elim e
-  unique g := by
+  unique X g := by
     funext x
     cases x
 }
@@ -176,7 +176,7 @@ def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f�
       simp [CC, SortCat, F]
       rfl
 
-  let unique{X}: ∀g, g = hom X := by
+  let unique X: ∀g, g = hom X := by
     let ⟨Nx, πx, Hx⟩ := X
     simp [hom, foo]
     intro ⟨g, Hg⟩

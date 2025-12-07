@@ -14,15 +14,21 @@ attribute [simp] category.left_id category.right_id
 structure initialObject(CC: category): Sort _ where
   I: CC.Ob
   hom(X: CC.Ob): CC.Hom I X
-  unique{X: CC.Ob}: ∀g, g = hom X
+  unique(X: CC.Ob): ∀g, g = hom X
 
 structure terminalObject(CC: category): Sort _ where
   T: CC.Ob
   hom(X: CC.Ob): CC.Hom X T
-  unique{X: CC.Ob}: ∀g, g = hom X
+  unique(X: CC.Ob): ∀g, g = hom X
 
 def isomorphic{CC: category}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+
+def skeletal(CC: category): Prop :=
+  ∀(A B: CC.Ob), isomorphic A B -> A = B
+
+def thin(CC: category): Prop :=
+  ∀(A B: CC.Ob)(f₁ f₂: CC.Hom A B), f₁ = f₂
 
 
 section MorphismProperties
