@@ -34,8 +34,11 @@ inductive equalizerHom: equalizerOb -> equalizerOb -> Type
     cases h <;> cases g <;> cases f <;> rfl
 }
 
-def equalizerFunctor{CC: category}{A B: CC.Ob}
-    (f₁: CC.Hom A B)(f₂: CC.Hom A B): functor equalizerDiagram CC := {
+@[simp] def equalizerIdA: equalizerHom.idA = equalizerDiagram.id equalizerOb.A := rfl
+@[simp] def equalizerIdB: equalizerHom.idB = equalizerDiagram.id equalizerOb.B := rfl
+
+def equalizerFunctor.{m, n}{CC: category.{m, n}}{A B: CC.Ob}
+    (f₁ f₂: CC.Hom A B): functor.{1, 1, m, n} equalizerDiagram CC := {
   onOb X := match X with
     | equalizerOb.A => A
     | equalizerOb.B => B,
@@ -50,6 +53,11 @@ def equalizerFunctor{CC: category}{A B: CC.Ob}
     cases g <;> cases f <;> simp <;> rfl
 }
 
-def equalizer{CC: category}{A B: CC.Ob}
-    (f₁: CC.Hom A B)(f₂: CC.Hom A B) :=
+@[simp] def equalizerF₁{CC: category}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
+  (equalizerFunctor f₁ f₂).onHom (equalizerHom.f₁) = f₁
+@[simp] def equalizerF₂{CC: category}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
+  (equalizerFunctor f₁ f₂).onHom (equalizerHom.f₂) = f₂
+
+def equalizer.{m, n}{CC: category.{m, n}}{A B: CC.Ob}
+    (f₁: CC.Hom A B)(f₂: CC.Hom A B) : Sort _ :=
   lim (equalizerFunctor f₁ f₂)
