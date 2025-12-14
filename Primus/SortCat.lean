@@ -98,7 +98,7 @@ by
       contradiction
     | isTrue H =>
       simp
-  . intro H1 C g1 g2 H2
+  · intro H1 C g1 g2 H2
     funext b
     have ⟨a, H3⟩ := H1 b
     rw [←H3]
@@ -116,7 +116,7 @@ by
     have H2: f (g b) = (SortCat.compose f g) b := by rfl
     rw [H2, H1]
     rfl
-  . intro H1
+  · intro H1
     use (fun b => Classical.choose (H1 b))
     funext b
     unfold SortCat; simp
@@ -159,8 +159,8 @@ def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f�
     let H₁: (λee ↦ f₁ (e' ee)) = e'f := @H' _ _ equalizerHom.f₁
     let H₂: (λee ↦ f₂ (e' ee)) = e'f := @H' _ _ equalizerHom.f₂
     trans e'f ee'
-    . rw [←H₁]
-    . rw [←H₂]
+    · rw [←H₁]
+    · rw [←H₂]
 
   let hom(T': DD.Ob): DD.Hom T' T := by
     apply coneHom.mk (foo T')
@@ -170,8 +170,8 @@ def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f�
     ext x
     simp [T, π, e]
     cases jj
-    . simp
-    . simp [CC, SortCat]
+    · simp
+    · simp [CC, SortCat]
       rw [←H' equalizerHom.f₁]
       simp [CC, SortCat, F]
       rfl

@@ -28,8 +28,8 @@ theorem sbRightInv[Nonempty β]{x : α}(hx : x ∉ sbSet f g) : g (invFun g x) =
     use 0
     rw [sbAux, mem_diff]
     split_ands
-    . simp
-    . assumption
+    · simp
+    · assumption
   have h2 : ∃ y, g y = x := by
     let ⟨y, ⟨_, hy⟩⟩ := h1
     use y
@@ -65,12 +65,12 @@ theorem sbInjective[Nonempty β](hf : Injective f) : Injective (sbFun f g) := by
   intro x₁ x₂ (hxeq : h x₁ = h x₂)
 
   by_cases h2 : x₁ ∈ A
-  . apply hf
+  · apply hf
     have h3: x₂ ∈ A := h1 hxeq h2
     simp [h, sbFun] at hxeq
     rw [if_pos h2, if_pos h3] at hxeq
     assumption
-  . have h3: x₂ ∉ A := by
+  · have h3: x₂ ∉ A := by
       contrapose! h2
       apply h1 _ h2
       symm
@@ -86,11 +86,11 @@ theorem sbSurjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) := 
 
   intro b
   by_cases h1 : g b ∈ A
-  . simp [A, sbSet] at h1
+  · simp [A, sbSet] at h1
     let ⟨n, h2⟩ := h1
     rcases n with _ | n
-    . simp [sbAux] at h2
-    . simp [sbAux] at h2
+    · simp [sbAux] at h2
+    · simp [sbAux] at h2
       let ⟨x, ⟨h2, h3⟩⟩ := h2
       use x
       have h4: x ∈ A := by
@@ -99,7 +99,7 @@ theorem sbSurjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) := 
       simp [sbFun]
       rw [if_pos h4]
       apply hg h3
-  . use g b
+  · use g b
     simp [sbFun]
     rw [if_neg h1]
     apply hg
@@ -109,8 +109,8 @@ theorem sbSurjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) := 
 theorem schroederBernstein{f : α → β}{g : β → α}(hf : Injective f)(hg : Injective g) :
     ∃ h : α → β, Bijective h := by
   by_cases h1 : Nonempty β
-  . exact ⟨sbFun f g, sbInjective f g hf, sbSurjective f g hg⟩
-  . let h(a : α): β := False.elim (h1 ⟨f a⟩)
+  · exact ⟨sbFun f g, sbInjective f g hf, sbSurjective f g hg⟩
+  · let h(a : α): β := False.elim (h1 ⟨f a⟩)
     exact ⟨h, ⟨λ a₁ _ => False.elim (h1 ⟨f a₁⟩), λ b => False.elim (h1 ⟨b⟩)⟩⟩
 
 end

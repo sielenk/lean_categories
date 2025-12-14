@@ -41,13 +41,13 @@ theorem yoneda{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
   use yonedaDown F X, yonedaUp F X
   simp [SortCat, yonedaDown, yonedaUp]
   split_ands
-  . funext ⟨η, H1⟩; simp [op, homFun] at η H1
+  · funext ⟨η, H1⟩; simp [op, homFun] at η H1
     congr
     funext Y f; simp
     trans (λ x ↦ η Y (CC.compose x f)) (CC.id X)
     rw [H1 f]
     simp
-  . apply F.id
+  · apply F.id
 
 def yonedaEmbedding(CC: category):
   functor CC (FunctorCat (op CC) SortCat)
@@ -77,7 +77,7 @@ theorem yonedaFullyFaithful(CC: category):
   fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands
-  . intro X Y nt
+  · intro X Y nt
     use nt.η X (CC.id X)
     simp [yonedaEmbedding]
     congr
@@ -87,10 +87,10 @@ theorem yonedaFullyFaithful(CC: category):
     let g := λ x ↦ CC.compose (nt.η X x) f
     change _ = g at H1
     trans  g (CC.id X)
-    . rfl
-    . rw [←H1]
+    · rfl
+    · rw [←H1]
       simp
-  . intro X Y f1 f2 H1
+  · intro X Y f1 f2 H1
     let ye := yonedaEmbedding CC
     let nt₁ := (ye.onHom f1)
     let nt₂ := (ye.onHom f2)

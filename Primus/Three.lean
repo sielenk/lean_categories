@@ -52,10 +52,10 @@ def three.{m, n}: category.{m+1, n+1} := {
   right_id{A B} := threeRightId,
   assoc{A B C D} h g f := by
     cases g <;> try simp
-    . case f12 =>
+    · case f12 =>
       cases f <;> simp
-    . case f23 =>
+    · case f23 =>
       cases h <;> simp
-    . case f13 =>
+    · case f13 =>
       cases f <;> cases h <;> simp
 }

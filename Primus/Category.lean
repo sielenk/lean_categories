@@ -73,7 +73,7 @@ theorem splitMonoEpiIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   apply Exists.intro g
   and_intros
   · assumption
-  . apply H2
+  · apply H2
     rw [←CC.assoc, H1]
     simp
 
@@ -82,7 +82,7 @@ theorem splitEpiMonoIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   intro ⟨⟨g, H1⟩, H2⟩
   apply Exists.intro g
   and_intros
-  . apply H2
+  · apply H2
     rw [CC.assoc, H1]
     simp
-  . assumption
+  · assumption
