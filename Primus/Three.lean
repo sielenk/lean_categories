@@ -33,9 +33,9 @@ def threeComp{A B C: threeOb}(g: threeHom B C)(f: threeHom A B): threeHom A C :=
   | threeHom.f13, threeHom.id3 => threeHom.f13
   | threeHom.f23, threeHom.id3 => threeHom.f23
 
-@[simp] def three_id1: threeHom.id1 = threeId threeOb.ob1 := rfl
-@[simp] def three_id2: threeHom.id2 = threeId threeOb.ob2 := rfl
-@[simp] def three_id3: threeHom.id3 = threeId threeOb.ob3 := rfl
+@[simp] def threeId1: threeHom.id1 = threeId threeOb.ob1 := rfl
+@[simp] def threeId2: threeHom.id2 = threeId threeOb.ob2 := rfl
+@[simp] def threeId3: threeHom.id3 = threeId threeOb.ob3 := rfl
 
 @[simp] def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f := by
   cases f <;> rfl

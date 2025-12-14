@@ -57,17 +57,17 @@ section MorphismProperties
 end MorphismProperties
 
 
-theorem splitMono_is_mono{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitMonoIsMono{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   splitMono f → mono f := by
   intro ⟨g, H1⟩ X g1 g2 H2
   rw [←CC.left_id g1, ←CC.left_id g2, ←H1, ←CC.assoc, ←CC.assoc, H2]
 
-theorem splitEpi_is_epi{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitEpiIsEpi{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   splitEpi f → epi f := by
   intro ⟨g, H1⟩ X g1 g2 H2
   rw [←CC.right_id g1, ←CC.right_id g2, ←H1, CC.assoc, CC.assoc, H2]
 
-theorem splitMono_epi_is_iso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitMonoEpiIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   splitMono f ∧ epi f → iso f := by
   intro ⟨⟨g, H1⟩, H2⟩
   apply Exists.intro g
@@ -77,7 +77,7 @@ theorem splitMono_epi_is_iso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
     rw [←CC.assoc, H1]
     simp
 
-theorem splitEpi_mono_is_iso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitEpiMonoIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
   splitEpi f ∧ mono f → iso f := by
   intro ⟨⟨g, H1⟩, H2⟩
   apply Exists.intro g

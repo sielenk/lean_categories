@@ -21,7 +21,7 @@ def sbSet :=
 def sbFun[Nonempty β](x : α) : β :=
   if x ∈ sbSet f g then f x else invFun g x
 
-theorem sb_right_inv[Nonempty β]{x : α}(hx : x ∉ sbSet f g) : g (invFun g x) = x := by
+theorem sbRightInv[Nonempty β]{x : α}(hx : x ∉ sbSet f g) : g (invFun g x) = x := by
   have h1 : x ∈ g '' univ := by
     contrapose! hx
     rw [sbSet, mem_iUnion]
@@ -35,7 +35,7 @@ theorem sb_right_inv[Nonempty β]{x : α}(hx : x ∉ sbSet f g) : g (invFun g x)
     use y
   apply invFun_eq h2
 
-theorem sb_injective[Nonempty β](hf : Injective f) : Injective (sbFun f g) := by
+theorem sbInjective[Nonempty β](hf : Injective f) : Injective (sbFun f g) := by
   let A := sbSet f g
   let h := sbFun f g
 
@@ -53,7 +53,7 @@ theorem sb_injective[Nonempty β](hf : Injective f) : Injective (sbFun f g) := b
     have h4: g (f x₁) = x₂ := by
       trans g (invFun g x₂)
       rw [h3]
-      apply sb_right_inv _ _ h1
+      apply sbRightInv _ _ h1
     contrapose! h1
     simp [A, sbSet] at h1
     let ⟨n, hn⟩ := h1
@@ -77,10 +77,10 @@ theorem sb_injective[Nonempty β](hf : Injective f) : Injective (sbFun f g) := b
       assumption
     simp [h, sbFun] at hxeq
     rw [if_neg h2, if_neg h3] at hxeq
-    rw [← sb_right_inv f g h2, ← sb_right_inv f g h3, hxeq]
+    rw [← sbRightInv f g h2, ← sbRightInv f g h3, hxeq]
 
 
-theorem sb_surjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) := by
+theorem sbSurjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) := by
   let A := sbSet f g
   let h := sbFun f g
 
@@ -100,16 +100,16 @@ theorem sb_surjective[Nonempty β](hg : Injective g) : Surjective (sbFun f g) :=
       rw [if_pos h4]
       apply hg h3
   . use g b
-    simp [h, sbFun]
+    simp [sbFun]
     rw [if_neg h1]
     apply hg
-    apply sb_right_inv f g h1
+    apply sbRightInv f g h1
 
 
-theorem schroeder_bernstein{f : α → β}{g : β → α}(hf : Injective f)(hg : Injective g) :
+theorem schroederBernstein{f : α → β}{g : β → α}(hf : Injective f)(hg : Injective g) :
     ∃ h : α → β, Bijective h := by
   by_cases h1 : Nonempty β
-  . exact ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hg⟩
+  . exact ⟨sbFun f g, sbInjective f g hf, sbSurjective f g hg⟩
   . let h(a : α): β := False.elim (h1 ⟨f a⟩)
     exact ⟨h, ⟨λ a₁ _ => False.elim (h1 ⟨f a₁⟩), λ b => False.elim (h1 ⟨b⟩)⟩⟩
 

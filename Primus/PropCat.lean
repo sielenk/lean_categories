@@ -31,16 +31,16 @@ def propInitial: initialObject PropCat := {
     exact x.elim
 }
 
-theorem prop_mono{A B: PropCat.Ob}(f: PropCat.Hom A B): mono f :=
+theorem propMono{A B: PropCat.Ob}(f: PropCat.Hom A B): mono f :=
   λ _ _ _ ↦ rfl
 
-theorem prop_epi{A B: PropCat.Ob}(f: PropCat.Hom A B): epi f :=
+theorem propEpi{A B: PropCat.Ob}(f: PropCat.Hom A B): epi f :=
   λ _ _ _ ↦ rfl
 
-theorem prop_thin: thin PropCat :=
+theorem propThin: thin PropCat :=
   λ _ _ _ _ ↦ rfl
 
-def propLim{JJ: category}(F: functor JJ PropCat): lim F := {
+def propLimit{JJ: category}(F: functor JJ PropCat): lim F := {
   T := {
     N := ∀j, F.onOb j
     π J := λ H ↦ H J

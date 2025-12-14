@@ -31,9 +31,9 @@ def pullbackComp{X Y Z: pullbackOb}(g: pullbackHom Y Z)(f: pullbackHom X Y): pul
   | pullbackHom.f₂, pullbackHom.idB => pullbackHom.f₂
   | pullbackHom.idB, pullbackHom.idB => pullbackHom.idB
 
-@[simp] def pullbackId_A₁: pullbackHom.idA₁ = pullbackId pullbackOb.A₁ := rfl
-@[simp] def pullbackId_A₂: pullbackHom.idA₂ = pullbackId pullbackOb.A₂ := rfl
-@[simp] def pullbackId_B: pullbackHom.idB = pullbackId pullbackOb.B := rfl
+@[simp] def pullbackIdA₁: pullbackHom.idA₁ = pullbackId pullbackOb.A₁ := rfl
+@[simp] def pullbackIdA₂: pullbackHom.idA₂ = pullbackId pullbackOb.A₂ := rfl
+@[simp] def pullbackIdB: pullbackHom.idB = pullbackId pullbackOb.B := rfl
 
 @[simp] def pullbackLeftId {X Y: pullbackOb}(f: pullbackHom X Y): pullbackComp (pullbackId Y) f = f := by
   cases f <;> rfl

@@ -20,12 +20,12 @@ def homFun.{m, n}{CC: category.{m, n}}(X: CC.Ob):
 }
 
 
-def yoneda_down{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
+def yonedaDown{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
   SortCat.Hom (naturalTransformation (homFun X) F) (F.onOb X)
 :=
   fun nt => nt.η X (CC.id X)
 
-def yoneda_up{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
+def yonedaUp{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
   SortCat.Hom (F.onOb X) (naturalTransformation (homFun X) F)
 :=
   fun x => {
@@ -38,8 +38,8 @@ def yoneda_up{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
 theorem yoneda{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
   isomorphic (naturalTransformation (homFun X) F) (F.onOb X)
 := by
-  use yoneda_down F X, yoneda_up F X
-  simp [SortCat, yoneda_down, yoneda_up]
+  use yonedaDown F X, yonedaUp F X
+  simp [SortCat, yonedaDown, yonedaUp]
   split_ands
   . funext ⟨η, H1⟩; simp [op, homFun] at η H1
     congr
@@ -49,7 +49,7 @@ theorem yoneda{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
     simp
   . apply F.id
 
-def yoneda_embedding(CC: category):
+def yonedaEmbedding(CC: category):
   functor CC (FunctorCat (op CC) SortCat)
 := {
   onOb := homFun
@@ -73,17 +73,17 @@ def yoneda_embedding(CC: category):
     rw [CC.assoc]
 }
 
-theorem yoneda_fully_faithful(CC: category):
-  fullyFaithful (yoneda_embedding CC)
+theorem yonedaFullyFaithful(CC: category):
+  fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands
   . intro X Y nt
     use nt.η X (CC.id X)
-    simp [yoneda_embedding]
+    simp [yonedaEmbedding]
     congr
     funext Z f
     have H1 := @nt.naturality X Z f
-    simp [FunctorCat, yoneda_embedding, homFun, op, SortCat] at H1
+    simp [FunctorCat, yonedaEmbedding, homFun, op, SortCat] at H1
     let g := λ x ↦ CC.compose (nt.η X x) f
     change _ = g at H1
     trans  g (CC.id X)
@@ -91,10 +91,10 @@ theorem yoneda_fully_faithful(CC: category):
     . rw [←H1]
       simp
   . intro X Y f1 f2 H1
-    let ye := yoneda_embedding CC
+    let ye := yonedaEmbedding CC
     let nt₁ := (ye.onHom f1)
     let nt₂ := (ye.onHom f2)
     change nt₁ = nt₂ at H1
     have H2: nt₁.η X (CC.id X) = nt₂.η X (CC.id X) := by rw [H1]
-    simp [nt₁, nt₂, ye, yoneda_embedding] at H2
+    simp [nt₁, nt₂, ye, yonedaEmbedding] at H2
     assumption

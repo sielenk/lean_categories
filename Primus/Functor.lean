@@ -71,14 +71,14 @@ def oneTerminal: terminalObject CategoryCat := {
     congr
 }
 
-theorem faithful_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+theorem faithfulComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   faithful F ∧ faithful G → faithful (functorComp G F) := by
   intro ⟨H1, H2⟩ A B f1 f2 H3
   apply H1
   apply H2
   assumption
 
-theorem full_comp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+theorem fullComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   full F ∧ full G → full (functorComp G F) := by
   intro ⟨H1, H2⟩ A B g
   let ⟨a, H3⟩ := (H2 g)
