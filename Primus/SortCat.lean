@@ -3,6 +3,7 @@ import Primus.Functor
 import Primus.Discrete
 import Primus.Two
 import Primus.EqualizerDiagram
+import Primus.PullbackDiagram
 
 import Mathlib.Data.Set.Image
 
@@ -137,7 +138,7 @@ def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f�
   let F: functor JJ CC := equalizerFunctor f₁ f₂
   let DD := coneCat F
   let E: CC.Ob := { x // f₁ x = f₂ x }
-  let e: CC.Hom E X := λ e ↦ e.1
+  let e: CC.Hom E X := Subtype.val
   let π i: CC.Hom E (F.onOb i) :=
     match i with
     | equalizerOb.A => e
@@ -194,3 +195,47 @@ def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f�
     hom := hom
     unique := unique
   }
+
+def sortCatPullback{X₁ X₂ Y: SortCat.Ob}
+  (f₁: SortCat.Hom X₁ Y)(f₂: SortCat.Hom X₂ Y): pullback f₁ f₂ :=
+by
+  refine {
+    T := {
+      N := { xx: X₁ × X₂ // f₁ xx.1 = f₂ xx.2 }
+      π J X := match J with
+        | pullbackOb.A₁ => X.val.1
+        | pullbackOb.A₂ => X.val.2
+        | pullbackOb.B => f₁ X.val.1
+      comm f := match f with
+        | pullbackHom.idA₁ => SortCat.left_id _
+        | pullbackHom.idA₂ => SortCat.left_id _
+        | pullbackHom.idB => SortCat.left_id _
+        | pullbackHom.f₁ => rfl
+        | pullbackHom.f₂ => funext (λ N => Eq.symm N.property)
+    }
+    hom X := {
+      h x := ⟨
+        ⟨X.π pullbackOb.A₁ x, X.π pullbackOb.A₂ x⟩,
+        Eq.trans
+          (congrArg (λ h => h x) (X.comm pullbackHom.f₁))
+          (Eq.symm
+            (congrArg (λ h => h x) (X.comm pullbackHom.f₂))
+          )
+      ⟩
+      fac J := match J with
+        | pullbackOb.A₁ => rfl
+        | pullbackOb.A₂ => rfl
+        | pullbackOb.B =>
+          funext (λ x => congrArg (λ h => h x) (X.comm pullbackHom.f₁))
+    }
+    unique X g := ?unique
+  }
+  · case unique =>
+    trans ⟨g.h, g.fac⟩
+    · rfl
+    · congr
+      funext x
+      apply Subtype.ext
+      apply Prod.ext
+      · apply congrArg (λ h => h x) (g.fac pullbackOb.A₁)
+      · apply congrArg (λ h => h x) (g.fac pullbackOb.A₂)
