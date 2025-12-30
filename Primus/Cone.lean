@@ -12,11 +12,30 @@ structure coneOb: Sort _ where
 
 attribute [simp] coneOb.comm
 
+@[ext]
+theorem coneOb.ext{X₁ X₂: coneOb F}:
+  X₁.N = X₂.N -> X₁.π ≍ X₂.π -> X₁ = X₂
+:= by
+  let ⟨N, π₁, H₁⟩ := X₁
+  let ⟨N', π₂, H₂⟩ := X₂
+  simp
+  intro HN Hπ
+  subst HN
+  and_intros; rfl
+  assumption
+
+
 structure coneHom(X Y: coneOb F): Sort _ where
   h: CC.Hom X.N Y.N
   fac J: CC.compose (Y.π J) h = X.π J
 
 attribute [simp] coneHom.fac
+
+@[ext]
+theorem coneHom.ext{X Y}{f₁ f₂: coneHom F X Y}:
+  f₁.h = f₂.h -> f₁ = f₂
+:= by
+  cases f₁; cases f₂; simp
 
 def coneCat: category := {
   Ob := coneOb F,
