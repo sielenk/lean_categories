@@ -19,7 +19,7 @@ def PropCat: category.{1, 0} := {
 
 def propTerminal: terminalObject PropCat := {
   T := True
-  hom _ := fun _ => True.intro
+  hom _ _ := True.intro
   unique _ _ := rfl
 }
 
@@ -43,11 +43,11 @@ theorem propThin: thin PropCat :=
 def propLimit{JJ: category}(F: functor JJ PropCat): lim F := {
   T := {
     N := ∀j, F.onOb j
-    π J := λ H ↦ H J
+    π J H := H J
     comm _ := rfl
   }
   hom X := {
-    h := λ n j ↦ X.π j n
+    h n j := X.π j n
     fac _ := rfl
   }
   unique _ _ := rfl
