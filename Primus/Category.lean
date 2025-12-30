@@ -16,10 +16,40 @@ structure initialObject(CC: category): Sort _ where
   hom(X: CC.Ob): CC.Hom I X
   unique(X: CC.Ob): ∀g, g = hom X
 
+@[ext]
+theorem initialObject.ext{CC: category}{A B: initialObject CC}:
+  A.I = B.I -> A = B
+:= by
+  let ⟨I, ha, Ha⟩ := A
+  let ⟨I', hb, Hb⟩ := B
+  simp
+  intro H
+  subst H
+  and_intros; rfl
+  have H : ha = hb := by
+    funext X
+    apply Hb
+  rw [H]
+
 structure terminalObject(CC: category): Sort _ where
   T: CC.Ob
   hom(X: CC.Ob): CC.Hom X T
   unique(X: CC.Ob): ∀g, g = hom X
+
+@[ext]
+theorem terminalObject.ext{CC: category}{A B: terminalObject CC}:
+  A.T = B.T -> A = B
+:= by
+  let ⟨T, ha, Ha⟩ := A
+  let ⟨T', hb, Hb⟩ := B
+  simp
+  intro H
+  subst H
+  and_intros; rfl
+  have H : ha = hb := by
+    funext X
+    apply Hb
+  rw [H]
 
 def isomorphic{CC: category}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
