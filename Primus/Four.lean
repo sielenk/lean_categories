@@ -1,57 +1,57 @@
 import Primus.Category
 
 
-inductive fourOb.{m}: Type m
-  | ob1: fourOb
-  | ob2: fourOb
-  | ob3: fourOb
-  | ob4: fourOb
+inductive FourOb.{m}: Type m
+  | ob1: FourOb
+  | ob2: FourOb
+  | ob3: FourOb
+  | ob4: FourOb
 
-inductive fourHom.{m, n}: fourOb.{m} -> fourOb.{m} -> Type n
-  | id1: fourHom fourOb.ob1 fourOb.ob1
-  | f12: fourHom fourOb.ob1 fourOb.ob2
-  | f13: fourHom fourOb.ob1 fourOb.ob3
-  | f14: fourHom fourOb.ob1 fourOb.ob4
-  | id2: fourHom fourOb.ob2 fourOb.ob2
-  | f23: fourHom fourOb.ob2 fourOb.ob3
-  | f24: fourHom fourOb.ob2 fourOb.ob4
-  | id3: fourHom fourOb.ob3 fourOb.ob3
-  | f34: fourHom fourOb.ob3 fourOb.ob4
-  | id4: fourHom fourOb.ob4 fourOb.ob4
+inductive FourHom.{m, n}: FourOb.{m} -> FourOb.{m} -> Type n
+  | id1: FourHom FourOb.ob1 FourOb.ob1
+  | f12: FourHom FourOb.ob1 FourOb.ob2
+  | f13: FourHom FourOb.ob1 FourOb.ob3
+  | f14: FourHom FourOb.ob1 FourOb.ob4
+  | id2: FourHom FourOb.ob2 FourOb.ob2
+  | f23: FourHom FourOb.ob2 FourOb.ob3
+  | f24: FourHom FourOb.ob2 FourOb.ob4
+  | id3: FourHom FourOb.ob3 FourOb.ob3
+  | f34: FourHom FourOb.ob3 FourOb.ob4
+  | id4: FourHom FourOb.ob4 FourOb.ob4
 
-def fourId(A: fourOb): fourHom A A :=
+def fourId(A: FourOb): FourHom A A :=
   match A with
-  | fourOb.ob1 => fourHom.id1
-  | fourOb.ob2 => fourHom.id2
-  | fourOb.ob3 => fourHom.id3
-  | fourOb.ob4 => fourHom.id4
+  | FourOb.ob1 => FourHom.id1
+  | FourOb.ob2 => FourHom.id2
+  | FourOb.ob3 => FourHom.id3
+  | FourOb.ob4 => FourHom.id4
 
-def fourComp{A B C: fourOb}(g: fourHom B C)(f: fourHom A B): fourHom A C :=
+def fourComp{A B C: FourOb}(g: FourHom B C)(f: FourHom A B): FourHom A C :=
   match f, g with
-  | fourHom.id1, fourHom.id1 => fourHom.id1
-  | fourHom.id1, fourHom.f12 => fourHom.f12
-  | fourHom.id1, fourHom.f13 => fourHom.f13
-  | fourHom.id1, fourHom.f14 => fourHom.f14
-  | fourHom.id2, fourHom.id2 => fourHom.id2
-  | fourHom.id2, fourHom.f23 => fourHom.f23
-  | fourHom.id2, fourHom.f24 => fourHom.f24
-  | fourHom.id3, fourHom.id3 => fourHom.id3
-  | fourHom.id3, fourHom.f34 => fourHom.f34
-  | fourHom.id4, fourHom.id4 => fourHom.id4
-  | fourHom.f12, fourHom.id2 => fourHom.f12
-  | fourHom.f12, fourHom.f23 => fourHom.f13
-  | fourHom.f12, fourHom.f24 => fourHom.f14
-  | fourHom.f13, fourHom.id3 => fourHom.f13
-  | fourHom.f13, fourHom.f34 => fourHom.f14
-  | fourHom.f14, fourHom.id4 => fourHom.f14
-  | fourHom.f23, fourHom.id3 => fourHom.f23
-  | fourHom.f23, fourHom.f34 => fourHom.f24
-  | fourHom.f24, fourHom.id4 => fourHom.f24
-  | fourHom.f34, fourHom.id4 => fourHom.f34
+  | FourHom.id1, FourHom.id1 => FourHom.id1
+  | FourHom.id1, FourHom.f12 => FourHom.f12
+  | FourHom.id1, FourHom.f13 => FourHom.f13
+  | FourHom.id1, FourHom.f14 => FourHom.f14
+  | FourHom.id2, FourHom.id2 => FourHom.id2
+  | FourHom.id2, FourHom.f23 => FourHom.f23
+  | FourHom.id2, FourHom.f24 => FourHom.f24
+  | FourHom.id3, FourHom.id3 => FourHom.id3
+  | FourHom.id3, FourHom.f34 => FourHom.f34
+  | FourHom.id4, FourHom.id4 => FourHom.id4
+  | FourHom.f12, FourHom.id2 => FourHom.f12
+  | FourHom.f12, FourHom.f23 => FourHom.f13
+  | FourHom.f12, FourHom.f24 => FourHom.f14
+  | FourHom.f13, FourHom.id3 => FourHom.f13
+  | FourHom.f13, FourHom.f34 => FourHom.f14
+  | FourHom.f14, FourHom.id4 => FourHom.f14
+  | FourHom.f23, FourHom.id3 => FourHom.f23
+  | FourHom.f23, FourHom.f34 => FourHom.f24
+  | FourHom.f24, FourHom.id4 => FourHom.f24
+  | FourHom.f34, FourHom.id4 => FourHom.f34
 
-def four.{m, n}: Category.{m+1, n+1} := {
-  Ob := fourOb.{m}
-  Hom := fourHom.{m, n}
+def four.{m, n}: Cat.{m+1, n+1} := {
+  Ob := FourOb.{m}
+  Hom := FourHom.{m, n}
   id := fourId
   compose := fourComp
   left_id f := by

@@ -1,51 +1,51 @@
 import Primus.Category
 
 
-inductive threeOb.{m}: Type m
-  | ob1: threeOb
-  | ob2: threeOb
-  | ob3: threeOb
+inductive ThreeOb.{m}: Type m
+  | ob1: ThreeOb
+  | ob2: ThreeOb
+  | ob3: ThreeOb
 
-inductive threeHom.{m, n}: threeOb.{m} -> threeOb.{m} -> Type n
-  | id1: threeHom threeOb.ob1 threeOb.ob1
-  | id2: threeHom threeOb.ob2 threeOb.ob2
-  | id3: threeHom threeOb.ob3 threeOb.ob3
-  | f12: threeHom threeOb.ob1 threeOb.ob2
-  | f23: threeHom threeOb.ob2 threeOb.ob3
-  | f13: threeHom threeOb.ob1 threeOb.ob3
+inductive ThreeHom.{m, n}: ThreeOb.{m} -> ThreeOb.{m} -> Type n
+  | id1: ThreeHom ThreeOb.ob1 ThreeOb.ob1
+  | id2: ThreeHom ThreeOb.ob2 ThreeOb.ob2
+  | id3: ThreeHom ThreeOb.ob3 ThreeOb.ob3
+  | f12: ThreeHom ThreeOb.ob1 ThreeOb.ob2
+  | f23: ThreeHom ThreeOb.ob2 ThreeOb.ob3
+  | f13: ThreeHom ThreeOb.ob1 ThreeOb.ob3
 
-def threeId(A: threeOb): threeHom A A :=
+def threeId(A: ThreeOb): ThreeHom A A :=
   match A with
-  | threeOb.ob1 => threeHom.id1
-  | threeOb.ob2 => threeHom.id2
-  | threeOb.ob3 => threeHom.id3
+  | ThreeOb.ob1 => ThreeHom.id1
+  | ThreeOb.ob2 => ThreeHom.id2
+  | ThreeOb.ob3 => ThreeHom.id3
 
-def threeComp{A B C: threeOb}(g: threeHom B C)(f: threeHom A B): threeHom A C :=
+def threeComp{A B C: ThreeOb}(g: ThreeHom B C)(f: ThreeHom A B): ThreeHom A C :=
   match f, g with
-  | threeHom.id1, threeHom.id1 => threeHom.id1
-  | threeHom.id1, threeHom.f12 => threeHom.f12
-  | threeHom.id1, threeHom.f13 => threeHom.f13
-  | threeHom.id2, threeHom.id2 => threeHom.id2
-  | threeHom.id2, threeHom.f23 => threeHom.f23
-  | threeHom.id3, threeHom.id3 => threeHom.id3
-  | threeHom.f12, threeHom.id2 => threeHom.f12
-  | threeHom.f12, threeHom.f23 => threeHom.f13
-  | threeHom.f13, threeHom.id3 => threeHom.f13
-  | threeHom.f23, threeHom.id3 => threeHom.f23
+  | ThreeHom.id1, ThreeHom.id1 => ThreeHom.id1
+  | ThreeHom.id1, ThreeHom.f12 => ThreeHom.f12
+  | ThreeHom.id1, ThreeHom.f13 => ThreeHom.f13
+  | ThreeHom.id2, ThreeHom.id2 => ThreeHom.id2
+  | ThreeHom.id2, ThreeHom.f23 => ThreeHom.f23
+  | ThreeHom.id3, ThreeHom.id3 => ThreeHom.id3
+  | ThreeHom.f12, ThreeHom.id2 => ThreeHom.f12
+  | ThreeHom.f12, ThreeHom.f23 => ThreeHom.f13
+  | ThreeHom.f13, ThreeHom.id3 => ThreeHom.f13
+  | ThreeHom.f23, ThreeHom.id3 => ThreeHom.f23
 
-@[simp] def threeId1: threeHom.id1 = threeId threeOb.ob1 := rfl
-@[simp] def threeId2: threeHom.id2 = threeId threeOb.ob2 := rfl
-@[simp] def threeId3: threeHom.id3 = threeId threeOb.ob3 := rfl
+@[simp] def threeId1: ThreeHom.id1 = threeId ThreeOb.ob1 := rfl
+@[simp] def threeId2: ThreeHom.id2 = threeId ThreeOb.ob2 := rfl
+@[simp] def threeId3: ThreeHom.id3 = threeId ThreeOb.ob3 := rfl
 
-@[simp] def threeLeftId {A B: threeOb}(f: threeHom A B): threeComp (threeId B) f = f := by
+@[simp] def threeLeftId {A B: ThreeOb}(f: ThreeHom A B): threeComp (threeId B) f = f := by
   cases f <;> rfl
 
-@[simp] def threeRightId {A B: threeOb}(f: threeHom A B): threeComp f (threeId A) = f := by
+@[simp] def threeRightId {A B: ThreeOb}(f: ThreeHom A B): threeComp f (threeId A) = f := by
   cases f <;> rfl
 
-def three.{m, n}: Category.{m+1, n+1} := {
-  Ob := threeOb.{m},
-  Hom := threeHom.{m, n},
+def three.{m, n}: Cat.{m+1, n+1} := {
+  Ob := ThreeOb.{m},
+  Hom := ThreeHom.{m, n},
   id := threeId,
   compose{A B C} := threeComp,
   left_id{A B} := threeLeftId,

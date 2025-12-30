@@ -4,7 +4,7 @@ import Primus.Opposite
 import Primus.Cone
 
 
-variable {JJ CC: Category}
-variable (F: functor JJ CC)
+variable {JJ CC: Cat}
+variable (F: Fun JJ CC)
 
-def coConeCat: Category := op (coneCat F)
+def coConeCat: Cat := op (coneCat F)

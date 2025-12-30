@@ -2,18 +2,18 @@ import Primus.Category
 import Primus.Functor
 
 
-variable {JJ CC: Category}
-variable (F: functor JJ CC)
+variable {JJ CC: Cat}
+variable (F: Fun JJ CC)
 
-structure coneOb: Sort _ where
+structure ConeOb: Sort _ where
   N: CC.Ob
   π J : CC.Hom N (F.onOb J)
   comm{J₁ J₂}(f: JJ.Hom J₁ J₂): CC.compose (F.onHom f) (π J₁) = π J₂
 
-attribute [simp] coneOb.comm
+attribute [simp] ConeOb.comm
 
 @[ext]
-theorem coneOb.ext{X₁ X₂: coneOb F}:
+theorem ConeOb.ext{X₁ X₂: ConeOb F}:
   X₁.N = X₂.N -> X₁.π ≍ X₂.π -> X₁ = X₂
 := by
   let ⟨N, π₁, H₁⟩ := X₁
@@ -25,21 +25,21 @@ theorem coneOb.ext{X₁ X₂: coneOb F}:
   assumption
 
 
-structure coneHom(X Y: coneOb F): Sort _ where
+structure ConeHom(X Y: ConeOb F): Sort _ where
   h: CC.Hom X.N Y.N
   fac J: CC.compose (Y.π J) h = X.π J
 
-attribute [simp] coneHom.fac
+attribute [simp] ConeHom.fac
 
 @[ext]
-theorem coneHom.ext{X Y}{f₁ f₂: coneHom F X Y}:
+theorem ConeHom.ext{X Y}{f₁ f₂: ConeHom F X Y}:
   f₁.h = f₂.h -> f₁ = f₂
 := by
   cases f₁; cases f₂; simp
 
-def coneCat: Category := {
-  Ob := coneOb F,
-  Hom := coneHom F,
+def coneCat: Cat := {
+  Ob := ConeOb F,
+  Hom := ConeHom F,
   id X := ⟨CC.id X.N, by
     intro J
     rw [CC.right_id]
@@ -57,5 +57,5 @@ def coneCat: Category := {
     apply CC.assoc
 }
 
-@[simp] def coneCatOb: coneOb F = (coneCat F).Ob := rfl
-@[simp] def coneCatHom: coneHom F = (coneCat F).Hom := rfl
+@[simp] def coneCatOb: ConeOb F = (coneCat F).Ob := rfl
+@[simp] def coneCatHom: ConeHom F = (coneCat F).Hom := rfl

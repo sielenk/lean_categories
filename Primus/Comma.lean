@@ -2,23 +2,23 @@ import Primus.Category
 import Primus.Functor
 
 
-variable {AA BB CC: Category}
-variable (S: functor AA CC)
-variable (T: functor BB CC)
+variable {AA BB CC: Cat}
+variable (S: Fun AA CC)
+variable (T: Fun BB CC)
 
-structure commaOb: Sort _ where
+structure CommaOb: Sort _ where
   A: AA.Ob
   B: BB.Ob
   h: CC.Hom (S.onOb A) (T.onOb B)
 
-structure commaHom(X Y: commaOb S T): Sort _ where
+structure CommaHom(X Y: CommaOb S T): Sort _ where
   f: AA.Hom X.A Y.A
   g: BB.Hom X.B Y.B
   comm: CC.compose Y.h (S.onHom f) = CC.compose (T.onHom g) X.h
 
-def commaCat: Category := {
-  Ob := commaOb S T,
-  Hom := commaHom S T,
+def commaCat: Cat := {
+  Ob := CommaOb S T,
+  Hom := CommaHom S T,
   id X := ⟨AA.id X.A, BB.id X.B, by
     rw [S.id, T.id]
     simp

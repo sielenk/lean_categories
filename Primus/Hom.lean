@@ -5,41 +5,39 @@ import Primus.NatTrans
 import Primus.SortCat
 
 
-def homFun.{m, n}{CC: Category.{m, n}}(X: CC.Ob):
-  functor (op CC) SortCat.{n}
-:= {
+def homFun.{m, n}{CC: Cat.{m, n}}(X: CC.Ob): Fun (op CC) sortCat.{n} := {
   onOb := (op CC).Hom X,
   onHom := (op CC).compose,
   id{A} := by
     funext h
-    simp [SortCat, op]
+    simp [sortCat, op]
   compose{A B C g f} := by
     funext h
-    simp [SortCat, op]
+    simp [sortCat, op]
     rw [CC.assoc]
 }
 
 
-def yonedaDown{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
-  SortCat.Hom (naturalTransformation (homFun X) F) (F.onOb X)
+def yonedaDown{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
+  sortCat.Hom (NaturalTransformation (homFun X) F) (F.onOb X)
 :=
   fun nt => nt.η X (CC.id X)
 
-def yonedaUp{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
-  SortCat.Hom (F.onOb X) (naturalTransformation (homFun X) F)
+def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
+  sortCat.Hom (F.onOb X) (NaturalTransformation (homFun X) F)
 :=
   fun x => {
     η Y f := F.onHom f x,
     naturality{A B} f := by
       funext g
-      simp [SortCat, homFun, op, functor.compose]
+      simp [sortCat, homFun, op, Fun.compose]
   }
 
-theorem yoneda{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
-  isomorphic (naturalTransformation (homFun X) F) (F.onOb X)
+theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
+  isomorphic (NaturalTransformation (homFun X) F) (F.onOb X)
 := by
   use yonedaDown F X, yonedaUp F X
-  simp [SortCat, yonedaDown, yonedaUp]
+  simp [sortCat, yonedaDown, yonedaUp]
   split_ands
   · funext ⟨η, H1⟩; simp [op, homFun] at η H1
     congr
@@ -49,31 +47,31 @@ theorem yoneda{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
     simp
   · apply F.id
 
-def yonedaEmbedding(CC: Category):
-  functor CC (FunctorCat (op CC) SortCat)
+def yonedaEmbedding(CC: Cat):
+  Fun CC (functorCat (op CC) sortCat)
 := {
   onOb := homFun
   onHom {C D} h := {
     η C := CC.compose h
     naturality := by
-      simp [SortCat, op, homFun]
+      simp [sortCat, op, homFun]
       intro B A f
       funext g
       apply CC.assoc
   }
   id := by
-    simp [FunctorCat, SortCat, homFun, natTransId, op]
+    simp [functorCat, sortCat, homFun, natTransId, op]
     intro A
     funext B f
     simp
   compose := by
-    simp [FunctorCat, SortCat, homFun, natTransComp, op]
+    simp [functorCat, sortCat, homFun, natTransComp, op]
     intro B C D h g
     funext A f
     rw [CC.assoc]
 }
 
-theorem yonedaFullyFaithful(CC: Category):
+theorem yonedaFullyFaithful(CC: Cat):
   fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands
@@ -83,7 +81,7 @@ theorem yonedaFullyFaithful(CC: Category):
     congr
     funext Z f
     have H1 := @nt.naturality X Z f
-    simp [FunctorCat, yonedaEmbedding, homFun, op, SortCat] at H1
+    simp [functorCat, yonedaEmbedding, homFun, op, sortCat] at H1
     let g := λ x ↦ CC.compose (nt.η X x) f
     change _ = g at H1
     trans  g (CC.id X)

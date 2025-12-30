@@ -3,29 +3,29 @@ import Primus.Functor
 import Primus.Lim
 
 
-inductive equalizerOb: Type
-  | A: equalizerOb
-  | B: equalizerOb
+inductive EqualizerOb: Type
+  | A: EqualizerOb
+  | B: EqualizerOb
 
-inductive equalizerHom: equalizerOb -> equalizerOb -> Type
-  | idA: equalizerHom equalizerOb.A equalizerOb.A
-  | idB: equalizerHom equalizerOb.B equalizerOb.B
-  | f₁: equalizerHom equalizerOb.A equalizerOb.B
-  | f₂: equalizerHom equalizerOb.A equalizerOb.B
+inductive EqualizerHom: EqualizerOb -> EqualizerOb -> Type
+  | idA: EqualizerHom EqualizerOb.A EqualizerOb.A
+  | idB: EqualizerHom EqualizerOb.B EqualizerOb.B
+  | f₁: EqualizerHom EqualizerOb.A EqualizerOb.B
+  | f₂: EqualizerHom EqualizerOb.A EqualizerOb.B
 
- def equalizerDiagram: Category := {
-  Ob := equalizerOb
-  Hom := equalizerHom
+ def equalizerDiagram: Cat := {
+  Ob := EqualizerOb
+  Hom := EqualizerHom
   id X := match X with
-    | equalizerOb.A => equalizerHom.idA
-    | equalizerOb.B => equalizerHom.idB
+    | EqualizerOb.A => EqualizerHom.idA
+    | EqualizerOb.B => EqualizerHom.idB
   compose g f := match f, g with
-    | equalizerHom.idA, equalizerHom.idA => equalizerHom.idA
-    | equalizerHom.idB, equalizerHom.idB => equalizerHom.idB
-    | equalizerHom.f₁, equalizerHom.idB => equalizerHom.f₁
-    | equalizerHom.f₂, equalizerHom.idB => equalizerHom.f₂
-    | equalizerHom.idA, equalizerHom.f₁ => equalizerHom.f₁
-    | equalizerHom.idA, equalizerHom.f₂ => equalizerHom.f₂
+    | EqualizerHom.idA, EqualizerHom.idA => EqualizerHom.idA
+    | EqualizerHom.idB, EqualizerHom.idB => EqualizerHom.idB
+    | EqualizerHom.f₁, EqualizerHom.idB => EqualizerHom.f₁
+    | EqualizerHom.f₂, EqualizerHom.idB => EqualizerHom.f₂
+    | EqualizerHom.idA, EqualizerHom.f₁ => EqualizerHom.f₁
+    | EqualizerHom.idA, EqualizerHom.f₂ => EqualizerHom.f₂
   left_id f := by
     cases f <;>  rfl
   right_id f:= by
@@ -34,30 +34,30 @@ inductive equalizerHom: equalizerOb -> equalizerOb -> Type
     cases h <;> cases g <;> cases f <;> rfl
 }
 
-@[simp] def equalizerIdA: equalizerHom.idA = equalizerDiagram.id equalizerOb.A := rfl
-@[simp] def equalizerIdB: equalizerHom.idB = equalizerDiagram.id equalizerOb.B := rfl
+@[simp] def equalizerIdA: EqualizerHom.idA = equalizerDiagram.id EqualizerOb.A := rfl
+@[simp] def equalizerIdB: EqualizerHom.idB = equalizerDiagram.id EqualizerOb.B := rfl
 
-def equalizerFunctor.{m, n}{CC: Category.{m, n}}{A B: CC.Ob}
-    (f₁ f₂: CC.Hom A B): functor.{1, 1, m, n} equalizerDiagram CC := {
+def equalizerFunctor.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
+    (f₁ f₂: CC.Hom A B): Fun.{1, 1, m, n} equalizerDiagram CC := {
   onOb X := match X with
-    | equalizerOb.A => A
-    | equalizerOb.B => B,
+    | EqualizerOb.A => A
+    | EqualizerOb.B => B,
   onHom f := match f with
-    | equalizerHom.idA => CC.id A
-    | equalizerHom.idB => CC.id B
-    | equalizerHom.f₁ => f₁
-    | equalizerHom.f₂ => f₂
+    | EqualizerHom.idA => CC.id A
+    | EqualizerHom.idB => CC.id B
+    | EqualizerHom.f₁ => f₁
+    | EqualizerHom.f₂ => f₂
   id{X} := by
     cases X <;> rfl,
   compose{X Y Z g f} := by
     cases g <;> cases f <;> simp <;> rfl
 }
 
-@[simp] def equalizerF₁{CC: Category}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
-  (equalizerFunctor f₁ f₂).onHom (equalizerHom.f₁) = f₁
-@[simp] def equalizerF₂{CC: Category}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
-  (equalizerFunctor f₁ f₂).onHom (equalizerHom.f₂) = f₂
+@[simp] def equalizerF₁{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
+  (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₁) = f₁
+@[simp] def equalizerF₂{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
+  (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₂) = f₂
 
-def equalizer.{m, n}{CC: Category.{m, n}}{A B: CC.Ob}
+def Equalizer.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
     (f₁: CC.Hom A B)(f₂: CC.Hom A B) : Sort _ :=
-  lim (equalizerFunctor f₁ f₂)
+  Lim (equalizerFunctor f₁ f₂)

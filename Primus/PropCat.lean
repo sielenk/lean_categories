@@ -7,7 +7,7 @@ import Primus.EqualizerDiagram
 import Mathlib.Data.Set.Image
 
 
-def PropCat: Category.{1, 0} := {
+def propCat: Cat.{1, 0} := {
   Ob := Prop,
   Hom A B :=  A -> B,
   id _ x := x,
@@ -17,13 +17,13 @@ def PropCat: Category.{1, 0} := {
   assoc _ _ _ := rfl
 }
 
-def propTerminal: terminalObject PropCat := {
+def propTerminal: TerminalObject propCat := {
   T := True
   hom _ _ := True.intro
   unique _ _ := rfl
 }
 
-def propInitial: initialObject PropCat := {
+def propInitial: InitialObject propCat := {
   I := False
   hom X := False.elim
   unique X g := by
@@ -31,16 +31,16 @@ def propInitial: initialObject PropCat := {
     exact x.elim
 }
 
-theorem propMono{A B: PropCat.Ob}(f: PropCat.Hom A B): mono f :=
+theorem propMono{A B: propCat.Ob}(f: propCat.Hom A B): mono f :=
   λ _ _ _ ↦ rfl
 
-theorem propEpi{A B: PropCat.Ob}(f: PropCat.Hom A B): epi f :=
+theorem propEpi{A B: propCat.Ob}(f: propCat.Hom A B): epi f :=
   λ _ _ _ ↦ rfl
 
-theorem propThin: thin PropCat :=
+theorem propThin: thin propCat :=
   λ _ _ _ _ ↦ rfl
 
-def propLimit{JJ: Category}(F: functor JJ PropCat): lim F := {
+def PropLimit{JJ: Cat}(F: Fun JJ propCat): Lim F := {
   T := {
     N := ∀j, F.onOb j
     π J H := H J

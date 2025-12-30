@@ -8,7 +8,7 @@ import Primus.PullbackDiagram
 import Mathlib.Data.Set.Image
 
 
-def SortCat.{m}: Category.{m+1, m} := {
+def sortCat.{m}: Cat.{m+1, m} := {
   Ob := Sort m,
   Hom A B :=  A -> B,
   id _ x := x,
@@ -18,7 +18,7 @@ def SortCat.{m}: Category.{m+1, m} := {
   assoc _ _ _ := rfl
 }
 
-def sortTerminal: terminalObject SortCat := {
+def SortTerminal: TerminalObject sortCat := {
   T := PUnit
   hom X := fun _ => PUnit.unit
   unique X g := by
@@ -27,7 +27,7 @@ def sortTerminal: terminalObject SortCat := {
     rfl
 }
 
-def sortInitial: initialObject SortCat := {
+def SortInitial: InitialObject sortCat := {
   I := PEmpty
   hom X := fun e => PEmpty.elim e
   unique X g := by
@@ -35,18 +35,18 @@ def sortInitial: initialObject SortCat := {
     cases x
 }
 
-def obToHom{A: SortCat.Ob}(x: A): SortCat.Hom (sortTerminal.T) A :=
+def obToHom{A: sortCat.Ob}(x: A): sortCat.Hom (SortTerminal.T) A :=
   fun _ => x
 
-theorem obToHomInjective(A: SortCat.Ob): Function.Injective (@obToHom A) := by
+theorem obToHomInjective(A: sortCat.Ob): Function.Injective (@obToHom A) := by
   intro x1 x2 H1
   exact congrFun H1 PUnit.unit
 
-theorem obToHomSurjective(A: SortCat.Ob): Function.Surjective (@obToHom A) := by
+theorem obToHomSurjective(A: sortCat.Ob): Function.Surjective (@obToHom A) := by
   intro f
   exists (f PUnit.unit)
 
-theorem sortMonoInjective{A B: SortCat.Ob}(f: SortCat.Hom A B):
+theorem sortMonoInjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
   mono f ↔ Function.Injective f :=
 by
   constructor
@@ -58,11 +58,11 @@ by
   · intro H1 X g1 g2 H2
     funext x
     apply H1
-    have H3: f (g1 x) = (SortCat.compose f g1) x := by rfl
+    have H3: f (g1 x) = (sortCat.compose f g1) x := by rfl
     rw [H3, H2]
     rfl
 
-theorem sortEpiSurjective{A B: SortCat.{m+1}.Ob}(f: SortCat.Hom A B):
+theorem sortEpiSurjective{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   epi f ↔ Function.Surjective f :=
 by
   constructor
@@ -75,16 +75,16 @@ by
       intro a H2
       apply H1
       use a
-    let g1: SortCat.Hom B twoOb := fun b' => twoOb.ob1
-    let g2: SortCat.Hom B twoOb := fun b' =>
+    let g1: sortCat.Hom B TwoOb := fun b' => TwoOb.ob1
+    let g2: sortCat.Hom B TwoOb := fun b' =>
       match Classical.propDecidable (b' = b) with
-      | isTrue _  => twoOb.ob2
-      | isFalse _ => twoOb.ob1
+      | isTrue _  => TwoOb.ob2
+      | isFalse _ => TwoOb.ob1
     intro H2
     have H3: g1 b = g2 b := by
       rw  [H2 g1 g2]
       funext a
-      simp [SortCat]
+      simp [sortCat]
       unfold g1 g2
       cases Classical.propDecidable (f a = b) with
       | isFalse H =>
@@ -103,100 +103,100 @@ by
     funext b
     have ⟨a, H3⟩ := H1 b
     rw [←H3]
-    have H4: (SortCat.compose g1 f) a = (SortCat.compose g2 f) a := by
+    have H4: (sortCat.compose g1 f) a = (sortCat.compose g2 f) a := by
       rw [H2]
-    simp [SortCat] at H4
+    simp [sortCat] at H4
     assumption
 
-theorem sortSplitEpiSurjective{A B: SortCat.Ob}(f: SortCat.Hom A B):
+theorem sortSplitEpiSurjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
   splitEpi f ↔ Function.Surjective f :=
 by
   constructor
   · intro ⟨g, H1⟩ b
     use (g b)
-    have H2: f (g b) = (SortCat.compose f g) b := by rfl
+    have H2: f (g b) = (sortCat.compose f g) b := by rfl
     rw [H2, H1]
     rfl
   · intro H1
     use (fun b => Classical.choose (H1 b))
     funext b
-    unfold SortCat; simp
+    unfold sortCat; simp
     exact Classical.choose_spec (H1 b)
 
-theorem sortSplitEpiEpi.{m}{A B: SortCat.{m+1}.Ob}(f: SortCat.Hom A B):
+theorem sortSplitEpiEpi.{m}{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   epi f → splitEpi f :=
 by
   rw [sortSplitEpiSurjective, ←sortEpiSurjective]
   tauto
 
 
-def sortCatEqualizer{X Y: SortCat.Ob}(f₁ f₂: SortCat.Hom X Y): equalizer f₁ f₂ :=
+def SortCatEqualizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f₁ f₂ :=
   {
     T := {
-      N:= { x // f₁ x = f₂ x }
+      N := { x // f₁ x = f₂ x }
       π J X := match J with
-        | equalizerOb.A => X.val
-        | equalizerOb.B => f₁ X.val
+        | EqualizerOb.A => X.val
+        | EqualizerOb.B => f₁ X.val
       comm f := match f with
-        | equalizerHom.idA => SortCat.left_id _
-        | equalizerHom.idB => SortCat.left_id _
-        | equalizerHom.f₁ => rfl
-        | equalizerHom.f₂ => funext (λ N => Eq.symm N.property)
+        | EqualizerHom.idA => sortCat.left_id _
+        | EqualizerHom.idB => sortCat.left_id _
+        | EqualizerHom.f₁ => rfl
+        | EqualizerHom.f₂ => funext (λ N => Eq.symm N.property)
     }
     hom X := {
       h x := ⟨
-        X.π equalizerOb.A x,
+        X.π EqualizerOb.A x,
          Eq.trans
-          (congrArg (λ h => h x) (X.comm equalizerHom.f₁))
+          (congrArg (λ h => h x) (X.comm EqualizerHom.f₁))
           (Eq.symm
-            (congrArg (λ h => h x) (X.comm equalizerHom.f₂))
+            (congrArg (λ h => h x) (X.comm EqualizerHom.f₂))
           )
       ⟩
       fac J := match J with
-        | equalizerOb.A => rfl
-        | equalizerOb.B => X.comm equalizerHom.f₁
+        | EqualizerOb.A => rfl
+        | EqualizerOb.B => X.comm EqualizerHom.f₁
     }
     unique _ g :=
-      coneHom.ext _ (funext (λ_ => Subtype.ext (congr_fun (g.fac equalizerOb.A) _)))
+      ConeHom.ext _ (funext (λ_ => Subtype.ext (congr_fun (g.fac EqualizerOb.A) _)))
   }
 
-def sortCatPullback{X₁ X₂ Y: SortCat.Ob}
-  (f₁: SortCat.Hom X₁ Y)(f₂: SortCat.Hom X₂ Y): pullback f₁ f₂ :=
+def SortCatPullback{X₁ X₂ Y: sortCat.Ob}
+  (f₁: sortCat.Hom X₁ Y)(f₂: sortCat.Hom X₂ Y): Pullback f₁ f₂ :=
 by
   refine {
     T := {
       N := { xx: X₁ × X₂ // f₁ xx.1 = f₂ xx.2 }
       π J X := match J with
-        | pullbackOb.A₁ => X.val.1
-        | pullbackOb.A₂ => X.val.2
-        | pullbackOb.B => f₁ X.val.1
+        | PullbackOb.A₁ => X.val.1
+        | PullbackOb.A₂ => X.val.2
+        | PullbackOb.B => f₁ X.val.1
       comm f := match f with
-        | pullbackHom.idA₁ => SortCat.left_id _
-        | pullbackHom.idA₂ => SortCat.left_id _
-        | pullbackHom.idB => SortCat.left_id _
-        | pullbackHom.f₁ => rfl
-        | pullbackHom.f₂ => funext (λ N => Eq.symm N.property)
+        | PullbackHom.idA₁ => sortCat.left_id _
+        | PullbackHom.idA₂ => sortCat.left_id _
+        | PullbackHom.idB => sortCat.left_id _
+        | PullbackHom.f₁ => rfl
+        | PullbackHom.f₂ => funext (λ N => Eq.symm N.property)
     }
     hom X := {
       h x := ⟨
-        ⟨X.π pullbackOb.A₁ x, X.π pullbackOb.A₂ x⟩,
+        ⟨X.π PullbackOb.A₁ x, X.π PullbackOb.A₂ x⟩,
         Eq.trans
-          (congrArg (λ h => h x) (X.comm pullbackHom.f₁))
+          (congrArg (λ h => h x) (X.comm PullbackHom.f₁))
           (Eq.symm
-            (congrArg (λ h => h x) (X.comm pullbackHom.f₂))
+            (congrArg (λ h => h x) (X.comm PullbackHom.f₂))
           )
       ⟩
       fac J := match J with
-        | pullbackOb.A₁ => rfl
-        | pullbackOb.A₂ => rfl
-        | pullbackOb.B => X.comm pullbackHom.f₁
+        | PullbackOb.A₁ => rfl
+        | PullbackOb.A₂ => rfl
+        | PullbackOb.B => X.comm PullbackHom.f₁
     }
     unique X g := ?unique
   }
   · case unique =>
-    apply coneHom.ext
+    apply ConeHom.ext
     funext x
     apply Subtype.ext
     apply Prod.ext
-    · apply congrArg (λ h => h x) (g.fac pullbackOb.A₁)
-    · apply congrArg (λ h => h x) (g.fac pullbackOb.A₂)
+    · apply congrArg (λ h => h x) (g.fac PullbackOb.A₁)
+    · apply congrArg (λ h => h x) (g.fac PullbackOb.A₂)

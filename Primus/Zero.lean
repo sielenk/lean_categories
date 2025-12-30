@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-def zero.{m, n}: Category.{m, n} := {
+def zero.{m, n}: Cat.{m, n} := {
   Ob := PEmpty
   Hom _ _ := PEmpty
   id A := A.elim

@@ -3,7 +3,7 @@ import Primus.Zero
 import Primus.One
 
 
-structure functor(CC DD: Category) : Sort _ where
+structure Fun(CC DD: Cat) : Sort _ where
   onOb: CC.Ob -> DD.Ob
   onHom{A B: CC.Ob}: CC.Hom A B -> DD.Hom (onOb A) (onOb B)
   id{A: CC.Ob}: onHom (CC.id A) = DD.id (onOb A)
@@ -12,8 +12,8 @@ structure functor(CC DD: Category) : Sort _ where
 
 
 section FunctorProperties
-  variable {CC DD: Category}
-  variable (F: functor CC DD)
+  variable {CC DD: Cat}
+  variable (F: Fun CC DD)
 
   def faithful: Prop :=
     ∀{A B: CC.Ob}, Function.Injective (@F.onHom A B)
@@ -33,14 +33,14 @@ section FunctorProperties
 end FunctorProperties
 
 
-def functorId(CC: Category): functor CC CC := {
+def functorId(CC: Cat): Fun CC CC := {
   onOb A := A,
   onHom{_ _} f:= f,
   id{A} := Eq.refl (CC.id A),
   compose{_ _ _ g f} := Eq.refl (CC.compose g f)
 }
 
-def functorComp{AA BB CC}(G: functor BB CC)(F: functor AA BB): functor AA CC := {
+def functorComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB): Fun AA CC := {
   onOb A := G.onOb (F.onOb A),
   onHom f := G.onHom (F.onHom f),
   id{A} := by
@@ -49,9 +49,9 @@ def functorComp{AA BB CC}(G: functor BB CC)(F: functor AA BB): functor AA CC := 
     rw [F.compose, G.compose]
 }
 
-def CategoryCat : Category := {
-  Ob := Category,
-  Hom := functor,
+def CategoryCat : Cat := {
+  Ob := Cat,
+  Hom := Fun,
   id := functorId,
   compose := functorComp,
   left_id _ := by funext; rfl,
@@ -59,7 +59,7 @@ def CategoryCat : Category := {
   assoc _ _ _ := by funext; rfl
 }
 
-def oneTerminal: terminalObject CategoryCat := {
+def oneTerminal: TerminalObject CategoryCat := {
   T := one,
   hom X := {
     onOb A := PUnit.unit,
@@ -71,14 +71,14 @@ def oneTerminal: terminalObject CategoryCat := {
     congr
 }
 
-theorem faithfulComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+theorem faithfulComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB):
   faithful F ∧ faithful G → faithful (functorComp G F) := by
   intro ⟨H1, H2⟩ A B f1 f2 H3
   apply H1
   apply H2
   assumption
 
-theorem fullComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
+theorem fullComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB):
   full F ∧ full G → full (functorComp G F) := by
   intro ⟨H1, H2⟩ A B g
   let ⟨a, H3⟩ := (H2 g)
@@ -90,5 +90,5 @@ theorem fullComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   congr
 
 
-def equivalent(CC DD: Category): Prop :=
-  ∃(F: functor CC DD), equivalence F
+def equivalent(CC DD: Cat): Prop :=
+  ∃(F: Fun CC DD), equivalence F
