@@ -49,7 +49,7 @@ def fourComp{A B C: fourOb}(g: fourHom B C)(f: fourHom A B): fourHom A C :=
   | fourHom.f24, fourHom.id4 => fourHom.f24
   | fourHom.f34, fourHom.id4 => fourHom.f34
 
-def four.{m, n}: category.{m+1, n+1} := {
+def four.{m, n}: Category.{m+1, n+1} := {
   Ob := fourOb.{m}
   Hom := fourHom.{m, n}
   id := fourId

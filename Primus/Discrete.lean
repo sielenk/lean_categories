@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-def discreteCat.{n}(X: Sort n): category.{n, 0} := {
+def discreteCat.{n}(X: Sort n): Category.{n, 0} := {
   Ob := X
   Hom := Eq
   id A := rfl

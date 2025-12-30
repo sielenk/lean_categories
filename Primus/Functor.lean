@@ -3,7 +3,7 @@ import Primus.Zero
 import Primus.One
 
 
-structure functor(CC DD: category) : Sort _ where
+structure functor(CC DD: Category) : Sort _ where
   onOb: CC.Ob -> DD.Ob
   onHom{A B: CC.Ob}: CC.Hom A B -> DD.Hom (onOb A) (onOb B)
   id{A: CC.Ob}: onHom (CC.id A) = DD.id (onOb A)
@@ -12,7 +12,7 @@ structure functor(CC DD: category) : Sort _ where
 
 
 section FunctorProperties
-  variable {CC DD: category}
+  variable {CC DD: Category}
   variable (F: functor CC DD)
 
   def faithful: Prop :=
@@ -33,7 +33,7 @@ section FunctorProperties
 end FunctorProperties
 
 
-def functorId(CC: category): functor CC CC := {
+def functorId(CC: Category): functor CC CC := {
   onOb A := A,
   onHom{_ _} f:= f,
   id{A} := Eq.refl (CC.id A),
@@ -49,8 +49,8 @@ def functorComp{AA BB CC}(G: functor BB CC)(F: functor AA BB): functor AA CC := 
     rw [F.compose, G.compose]
 }
 
-def CategoryCat : category := {
-  Ob := category,
+def CategoryCat : Category := {
+  Ob := Category,
   Hom := functor,
   id := functorId,
   compose := functorComp,
@@ -90,5 +90,5 @@ theorem fullComp{AA BB CC}(G: functor BB CC)(F: functor AA BB):
   congr
 
 
-def equivalent(CC DD: category): Prop :=
+def equivalent(CC DD: Category): Prop :=
   ∃(F: functor CC DD), equivalence F

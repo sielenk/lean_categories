@@ -2,7 +2,7 @@ import Primus.Category
 import Primus.Functor
 
 
-variable {JJ CC: category}
+variable {JJ CC: Category}
 variable (F: functor JJ CC)
 
 structure coneOb: Sort _ where
@@ -37,7 +37,7 @@ theorem coneHom.ext{X Y}{f₁ f₂: coneHom F X Y}:
 := by
   cases f₁; cases f₂; simp
 
-def coneCat: category := {
+def coneCat: Category := {
   Ob := coneOb F,
   Hom := coneHom F,
   id X := ⟨CC.id X.N, by

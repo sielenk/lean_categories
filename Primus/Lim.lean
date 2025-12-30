@@ -1,7 +1,7 @@
 import Primus.Category
 import Primus.Cone
 
-variable {JJ CC: category}
+variable {JJ CC: Category}
 variable (F: functor JJ CC)
 
 def lim := terminalObject (coneCat F)

@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-def one.{m, n}: category.{m, n} := {
+def one.{m, n}: Category.{m, n} := {
   Ob := PUnit.{m},
   Hom _ _ := PUnit.{n},
   id _ := PUnit.unit,

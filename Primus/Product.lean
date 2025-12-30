@@ -1,7 +1,7 @@
 import Primus.Category
 
 
-def prodCat(CC DD: category): category := {
+def prodCat(CC DD: Category): Category := {
   Ob := CC.Ob × DD.Ob,
   Hom X Y := CC.Hom X.1 Y.1 × DD.Hom X.2 Y.2,
   id X := (CC.id X.1, DD.id X.2),

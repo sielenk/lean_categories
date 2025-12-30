@@ -41,7 +41,7 @@ def pullbackComp{X Y Z: pullbackOb}(g: pullbackHom Y Z)(f: pullbackHom X Y): pul
 @[simp] def pullbackRightId {X Y: pullbackOb}(f: pullbackHom X Y): pullbackComp f (pullbackId X) = f := by
   cases f <;> rfl
 
-def pullbackDiagram: category.{1, 1} := {
+def pullbackDiagram: Category.{1, 1} := {
   Ob := pullbackOb,
   Hom := pullbackHom,
   id := pullbackId,
@@ -53,7 +53,7 @@ def pullbackDiagram: category.{1, 1} := {
 }
 
 
-def pullbackFunctor{CC: category}{A₁ A₂ B: CC.Ob}
+def pullbackFunctor{CC: Category}{A₁ A₂ B: CC.Ob}
     (f₁: CC.Hom A₁ B)(f₂: CC.Hom A₂ B): functor pullbackDiagram CC := {
   onOb A := match A with
     | pullbackOb.A₁ => A₁
@@ -71,6 +71,6 @@ def pullbackFunctor{CC: category}{A₁ A₂ B: CC.Ob}
     cases g <;> cases f <;> simp <;> rfl
 }
 
-def pullback{CC: category}{A₁ A₂ B: CC.Ob}
+def pullback{CC: Category}{A₁ A₂ B: CC.Ob}
     (f₁: CC.Hom A₁ B)(f₂: CC.Hom A₂ B) :=
   lim (pullbackFunctor f₁ f₂)

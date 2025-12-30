@@ -5,7 +5,7 @@ import Primus.NatTrans
 import Primus.SortCat
 
 
-def homFun.{m, n}{CC: category.{m, n}}(X: CC.Ob):
+def homFun.{m, n}{CC: Category.{m, n}}(X: CC.Ob):
   functor (op CC) SortCat.{n}
 := {
   onOb := (op CC).Hom X,
@@ -20,12 +20,12 @@ def homFun.{m, n}{CC: category.{m, n}}(X: CC.Ob):
 }
 
 
-def yonedaDown{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
+def yonedaDown{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
   SortCat.Hom (naturalTransformation (homFun X) F) (F.onOb X)
 :=
   fun nt => nt.η X (CC.id X)
 
-def yonedaUp{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
+def yonedaUp{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
   SortCat.Hom (F.onOb X) (naturalTransformation (homFun X) F)
 :=
   fun x => {
@@ -35,7 +35,7 @@ def yonedaUp{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
       simp [SortCat, homFun, op, functor.compose]
   }
 
-theorem yoneda{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
+theorem yoneda{CC: Category}(F: functor (op CC) SortCat)(X: CC.Ob):
   isomorphic (naturalTransformation (homFun X) F) (F.onOb X)
 := by
   use yonedaDown F X, yonedaUp F X
@@ -49,7 +49,7 @@ theorem yoneda{CC: category}(F: functor (op CC) SortCat)(X: CC.Ob):
     simp
   · apply F.id
 
-def yonedaEmbedding(CC: category):
+def yonedaEmbedding(CC: Category):
   functor CC (FunctorCat (op CC) SortCat)
 := {
   onOb := homFun
@@ -73,7 +73,7 @@ def yonedaEmbedding(CC: category):
     rw [CC.assoc]
 }
 
-theorem yonedaFullyFaithful(CC: category):
+theorem yonedaFullyFaithful(CC: Category):
   fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands

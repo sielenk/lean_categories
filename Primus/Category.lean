@@ -1,4 +1,4 @@
-structure category.{m, n}: Sort _ where
+structure Category.{m, n}: Sort _ where
   Ob: Sort m
   Hom: Ob -> Ob -> Sort n
   id(A:Ob): Hom A A
@@ -8,16 +8,16 @@ structure category.{m, n}: Sort _ where
   assoc{A B C D: Ob}(h: Hom C D)(g: Hom B C)(f: Hom A B):
          compose h (compose g f) = compose (compose h g) f
 
-attribute [simp] category.left_id category.right_id
+attribute [simp] Category.left_id Category.right_id
 
 
-structure initialObject(CC: category): Sort _ where
+structure initialObject(CC: Category): Sort _ where
   I: CC.Ob
   hom(X: CC.Ob): CC.Hom I X
   unique(X: CC.Ob): ∀g, g = hom X
 
 @[ext]
-theorem initialObject.ext{CC: category}{A B: initialObject CC}:
+theorem initialObject.ext{CC: Category}{A B: initialObject CC}:
   A.I = B.I -> A = B
 := by
   let ⟨I, ha, Ha⟩ := A
@@ -31,13 +31,13 @@ theorem initialObject.ext{CC: category}{A B: initialObject CC}:
     apply Hb
   rw [H]
 
-structure terminalObject(CC: category): Sort _ where
+structure terminalObject(CC: Category): Sort _ where
   T: CC.Ob
   hom(X: CC.Ob): CC.Hom X T
   unique(X: CC.Ob): ∀g, g = hom X
 
 @[ext]
-theorem terminalObject.ext{CC: category}{A B: terminalObject CC}:
+theorem terminalObject.ext{CC: Category}{A B: terminalObject CC}:
   A.T = B.T -> A = B
 := by
   let ⟨T, ha, Ha⟩ := A
@@ -51,18 +51,18 @@ theorem terminalObject.ext{CC: category}{A B: terminalObject CC}:
     apply Hb
   rw [H]
 
-def isomorphic{CC: category}(A B: CC.Ob): Prop :=
+def isomorphic{CC: Category}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
 
-def skeletal(CC: category): Prop :=
+def skeletal(CC: Category): Prop :=
   ∀(A B: CC.Ob), isomorphic A B -> A = B
 
-def thin(CC: category): Prop :=
+def thin(CC: Category): Prop :=
   ∀(A B: CC.Ob)(f₁ f₂: CC.Hom A B), f₁ = f₂
 
 
 section MorphismProperties
-  variable {CC: category}
+  variable {CC: Category}
   variable {A B: CC.Ob}
   variable (f: CC.Hom A B)
 
@@ -87,17 +87,17 @@ section MorphismProperties
 end MorphismProperties
 
 
-theorem splitMonoIsMono{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitMonoIsMono{CC: Category}{A B: CC.Ob}(f: CC.Hom A B):
   splitMono f → mono f := by
   intro ⟨g, H1⟩ X g1 g2 H2
   rw [←CC.left_id g1, ←CC.left_id g2, ←H1, ←CC.assoc, ←CC.assoc, H2]
 
-theorem splitEpiIsEpi{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitEpiIsEpi{CC: Category}{A B: CC.Ob}(f: CC.Hom A B):
   splitEpi f → epi f := by
   intro ⟨g, H1⟩ X g1 g2 H2
   rw [←CC.right_id g1, ←CC.right_id g2, ←H1, CC.assoc, CC.assoc, H2]
 
-theorem splitMonoEpiIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitMonoEpiIsIso{CC: Category}{A B: CC.Ob}(f: CC.Hom A B):
   splitMono f ∧ epi f → iso f := by
   intro ⟨⟨g, H1⟩, H2⟩
   apply Exists.intro g
@@ -107,7 +107,7 @@ theorem splitMonoEpiIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
     rw [←CC.assoc, H1]
     simp
 
-theorem splitEpiMonoIsIso{CC: category}{A B: CC.Ob}(f: CC.Hom A B):
+theorem splitEpiMonoIsIso{CC: Category}{A B: CC.Ob}(f: CC.Hom A B):
   splitEpi f ∧ mono f → iso f := by
   intro ⟨⟨g, H1⟩, H2⟩
   apply Exists.intro g

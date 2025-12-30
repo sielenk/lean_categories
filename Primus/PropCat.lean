@@ -7,7 +7,7 @@ import Primus.EqualizerDiagram
 import Mathlib.Data.Set.Image
 
 
-def PropCat: category.{1, 0} := {
+def PropCat: Category.{1, 0} := {
   Ob := Prop,
   Hom A B :=  A -> B,
   id _ x := x,
@@ -40,7 +40,7 @@ theorem propEpi{A B: PropCat.Ob}(f: PropCat.Hom A B): epi f :=
 theorem propThin: thin PropCat :=
   λ _ _ _ _ ↦ rfl
 
-def propLimit{JJ: category}(F: functor JJ PropCat): lim F := {
+def propLimit{JJ: Category}(F: functor JJ PropCat): lim F := {
   T := {
     N := ∀j, F.onOb j
     π J H := H J

@@ -8,7 +8,7 @@ import Primus.PullbackDiagram
 import Mathlib.Data.Set.Image
 
 
-def SortCat.{m}: category.{m+1, m} := {
+def SortCat.{m}: Category.{m+1, m} := {
   Ob := Sort m,
   Hom A B :=  A -> B,
   id _ x := x,
