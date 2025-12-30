@@ -23,14 +23,14 @@ def commaCat: Cat := {
     rw [S.id, T.id]
     simp
   ⟩
-  compose{A B C} g f := ⟨AA.compose g.f f.f, BB.compose g.g f.g, by
+  compose g f := ⟨AA.compose g.f f.f, BB.compose g.g f.g, by
     rw [S.compose, CC.assoc, g.comm, T.compose, ← CC.assoc, ← CC.assoc, f.comm]
   ⟩
-  left_id {A B} f := by
+  left_id f := by
     simp
-  right_id {A B} f := by
+  right_id f := by
     simp
-  assoc {A B C D} h g f := by
+  assoc h g f := by
     simp
     and_intros
     apply AA.assoc

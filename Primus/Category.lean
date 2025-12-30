@@ -17,21 +17,20 @@ structure InitialObject(CC: Cat): Sort _ where
   unique(X: CC.Ob): ∀g, g = hom X
 
 attribute [coe] InitialObject.I
+instance{CC}: Coe (InitialObject CC) CC.Ob where coe i := i.I
 
 @[ext]
-theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}:
-  A.I = B.I -> A = B
-:= by
+theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}: A.I = B.I -> A = B := by
   let ⟨I, ha, Ha⟩ := A
   let ⟨I', hb, Hb⟩ := B
   simp
   intro H
   subst H
-  and_intros; rfl
-  have H : ha = hb := by
+  and_intros
+  . rfl
+  . apply heq_of_eq
     funext X
     apply Hb
-  rw [H]
 
 
 structure TerminalObject(CC: Cat): Sort _ where
@@ -40,21 +39,20 @@ structure TerminalObject(CC: Cat): Sort _ where
   unique(X: CC.Ob): ∀g, g = hom X
 
 attribute [coe] TerminalObject.T
+instance{CC}: Coe (TerminalObject CC) CC.Ob where coe t := t.T
 
 @[ext]
-theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}:
-  A.T = B.T -> A = B
-:= by
+theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}: A.T = B.T -> A = B := by
   let ⟨T, ha, Ha⟩ := A
   let ⟨T', hb, Hb⟩ := B
   simp
   intro H
   subst H
-  and_intros; rfl
-  have H : ha = hb := by
+  and_intros
+  . rfl
+  . apply heq_of_eq
     funext X
     apply Hb
-  rw [H]
 
 
 def isomorphic{CC: Cat}(A B: CC.Ob): Prop :=

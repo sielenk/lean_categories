@@ -1,7 +1,7 @@
 import Primus.Category
 import Primus.Functor
 
-
+@[ext]
 structure NaturalTransformation{CC DD: Cat}(F G: Fun CC DD): Sort _ where
   η: (A: CC.Ob) -> DD.Hom (F.onOb A) (G.onOb A)
   naturality{A B: CC.Ob}(f: CC.Hom A B): DD.compose (η B) (F.onHom f) = DD.compose (G.onHom f) (η A)

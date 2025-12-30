@@ -18,7 +18,15 @@ def sortCat.{m}: Cat.{m+1, m} := {
   assoc _ _ _ := rfl
 }
 
-def SortTerminal: TerminalObject sortCat := {
+def sortCat.initial: InitialObject sortCat := {
+  I := PEmpty
+  hom X := fun e => PEmpty.elim e
+  unique X g := by
+    funext x
+    cases x
+}
+
+def sortCat.terminal: TerminalObject sortCat := {
   T := PUnit
   hom X := fun _ => PUnit.unit
   unique X g := by
@@ -27,15 +35,7 @@ def SortTerminal: TerminalObject sortCat := {
     rfl
 }
 
-def SortInitial: InitialObject sortCat := {
-  I := PEmpty
-  hom X := fun e => PEmpty.elim e
-  unique X g := by
-    funext x
-    cases x
-}
-
-def obToHom{A: sortCat.Ob}(x: A): sortCat.Hom (SortTerminal.T) A :=
+def obToHom{A: sortCat.Ob}(x: A): sortCat.Hom sortCat.terminal A :=
   fun _ => x
 
 theorem obToHomInjective(A: sortCat.Ob): Function.Injective (@obToHom A) := by
@@ -130,7 +130,7 @@ by
   tauto
 
 
-def SortCatEqualizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f₁ f₂ :=
+def sortCat.Equalizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f₁ f₂ :=
   {
     T := {
       N := { x // f₁ x = f₂ x }
@@ -160,7 +160,7 @@ def SortCatEqualizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f�
       ConeHom.ext (funext (λ_ => Subtype.ext (congr_fun (g.fac EqualizerOb.A) _)))
   }
 
-def SortCatPullback{X₁ X₂ Y: sortCat.Ob}
+def sortCat.Pullback{X₁ X₂ Y: sortCat.Ob}
   (f₁: sortCat.Hom X₁ Y)(f₂: sortCat.Hom X₂ Y): Pullback f₁ f₂ :=
 by
   refine {

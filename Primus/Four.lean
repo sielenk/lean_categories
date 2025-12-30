@@ -6,6 +6,7 @@ inductive FourOb.{m}: Type m
   | ob2: FourOb
   | ob3: FourOb
   | ob4: FourOb
+deriving DecidableEq, Inhabited
 
 inductive FourHom.{m, n}: FourOb.{m} -> FourOb.{m} -> Type n
   | id1: FourHom FourOb.ob1 FourOb.ob1
@@ -18,6 +19,7 @@ inductive FourHom.{m, n}: FourOb.{m} -> FourOb.{m} -> Type n
   | id3: FourHom FourOb.ob3 FourOb.ob3
   | f34: FourHom FourOb.ob3 FourOb.ob4
   | id4: FourHom FourOb.ob4 FourOb.ob4
+deriving DecidableEq
 
 def fourId(A: FourOb): FourHom A A :=
   match A with
