@@ -157,7 +157,7 @@ def SortCatEqualizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f�
         | EqualizerOb.B => X.comm EqualizerHom.f₁
     }
     unique _ g :=
-      ConeHom.ext _ (funext (λ_ => Subtype.ext (congr_fun (g.fac EqualizerOb.A) _)))
+      ConeHom.ext (funext (λ_ => Subtype.ext (congr_fun (g.fac EqualizerOb.A) _)))
   }
 
 def SortCatPullback{X₁ X₂ Y: sortCat.Ob}

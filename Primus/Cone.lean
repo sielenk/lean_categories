@@ -10,6 +10,7 @@ structure ConeOb: Sort _ where
   π J : CC.Hom N (F.onOb J)
   comm{J₁ J₂}(f: JJ.Hom J₁ J₂): CC.compose (F.onHom f) (π J₁) = π J₂
 
+attribute [coe] ConeOb.N
 attribute [simp] ConeOb.comm
 
 @[ext]
@@ -24,22 +25,26 @@ theorem ConeOb.ext{X₁ X₂: ConeOb F}:
   and_intros; rfl
   assumption
 
+variable {F: Fun JJ CC}
 
 structure ConeHom(X Y: ConeOb F): Sort _ where
   h: CC.Hom X.N Y.N
   fac J: CC.compose (Y.π J) h = X.π J
 
+attribute [coe] ConeHom.h
 attribute [simp] ConeHom.fac
 
 @[ext]
-theorem ConeHom.ext{X Y}{f₁ f₂: ConeHom F X Y}:
+theorem ConeHom.ext{X Y: ConeOb F}{f₁ f₂: ConeHom X Y}:
   f₁.h = f₂.h -> f₁ = f₂
 := by
   cases f₁; cases f₂; simp
 
+variable (F: Fun JJ CC)
+
 def coneCat: Cat := {
   Ob := ConeOb F,
-  Hom := ConeHom F,
+  Hom := ConeHom,
   id X := ⟨CC.id X.N, by
     intro J
     rw [CC.right_id]
@@ -58,4 +63,4 @@ def coneCat: Cat := {
 }
 
 @[simp] def coneCatOb: ConeOb F = (coneCat F).Ob := rfl
-@[simp] def coneCatHom: ConeHom F = (coneCat F).Hom := rfl
+@[simp] def coneCatHom: ConeHom = (coneCat F).Hom := rfl

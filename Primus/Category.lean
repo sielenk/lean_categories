@@ -16,6 +16,8 @@ structure InitialObject(CC: Cat): Sort _ where
   hom(X: CC.Ob): CC.Hom I X
   unique(X: CC.Ob): ∀g, g = hom X
 
+attribute [coe] InitialObject.I
+
 @[ext]
 theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}:
   A.I = B.I -> A = B
@@ -36,6 +38,8 @@ structure TerminalObject(CC: Cat): Sort _ where
   T: CC.Ob
   hom(X: CC.Ob): CC.Hom X T
   unique(X: CC.Ob): ∀g, g = hom X
+
+attribute [coe] TerminalObject.T
 
 @[ext]
 theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}:
