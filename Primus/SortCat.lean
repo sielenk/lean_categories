@@ -134,9 +134,9 @@ def sortCat.Equalizer{X Y: sortCat.Ob}(f₁ f₂: sortCat.Hom X Y): Equalizer f�
   {
     T := {
       N := { x // f₁ x = f₂ x }
-      π J X := match J with
-        | EqualizerOb.A => X.val
-        | EqualizerOb.B => f₁ X.val
+      π J := match J with
+        | EqualizerOb.A => Subtype.val
+        | EqualizerOb.B => λX => f₁ X.val
       comm f := match f with
         | EqualizerHom.idA => sortCat.left_id _
         | EqualizerHom.idB => sortCat.left_id _
