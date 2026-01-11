@@ -2,6 +2,7 @@ import Primus.Category
 import Primus.Functor
 import Primus.Discrete
 import Primus.Two
+import Primus.CoLim
 import Primus.EqualizerDiagram
 
 import Mathlib.Data.Set.Image
@@ -42,12 +43,25 @@ theorem propThin: thin propCat :=
 
 def PropLimit{JJ: Cat}(F: Fun JJ propCat): Lim F := {
   T := {
-    N := ∀j, F.onOb j
+    N := ∀J, F.onOb J
     π J H := H J
     comm _ := rfl
   }
   hom X := {
-    h n j := X.π j n
+    h n J := X.π J n
+    fac _ := rfl
+  }
+  unique _ _ := rfl
+}
+
+def PropCoLimit{JJ: Cat}(F: Fun JJ propCat): CoLim F := {
+  I := {
+    N := ∃J, F.onOb J
+    π J H := ⟨J, H⟩
+    comm _ := rfl
+  }
+  hom X := {
+    h := λ⟨J, n⟩ ↦ X.π J n
     fac _ := rfl
   }
   unique _ _ := rfl
