@@ -200,3 +200,33 @@ by
     apply Prod.ext
     · apply congrArg (λ h => h x) (g.fac PullbackOb.A₁)
     · apply congrArg (λ h => h x) (g.fac PullbackOb.A₂)
+
+def sortCat.Lim{JJ: Cat}(F: Fun JJ sortCat): Lim F :=
+  {
+    T := {
+      N := { X // ∀{J₁ J₂} f, F.onHom f (X J₁) = X J₂ }
+      π J := by
+        intro ⟨X, _⟩
+        exact X J
+      comm {J₁ J₂} f := by
+        funext X
+        exact X.property f
+    }
+    hom X := {
+      h x := ⟨
+        fun J => X.π J x,
+        by
+          intro J₁ J₂ f
+          simp
+          rw [←X.comm f]
+          rfl
+      ⟩
+      fac J := rfl
+    }
+    unique X := by
+      intro ⟨h', fac'⟩
+      congr
+      funext x
+      ext J
+      simp [←fac' J, sortCat]
+  }
