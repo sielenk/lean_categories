@@ -14,7 +14,7 @@ attribute [simp] Cat.left_id Cat.right_id
 structure InitialObject(CC: Cat): Sort _ where
   I: CC.Ob
   hom(X: CC.Ob): CC.Hom I X
-  unique(X: CC.Ob): ∀g, g = hom X
+  unique(X: CC.Ob): ∀g: CC.Hom I X, g = hom X
 
 attribute [coe] InitialObject.I
 instance{CC}: Coe (InitialObject CC) CC.Ob where coe i := i.I
@@ -26,7 +26,7 @@ theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}: A.I = B.I -> A = B :=
   simp
   intro H
   subst H
-  and_intros
+  constructor
   . rfl
   . apply heq_of_eq
     funext X
@@ -48,9 +48,9 @@ theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}: A.T = B.T -> A = B 
   simp
   intro H
   subst H
-  and_intros
-  . rfl
-  . apply heq_of_eq
+  constructor
+  · rfl
+  · apply heq_of_eq
     funext X
     apply Hb
 
