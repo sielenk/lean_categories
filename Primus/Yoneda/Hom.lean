@@ -10,10 +10,10 @@ def homFun.{m, n}{CC: Cat.{m, n}}(X: CC.Ob): Fun (op CC) sortCat.{n} := {
   onHom := (op CC).compose,
   id{A} := by
     funext h
-    simp [sortCat, op]
+    simp [sortCat]
   compose{A B C g f} := by
     funext h
-    simp [sortCat, op]
+    simp [sortCat]
     rw [CC.assoc]
 }
 
@@ -30,7 +30,7 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
     η Y f := F.onHom f x,
     naturality{A B} f := by
       funext g
-      simp [sortCat, homFun, op]
+      simp [sortCat, homFun]
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
@@ -38,14 +38,12 @@ theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
 := by
   use yonedaDown F X, yonedaUp F X
   simp [sortCat, yonedaDown, yonedaUp]
-  split_ands
-  · funext ⟨η, H1⟩; simp [op, homFun] at η H1
-    congr
-    funext Y f; simp
-    trans (λ x ↦ η Y (CC.compose x f)) (CC.id X)
-    rw [H1 f]
-    simp
-  · apply F.id
+  funext ⟨η, H1⟩; simp [homFun] at η H1
+  congr
+  funext Y f; simp
+  trans (λ x ↦ η Y (CC.compose x f)) (CC.id X)
+  rw [H1 f]
+  simp
 
 def yonedaEmbedding(CC: Cat):
   Fun CC (functorCat (op CC) sortCat)
@@ -54,18 +52,18 @@ def yonedaEmbedding(CC: Cat):
   onHom {C D} h := {
     η C := CC.compose h
     naturality := by
-      simp [sortCat, op, homFun]
+      simp [sortCat, homFun]
       intro B A f
       funext g
       apply CC.assoc
   }
   id := by
-    simp [functorCat, sortCat, homFun, natTransId, op]
+    simp [functorCat, sortCat, homFun, natTransId]
     intro A
     funext B f
     simp
   compose := by
-    simp [functorCat, sortCat, homFun, natTransComp, op]
+    simp [functorCat, sortCat, homFun, natTransComp]
     intro B C D h g
     funext A f
     rw [CC.assoc]
@@ -81,7 +79,7 @@ theorem yoneda_fully_faithful(CC: Cat):
     congr
     funext Z f
     have H1 := @nt.naturality X Z f
-    simp [functorCat, yonedaEmbedding, homFun, op, sortCat] at H1
+    simp [functorCat, yonedaEmbedding, homFun, sortCat] at H1
     let g := λ x ↦ CC.compose (nt.η X x) f
     change _ = g at H1
     trans  g (CC.id X)

@@ -55,13 +55,13 @@ theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}: A.T = B.T -> A = B 
     apply Hb
 
 
-def isomorphic{CC: Cat}(A B: CC.Ob): Prop :=
+@[reducible] def isomorphic{CC: Cat}(A B: CC.Ob): Prop :=
   ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
 
-def skeletal(CC: Cat): Prop :=
+@[reducible] def skeletal(CC: Cat): Prop :=
   ∀(A B: CC.Ob), isomorphic A B -> A = B
 
-def thin(CC: Cat): Prop :=
+@[reducible] def thin(CC: Cat): Prop :=
   ∀(A B: CC.Ob)(f₁ f₂: CC.Hom A B), f₁ = f₂
 
 
