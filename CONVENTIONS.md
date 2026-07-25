@@ -9,8 +9,6 @@
 | Namespace-qualified constructions | dot notation | `sortCat.Lim`, `sortCat.Equalizer`, `propCat.Limit` |
 | Theorem names | `snake_case` | `split_mono_is_mono`, `yoneda_fully_faithful` |
 
-**Migration goals:**
-- Rename `PropLimit`, `PropCoLimit` to `propCat.Limit`, `propCat.CoLimit` to match the dot-notation style established in `SortCat`.
 
 ## Module structure
 

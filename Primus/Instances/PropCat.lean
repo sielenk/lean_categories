@@ -41,7 +41,7 @@ theorem prop_epi{A B: propCat.Ob}(f: propCat.Hom A B): epi f :=
 theorem prop_thin: thin propCat :=
   λ _ _ _ _ ↦ rfl
 
-def PropLimit{JJ: Cat}(F: Fun JJ propCat): Lim F := {
+def propCat.Lim{JJ: Cat}(F: Fun JJ propCat): Lim F := {
   T := {
     N := ∀J, F.onOb J
     π J H := H J
@@ -54,7 +54,7 @@ def PropLimit{JJ: Cat}(F: Fun JJ propCat): Lim F := {
   unique _ _ := rfl
 }
 
-def PropCoLimit{JJ: Cat}(F: Fun JJ propCat): CoLim F := {
+def propCat.CoLim{JJ: Cat}(F: Fun JJ propCat): CoLim F := {
   I := {
     N := ∃J, F.onOb J
     π J H := ⟨J, H⟩
