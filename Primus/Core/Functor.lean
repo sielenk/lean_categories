@@ -17,6 +17,18 @@ structure Fun(CC DD: Cat) : Sort _ where
     {A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
     F.onHom (CC.compose g f) = DD.compose (F.onHom g) (F.onHom f) := F.compose
 
+@[ext]
+theorem Fun.ext {CC DD: Cat} {F G: Fun CC DD}
+    (h_ob : ∀ A, F.onOb A = G.onOb A)
+    (h_hom : ∀ {A B : CC.Ob} (f : CC.Hom A B), HEq (F.onHom f) (G.onHom f)) : F = G := by
+  cases F with | mk Fob Fhom Fid Fcomp =>
+  cases G with | mk Gob Ghom Gid Gcomp =>
+  have hob : Fob = Gob := funext h_ob
+  subst hob
+  simp
+  funext A B f
+  apply eq_of_heq (h_hom f)
+
 
 section FunctorProperties
   variable {CC DD: Cat}
