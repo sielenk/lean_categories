@@ -14,13 +14,13 @@ structure CommaOb: Sort _ where
 structure CommaHom(X Y: CommaOb S T): Sort _ where
   f: AA.Hom X.A Y.A
   g: BB.Hom X.B Y.B
-  comm: CC.compose Y.h (S.onHom f) = CC.compose (T.onHom g) X.h
+  comm: Y.h ≪ S.onHom f = T.onHom g ≪ X.h
 
 def commaCat: Cat := {
   Ob := CommaOb S T,
   Hom := CommaHom S T,
   id X := ⟨AA.id X.A, BB.id X.B, by simp⟩
-  compose g f := ⟨AA.compose g.f f.f, BB.compose g.g f.g, by
+  compose g f := ⟨g.f ≪ f.f, g.g ≪ f.g, by
     simp only [Fun.map_comp]
     rw [CC.assoc, g.comm, ← CC.assoc, ← CC.assoc, f.comm]
   ⟩

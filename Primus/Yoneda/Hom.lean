@@ -41,7 +41,7 @@ theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   funext ⟨η, H1⟩; simp [homFun] at η H1
   congr
   funext Y f; simp
-  trans (λ x ↦ η Y (CC.compose x f)) (CC.id X)
+  trans (λ x ↦ η Y (x ≪ f)) (CC.id X)
   rw [H1 f]
   simp
 
@@ -80,7 +80,7 @@ theorem yoneda_fully_faithful(CC: Cat):
     funext Z f
     have H1 := @nt.naturality X Z f
     simp [functorCat, yonedaEmbedding, homFun, sortCat] at H1
-    let g := λ x ↦ CC.compose (nt.η X x) f
+    let g := λ x ↦ nt.η X x ≪ f
     change _ = g at H1
     trans  g (CC.id X)
     · rfl

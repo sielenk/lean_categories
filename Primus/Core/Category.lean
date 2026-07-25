@@ -10,6 +10,9 @@ structure Cat.{m, n}: Sort _ where
 
 attribute [simp] Cat.left_id Cat.right_id
 
+infixl:80 " ≪ " => Cat.compose _
+infixl:80 " ≫ " => fun f g => g ≪ f
+
 
 structure InitialObject(CC: Cat): Sort _ where
   I: CC.Ob
@@ -56,7 +59,7 @@ theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}: A.T = B.T -> A = B 
 
 
 @[reducible] def isomorphic{CC: Cat}(A B: CC.Ob): Prop :=
-  ∃(f: CC.Hom A B)(g: CC.Hom B A), CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+  ∃(f: CC.Hom A B)(g: CC.Hom B A), f ≫ g = CC.id A ∧ g ≫ f = CC.id B
 
 @[reducible] def skeletal(CC: Cat): Prop :=
   ∀(A B: CC.Ob), isomorphic A B -> A = B
@@ -71,19 +74,19 @@ section MorphismProperties
   variable (f: CC.Hom A B)
 
   def mono: Prop :=
-    ∀{X: CC.Ob}(g1 g2: CC.Hom X A), CC.compose f g1 = CC.compose f g2 → g1 = g2
+    ∀{X: CC.Ob}(g1 g2: CC.Hom X A), f ≪ g1 = f ≪ g2 → g1 = g2
 
   def epi: Prop :=
-    ∀{X: CC.Ob}(g1 g2: CC.Hom B X), CC.compose g1 f = CC.compose g2 f → g1 = g2
+    ∀{X: CC.Ob}(g1 g2: CC.Hom B X), g1 ≪ f = g2 ≪ f → g1 = g2
 
   def splitMono: Prop :=
-    ∃(g: CC.Hom B A), CC.compose g f = CC.id A
+    ∃(g: CC.Hom B A), g ≪ f = CC.id A
 
   def splitEpi: Prop :=
-    ∃(g: CC.Hom B A), CC.compose f g = CC.id B
+    ∃(g: CC.Hom B A), f ≪ g = CC.id B
 
   def inverse(g: CC.Hom B A): Prop :=
-    CC.compose g f = CC.id A ∧ CC.compose f g = CC.id B
+    g ≪ f = CC.id A ∧ f ≪ g = CC.id B
 
   def iso: Prop :=
     ∃(g: CC.Hom B A), inverse f g

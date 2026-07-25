@@ -58,7 +58,7 @@ by
   · intro H1 X g1 g2 H2
     funext x
     apply H1
-    have H3: f (g1 x) = (sortCat.compose f g1) x := by rfl
+    have H3: f (g1 x) = (f ≪ g1) x := by rfl
     rw [H3, H2]
     rfl
 
@@ -103,7 +103,7 @@ by
     funext b
     have ⟨a, H3⟩ := H1 b
     rw [←H3]
-    have H4: (sortCat.compose g1 f) a = (sortCat.compose g2 f) a := by
+    have H4: (g1 ≪ f) a = (g2 ≪ f) a := by
       rw [H2]
     simp [sortCat] at H4
     assumption
@@ -114,7 +114,7 @@ by
   constructor
   · intro ⟨g, H1⟩ b
     use (g b)
-    have H2: f (g b) = (sortCat.compose f g) b := by rfl
+    have H2: f (g b) = (f ≪ g) b := by rfl
     rw [H2, H1]
     rfl
   · intro H1

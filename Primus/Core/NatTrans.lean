@@ -4,7 +4,7 @@ import Primus.Core.Functor
 @[ext]
 structure NaturalTransformation{CC DD: Cat}(F G: Fun CC DD): Sort _ where
   η: (A: CC.Ob) -> DD.Hom (F.onOb A) (G.onOb A)
-  naturality{A B: CC.Ob}(f: CC.Hom A B): DD.compose (η B) (F.onHom f) = DD.compose (G.onHom f) (η A)
+  naturality{A B: CC.Ob}(f: CC.Hom A B): η B ≪ F.onHom f = G.onHom f ≪ η A
 
 def natTransId{CC DD: Cat}(F: Fun CC DD): NaturalTransformation F F := {
   η A := DD.id (F.onOb A),
@@ -15,7 +15,7 @@ def natTransId{CC DD: Cat}(F: Fun CC DD): NaturalTransformation F F := {
 def natTransComp{CC DD: Cat}{F G H: Fun CC DD}
   (ntG: NaturalTransformation G H)
   (ntF: NaturalTransformation F G): NaturalTransformation F H := {
-  η A := DD.compose (ntG.η A) (ntF.η A),
+  η A := ntG.η A ≪ ntF.η A,
   naturality{A B} f := by
     rw [DD.assoc, ←ntG.naturality f, ←DD.assoc, ntF.naturality f, DD.assoc]
   }

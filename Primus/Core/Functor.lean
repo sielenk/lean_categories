@@ -8,14 +8,14 @@ structure Fun(CC DD: Cat) : Sort _ where
   onHom{A B: CC.Ob}: CC.Hom A B -> DD.Hom (onOb A) (onOb B)
   id{A: CC.Ob}: onHom (CC.id A) = DD.id (onOb A)
   compose{A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
-         onHom (CC.compose g f) = DD.compose (onHom g) (onHom f)
+         onHom (g ≪ f) = onHom g ≪ onHom f
 
 @[simp] theorem Fun.map_id {CC DD: Cat}(F: Fun CC DD){A: CC.Ob}:
     F.onHom (CC.id A) = DD.id (F.onOb A) := F.id
 
 @[simp] theorem Fun.map_comp {CC DD: Cat}(F: Fun CC DD)
     {A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
-    F.onHom (CC.compose g f) = DD.compose (F.onHom g) (F.onHom f) := F.compose
+    F.onHom (g ≪ f) = F.onHom g ≪ F.onHom f := F.compose
 
 @[ext]
 theorem Fun.ext {CC DD: Cat} {F G: Fun CC DD}
@@ -56,7 +56,7 @@ def functorId(CC: Cat): Fun CC CC := {
   onOb A := A,
   onHom{_ _} f:= f,
   id{A} := Eq.refl (CC.id A),
-  compose{_ _ _ g f} := Eq.refl (CC.compose g f)
+  compose{_ _ _ g f} := Eq.refl (g ≪ f)
 }
 
 def functorComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB): Fun AA CC := {
