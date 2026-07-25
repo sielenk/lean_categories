@@ -41,14 +41,14 @@ def pullbackComp{X Y Z: PullbackOb}(g: PullbackHom Y Z)(f: PullbackHom X Y): Pul
   | PullbackHom.f₂, PullbackHom.idB => PullbackHom.f₂
   | PullbackHom.idB, PullbackHom.idB => PullbackHom.idB
 
-@[simp] def pullbackIdA₁: PullbackHom.idA₁ = pullbackId PullbackOb.A₁ := rfl
-@[simp] def pullbackIdA₂: PullbackHom.idA₂ = pullbackId PullbackOb.A₂ := rfl
-@[simp] def pullbackIdB: PullbackHom.idB = pullbackId PullbackOb.B := rfl
+@[simp] theorem pullbackIdA₁: PullbackHom.idA₁ = pullbackId PullbackOb.A₁ := rfl
+@[simp] theorem pullbackIdA₂: PullbackHom.idA₂ = pullbackId PullbackOb.A₂ := rfl
+@[simp] theorem pullbackIdB: PullbackHom.idB = pullbackId PullbackOb.B := rfl
 
-@[simp] def pullbackLeftId {X Y: PullbackOb}(f: PullbackHom X Y): pullbackComp (pullbackId Y) f = f := by
+@[simp] theorem pullbackLeftId {X Y: PullbackOb}(f: PullbackHom X Y): pullbackComp (pullbackId Y) f = f := by
   cases f <;> rfl
 
-@[simp] def pullbackRightId {X Y: PullbackOb}(f: PullbackHom X Y): pullbackComp f (pullbackId X) = f := by
+@[simp] theorem pullbackRightId {X Y: PullbackOb}(f: PullbackHom X Y): pullbackComp f (pullbackId X) = f := by
   cases f <;> rfl
 
 def pullbackDiagram: Cat.{1, 1} := {

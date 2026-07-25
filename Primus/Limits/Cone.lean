@@ -42,5 +42,5 @@ def coneCat(F: Fun JJ CC): Cat := {
     apply CC.assoc
 }
 
-@[simp] def coneCatOb {F: Fun JJ CC}: ConeOb F = (coneCat F).Ob  := rfl
-@[simp] def coneCatHom{F: Fun JJ CC}: ConeHom  = (coneCat F).Hom := rfl
+@[simp] theorem coneCatOb {F: Fun JJ CC}: ConeOb F = (coneCat F).Ob  := rfl
+@[simp] theorem coneCatHom{F: Fun JJ CC}: ConeHom  = (coneCat F).Hom := rfl

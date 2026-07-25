@@ -44,8 +44,8 @@ def equalizerDiagram: Cat := {
     cases h <;> cases g <;> cases f <;> rfl
 }
 
-@[simp] def equalizerIdA: EqualizerHom.idA = equalizerDiagram.id EqualizerOb.A := rfl
-@[simp] def equalizerIdB: EqualizerHom.idB = equalizerDiagram.id EqualizerOb.B := rfl
+@[simp] theorem equalizerIdA: EqualizerHom.idA = equalizerDiagram.id EqualizerOb.A := rfl
+@[simp] theorem equalizerIdB: EqualizerHom.idB = equalizerDiagram.id EqualizerOb.B := rfl
 
 def equalizerFunctor.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
     (f₁ f₂: CC.Hom A B): Fun.{1, 1, m, n} equalizerDiagram CC := {
@@ -63,10 +63,10 @@ def equalizerFunctor.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
     cases g <;> cases f <;> simp <;> rfl
 }
 
-@[simp] def equalizerF₁{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
-  (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₁) = f₁
-@[simp] def equalizerF₂{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B) :=
-  (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₂) = f₂
+@[simp] theorem equalizerF₁{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B):
+    (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₁) = f₁ := rfl
+@[simp] theorem equalizerF₂{CC: Cat}{A B: CC.Ob}(f₁ f₂: CC.Hom A B):
+    (equalizerFunctor f₁ f₂).onHom (EqualizerHom.f₂) = f₂ := rfl
 
 def Equalizer.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
     (f₁: CC.Hom A B)(f₂: CC.Hom A B) : Sort _ :=

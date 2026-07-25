@@ -35,14 +35,14 @@ def threeComp{A B C: ThreeOb}(g: ThreeHom B C)(f: ThreeHom A B): ThreeHom A C :=
   | ThreeHom.f13, ThreeHom.id3 => ThreeHom.f13
   | ThreeHom.f23, ThreeHom.id3 => ThreeHom.f23
 
-@[simp] def threeId1: ThreeHom.id1 = threeId ThreeOb.ob1 := rfl
-@[simp] def threeId2: ThreeHom.id2 = threeId ThreeOb.ob2 := rfl
-@[simp] def threeId3: ThreeHom.id3 = threeId ThreeOb.ob3 := rfl
+@[simp] theorem threeId1: ThreeHom.id1 = threeId ThreeOb.ob1 := rfl
+@[simp] theorem threeId2: ThreeHom.id2 = threeId ThreeOb.ob2 := rfl
+@[simp] theorem threeId3: ThreeHom.id3 = threeId ThreeOb.ob3 := rfl
 
-@[simp] def threeLeftId {A B: ThreeOb}(f: ThreeHom A B): threeComp (threeId B) f = f := by
+@[simp] theorem threeLeftId {A B: ThreeOb}(f: ThreeHom A B): threeComp (threeId B) f = f := by
   cases f <;> rfl
 
-@[simp] def threeRightId {A B: ThreeOb}(f: ThreeHom A B): threeComp f (threeId A) = f := by
+@[simp] theorem threeRightId {A B: ThreeOb}(f: ThreeHom A B): threeComp f (threeId A) = f := by
   cases f <;> rfl
 
 def three.{m, n}: Cat.{m+1, n+1} := {
