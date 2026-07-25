@@ -1,5 +1,5 @@
-import Primus.Category
-import Primus.Functor
+import Primus.Core.Category
+import Primus.Core.Functor
 
 @[ext]
 structure NaturalTransformation{CC DD: Cat}(F G: Fun CC DD): Sort _ where

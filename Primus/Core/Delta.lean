@@ -1,6 +1,6 @@
-import Primus.Category
-import Primus.Functor
-import Primus.NatTrans
+import Primus.Core.Category
+import Primus.Core.Functor
+import Primus.Core.NatTrans
 
 
 def delta JJ {CC}(C: CC.Ob): Fun JJ CC := {

@@ -1,9 +1,9 @@
-import Primus.Category
-import Primus.Functor
-import Primus.Discrete
-import Primus.Two
-import Primus.CoLim
-import Primus.EqualizerDiagram
+import Primus.Core.Category
+import Primus.Core.Functor
+import Primus.Diagrams.Discrete
+import Primus.Diagrams.Two
+import Primus.Limits.CoLim
+import Primus.Diagrams.EqualizerDiagram
 
 import Mathlib.Data.Set.Image
 

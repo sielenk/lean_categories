@@ -1,6 +1,6 @@
-import Primus.Category
-import Primus.Functor
-import Primus.Lim
+import Primus.Core.Category
+import Primus.Core.Functor
+import Primus.Limits.Lim
 import Mathlib.Data.Fintype.Defs
 import Mathlib.Data.Fintype.Sets
 

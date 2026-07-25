@@ -1,6 +1,6 @@
-import Primus.Category
-import Primus.Zero
-import Primus.One
+import Primus.Core.Category
+import Primus.Diagrams.Zero
+import Primus.Diagrams.One
 
 
 structure Fun(CC DD: Cat) : Sort _ where

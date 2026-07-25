@@ -1,6 +1,6 @@
-import Primus.Category
-import Primus.EqualizerDiagram
-import Primus.PullbackDiagram
+import Primus.Core.Category
+import Primus.Diagrams.EqualizerDiagram
+import Primus.Diagrams.PullbackDiagram
 
 
 def natCat: Cat := {

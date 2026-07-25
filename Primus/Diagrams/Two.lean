@@ -1,4 +1,4 @@
-import Primus.Category
+import Primus.Core.Category
 
 
 inductive TwoOb.{m}: Type m

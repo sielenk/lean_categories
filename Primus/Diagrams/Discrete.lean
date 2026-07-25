@@ -1,4 +1,4 @@
-import Primus.Category
+import Primus.Core.Category
 
 
 def discreteCat.{n}(X: Sort n): Cat.{n, 0} := {

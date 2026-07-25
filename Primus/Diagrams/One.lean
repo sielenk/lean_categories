@@ -1,4 +1,4 @@
-import Primus.Category
+import Primus.Core.Category
 
 
 def one.{m, n}: Cat.{m, n} := {

@@ -1,4 +1,4 @@
-import Primus.Category
+import Primus.Core.Category
 
 
 def prodCat(CC DD: Cat): Cat := {

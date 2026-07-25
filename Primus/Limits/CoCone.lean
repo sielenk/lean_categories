@@ -1,5 +1,5 @@
-import Primus.Category
-import Primus.Functor
+import Primus.Core.Category
+import Primus.Core.Functor
 
 
 variable {JJ CC: Cat}

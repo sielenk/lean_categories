@@ -1,8 +1,8 @@
-import Primus.Category
-import Primus.Opposite
-import Primus.Functor
-import Primus.NatTrans
-import Primus.SortCat
+import Primus.Core.Category
+import Primus.Core.Opposite
+import Primus.Core.Functor
+import Primus.Core.NatTrans
+import Primus.Instances.SortCat
 
 
 def homFun.{m, n}{CC: Cat.{m, n}}(X: CC.Ob): Fun (op CC) sortCat.{n} := {
