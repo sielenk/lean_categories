@@ -8,7 +8,7 @@ variable {JJ CC: Cat}
 @[ext]
 structure CoConeOb(F: Fun JJ CC): Sort _ where
   N: CC.Ob
-  π J : CC.Hom (F.onOb J) N
+  π J : CC.Hom (F J) N
   comm{J₁ J₂}(f: JJ.Hom J₁ J₂): π J₂ ≪ F.onHom f = π J₁
 
 attribute [simp] CoConeOb.comm

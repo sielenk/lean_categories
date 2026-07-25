@@ -10,8 +10,11 @@ structure Fun(CC DD: Cat) : Sort _ where
   compose{A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
          onHom (g ≪ f) = onHom g ≪ onHom f
 
+instance {CC DD: Cat} : CoeFun (Fun CC DD) (fun _ => CC.Ob → DD.Ob) where
+  coe F := F.onOb
+
 @[simp] theorem Fun.map_id {CC DD: Cat}(F: Fun CC DD){A: CC.Ob}:
-    F.onHom (CC.id A) = DD.id (F.onOb A) := F.id
+    F.onHom (CC.id A) = DD.id (F A) := F.id
 
 @[simp] theorem Fun.map_comp {CC DD: Cat}(F: Fun CC DD)
     {A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
@@ -19,7 +22,7 @@ structure Fun(CC DD: Cat) : Sort _ where
 
 @[ext]
 theorem Fun.ext {CC DD: Cat} {F G: Fun CC DD}
-    (h_ob : ∀ A, F.onOb A = G.onOb A)
+    (h_ob : ∀ A, F A = G A)
     (h_hom : ∀ {A B : CC.Ob} (f : CC.Hom A B), HEq (F.onHom f) (G.onHom f)) : F = G := by
   cases F with | mk Fob Fhom Fid Fcomp =>
   cases G with | mk Gob Ghom Gid Gcomp =>
@@ -44,7 +47,7 @@ section FunctorProperties
     full F ∧ faithful F
 
   def essentiallySurjective: Prop :=
-    ∀(D: DD.Ob), ∃(C: CC.Ob), isomorphic (F.onOb C) D
+    ∀(D: DD.Ob), ∃(C: CC.Ob), isomorphic (F C) D
 
   def equivalence: Prop :=
     fullyFaithful F ∧ essentiallySurjective F
@@ -60,7 +63,7 @@ def functorId(CC: Cat): Fun CC CC := {
 }
 
 def functorComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB): Fun AA CC := {
-  onOb A := G.onOb (F.onOb A),
+  onOb A := G (F A),
   onHom f := G.onHom (F.onHom f),
   id{A} := by simp,
   compose{A B C g f} := by simp

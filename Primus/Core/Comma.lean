@@ -9,7 +9,7 @@ variable (T: Fun BB CC)
 structure CommaOb: Sort _ where
   A: AA.Ob
   B: BB.Ob
-  h: CC.Hom (S.onOb A) (T.onOb B)
+  h: CC.Hom (S A) (T B)
 
 structure CommaHom(X Y: CommaOb S T): Sort _ where
   f: AA.Hom X.A Y.A

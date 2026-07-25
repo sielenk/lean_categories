@@ -19,12 +19,12 @@ def homFun.{m, n}{CC: Cat.{m, n}}(X: CC.Ob): Fun (op CC) sortCat.{n} := {
 
 
 def yonedaDown{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
-  sortCat.Hom (NaturalTransformation (homFun X) F) (F.onOb X)
+  sortCat.Hom (NaturalTransformation (homFun X) F) (F X)
 :=
-  fun nt => nt.η X (CC.id X)
+  fun nt => nt X (CC.id X)
 
 def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
-  sortCat.Hom (F.onOb X) (NaturalTransformation (homFun X) F)
+  sortCat.Hom (F X) (NaturalTransformation (homFun X) F)
 :=
   fun x => {
     η Y f := F.onHom f x,
@@ -34,7 +34,7 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
-  isomorphic (NaturalTransformation (homFun X) F) (F.onOb X)
+  isomorphic (NaturalTransformation (homFun X) F) (F X)
 := by
   use yonedaDown F X, yonedaUp F X
   simp [sortCat, yonedaDown, yonedaUp]
@@ -73,19 +73,16 @@ theorem yoneda_fully_faithful(CC: Cat):
   fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands
-  · intro X Y nt
+  · intros X Y nt
     use nt.η X (CC.id X)
     simp [yonedaEmbedding]
     congr
     funext Z f
-    have H1 := @nt.naturality X Z f
-    simp [functorCat, yonedaEmbedding, homFun, sortCat] at H1
-    let g := λ x ↦ nt.η X x ≪ f
-    change _ = g at H1
-    trans  g (CC.id X)
-    · rfl
-    · rw [←H1]
-      simp
+    let g: CC.Hom X X → CC.Hom Z Y := λ h ↦ (nt.η X h) ≪ f
+    have H1 : (λ h ↦ nt.η Z (h ≪ f)) = g := nt.naturality f
+    change g (CC.id X) = _
+    rw [←H1]
+    simp
   · intro X Y f1 f2 H1
     let ye := yonedaEmbedding CC
     let nt₁ := (ye.onHom f1)

@@ -43,7 +43,7 @@ theorem prop_thin: thin propCat :=
 
 def propCat.Lim{JJ: Cat}(F: Fun JJ propCat): Lim F := {
   T := {
-    N := ∀J, F.onOb J
+    N := ∀J, F J
     π J H := H J
     comm _ := rfl
   }
@@ -56,7 +56,7 @@ def propCat.Lim{JJ: Cat}(F: Fun JJ propCat): Lim F := {
 
 def propCat.CoLim{JJ: Cat}(F: Fun JJ propCat): CoLim F := {
   I := {
-    N := ∃J, F.onOb J
+    N := ∃J, F J
     π J H := ⟨J, H⟩
     comm _ := rfl
   }
