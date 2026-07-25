@@ -1,4 +1,6 @@
 import Primus.Core.Category
+import Mathlib.Data.Fintype.Defs
+import Mathlib.Data.Fintype.Sets
 
 
 inductive ThreeOb.{m}: Type m
@@ -6,6 +8,10 @@ inductive ThreeOb.{m}: Type m
   | ob2: ThreeOb
   | ob3: ThreeOb
 deriving DecidableEq, Inhabited
+
+instance : Fintype ThreeOb where
+  elems := { ThreeOb.ob1, ThreeOb.ob2, ThreeOb.ob3 }
+  complete X := by cases X <;> simp
 
 inductive ThreeHom.{m, n}: ThreeOb.{m} -> ThreeOb.{m} -> Type n
   | id1: ThreeHom ThreeOb.ob1 ThreeOb.ob1
@@ -15,6 +21,17 @@ inductive ThreeHom.{m, n}: ThreeOb.{m} -> ThreeOb.{m} -> Type n
   | f23: ThreeHom ThreeOb.ob2 ThreeOb.ob3
   | f13: ThreeHom ThreeOb.ob1 ThreeOb.ob3
 deriving DecidableEq
+
+instance {A B : ThreeOb} : Fintype (ThreeHom A B) where
+  elems := match A, B with
+    | .ob1, .ob1 => { ThreeHom.id1 }
+    | .ob2, .ob2 => { ThreeHom.id2 }
+    | .ob3, .ob3 => { ThreeHom.id3 }
+    | .ob1, .ob2 => { ThreeHom.f12 }
+    | .ob2, .ob3 => { ThreeHom.f23 }
+    | .ob1, .ob3 => { ThreeHom.f13 }
+    | _, _ => ∅
+  complete x := by cases x <;> simp
 
 def threeId(A: ThreeOb): ThreeHom A A :=
   match A with
@@ -55,9 +72,9 @@ def three.{m, n}: Cat.{m+1, n+1} := {
   assoc h g f := by
     cases g <;> try simp
     · case f12 =>
-      cases f <;> simp
+      cases f ; simp
     · case f23 =>
-      cases h <;> simp
+      cases h ; simp
     · case f13 =>
-      cases f <;> cases h <;> simp
+      cases f ; cases h ; simp
 }

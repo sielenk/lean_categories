@@ -24,6 +24,15 @@ inductive PullbackHom: PullbackOb -> PullbackOb -> Type
   | f₂: PullbackHom PullbackOb.A₂ PullbackOb.B
 deriving DecidableEq
 
+instance {X Y : PullbackOb} : Fintype (PullbackHom X Y) where
+  elems := match X, Y with
+    | .A₁, .A₁ => { PullbackHom.idA₁ }
+    | .A₂, .A₂ => { PullbackHom.idA₂ }
+    | .B,  .B  => { PullbackHom.idB }
+    | .A₁, .B  => { PullbackHom.f₁ }
+    | .A₂, .B  => { PullbackHom.f₂ }
+    | _, _ => ∅
+  complete x := by cases x <;> simp
 
 def pullbackId(A: PullbackOb): PullbackHom A A :=
   match A with

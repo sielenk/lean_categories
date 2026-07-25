@@ -22,6 +22,13 @@ inductive EqualizerHom: EqualizerOb -> EqualizerOb -> Type
   | f₂: EqualizerHom EqualizerOb.A EqualizerOb.B
 deriving DecidableEq
 
+instance {X Y : EqualizerOb} : Fintype (EqualizerHom X Y) where
+  elems := match X, Y with
+    | .A, .A => { EqualizerHom.idA }
+    | .B, .B => { EqualizerHom.idB }
+    | .A, .B => { EqualizerHom.f₁, EqualizerHom.f₂ }
+    | .B, .A => ∅
+  complete x := by cases x <;> simp
 
 def equalizerDiagram: Cat := {
   Ob := EqualizerOb
