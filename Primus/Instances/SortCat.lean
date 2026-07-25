@@ -38,20 +38,20 @@ def sortCat.terminal: TerminalObject sortCat := {
 def obToHom{A: sortCat.Ob}(x: A): sortCat.Hom sortCat.terminal A :=
   fun _ => x
 
-theorem obToHomInjective(A: sortCat.Ob): Function.Injective (@obToHom A) := by
+theorem obToHom_injective(A: sortCat.Ob): Function.Injective (@obToHom A) := by
   intro x1 x2 H1
   exact congrFun H1 PUnit.unit
 
-theorem obToHomSurjective(A: sortCat.Ob): Function.Surjective (@obToHom A) := by
+theorem obToHom_surjective(A: sortCat.Ob): Function.Surjective (@obToHom A) := by
   intro f
   exists (f PUnit.unit)
 
-theorem sortMonoInjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
+theorem sort_mono_injective{A B: sortCat.Ob}(f: sortCat.Hom A B):
   mono f ↔ Function.Injective f :=
 by
   constructor
   · intro H1 x1 x2 H2
-    rw [←@obToHomInjective A x1 x2]
+    rw [←@obToHom_injective A x1 x2]
     apply H1
     funext t
     assumption
@@ -62,7 +62,7 @@ by
     rw [H3, H2]
     rfl
 
-theorem sortEpiSurjective{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
+theorem sort_epi_surjective{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   epi f ↔ Function.Surjective f :=
 by
   constructor
@@ -108,7 +108,7 @@ by
     simp [sortCat] at H4
     assumption
 
-theorem sortSplitEpiSurjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
+theorem sort_split_epi_surjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
   splitEpi f ↔ Function.Surjective f :=
 by
   constructor
@@ -123,10 +123,10 @@ by
     unfold sortCat; simp
     exact Classical.choose_spec (H1 b)
 
-theorem sortSplitEpiEpi.{m}{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
+theorem sort_split_epi_epi.{m}{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   epi f → splitEpi f :=
 by
-  rw [sortSplitEpiSurjective, ←sortEpiSurjective]
+  rw [sort_split_epi_surjective, ←sort_epi_surjective]
   tauto
 
 

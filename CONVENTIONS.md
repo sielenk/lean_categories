@@ -11,7 +11,6 @@
 
 **Migration goals:**
 - Rename `PropLimit`, `PropCoLimit` to `propCat.Limit`, `propCat.CoLimit` to match the dot-notation style established in `SortCat`.
-- Rename theorems from `camelCase` (e.g. `splitMonoIsMono`) to `snake_case` (e.g. `split_mono_is_mono`) to match Lean 4 / Mathlib conventions. The current style predates awareness of this convention.
 
 ## Module structure
 

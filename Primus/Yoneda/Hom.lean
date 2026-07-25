@@ -71,7 +71,7 @@ def yonedaEmbedding(CC: Cat):
     rw [CC.assoc]
 }
 
-theorem yonedaFullyFaithful(CC: Cat):
+theorem yoneda_fully_faithful(CC: Cat):
   fullyFaithful (yonedaEmbedding CC)
 := by
   split_ands
