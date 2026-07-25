@@ -30,7 +30,7 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
     η Y f := F.onHom f x,
     naturality{A B} f := by
       funext g
-      simp [sortCat, homFun, op, Fun.compose]
+      simp [sortCat, homFun, op]
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):

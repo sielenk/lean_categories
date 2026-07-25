@@ -10,6 +10,13 @@ structure Fun(CC DD: Cat) : Sort _ where
   compose{A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
          onHom (CC.compose g f) = DD.compose (onHom g) (onHom f)
 
+@[simp] theorem Fun.map_id {CC DD: Cat}(F: Fun CC DD){A: CC.Ob}:
+    F.onHom (CC.id A) = DD.id (F.onOb A) := F.id
+
+@[simp] theorem Fun.map_comp {CC DD: Cat}(F: Fun CC DD)
+    {A B C: CC.Ob}{g: CC.Hom B C}{f: CC.Hom A B}:
+    F.onHom (CC.compose g f) = DD.compose (F.onHom g) (F.onHom f) := F.compose
+
 
 section FunctorProperties
   variable {CC DD: Cat}
@@ -43,10 +50,8 @@ def functorId(CC: Cat): Fun CC CC := {
 def functorComp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB): Fun AA CC := {
   onOb A := G.onOb (F.onOb A),
   onHom f := G.onHom (F.onHom f),
-  id{A} := by
-    rw [F.id, G.id],
-  compose{A B C g f} := by
-    rw [F.compose, G.compose]
+  id{A} := by simp,
+  compose{A B C g f} := by simp
 }
 
 def CategoryCat : Cat := {

@@ -19,12 +19,10 @@ structure CommaHom(X Y: CommaOb S T): Sort _ where
 def commaCat: Cat := {
   Ob := CommaOb S T,
   Hom := CommaHom S T,
-  id X := ⟨AA.id X.A, BB.id X.B, by
-    rw [S.id, T.id]
-    simp
-  ⟩
+  id X := ⟨AA.id X.A, BB.id X.B, by simp⟩
   compose g f := ⟨AA.compose g.f f.f, BB.compose g.g f.g, by
-    rw [S.compose, CC.assoc, g.comm, T.compose, ← CC.assoc, ← CC.assoc, f.comm]
+    simp only [Fun.map_comp]
+    rw [CC.assoc, g.comm, ← CC.assoc, ← CC.assoc, f.comm]
   ⟩
   left_id f := by
     simp
