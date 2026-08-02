@@ -26,7 +26,7 @@ theorem sb_right_inv[Nonempty β]{x : α}(hx : x ∉ sbSet f g) : g (invFun g x)
     contrapose! hx
     rw [sbSet, mem_iUnion]
     use 0
-    rw [sbAux, mem_diff]
+    rw [sbAux, mem_sdiff]
     split_ands
     · simp
     · assumption
