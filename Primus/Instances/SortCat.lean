@@ -69,7 +69,7 @@ by
   · contrapose
     intro H1
     unfold Function.Surjective at H1
-    rw [Classical.not_forall] at H1
+    rw [@Classical.not_forall B] at H1
     replace ⟨b, H1⟩ := H1
     replace H1: ∀ a, ¬f a = b := by
       intro a H2

@@ -21,9 +21,9 @@ instance {CC DD: Cat} : CoeFun (Fun CC DD) (fun _ => CC.Ob → DD.Ob) where
     F.onHom (g ≪ f) = F.onHom g ≪ F.onHom f := F.compose
 
 @[ext]
-theorem Fun.ext {CC DD: Cat} {F G: Fun CC DD}
+theorem Fun.ext{CC DD: Cat}{F G: Fun CC DD}
     (h_ob : ∀ A, F A = G A)
-    (h_hom : ∀ {A B : CC.Ob} (f : CC.Hom A B), HEq (F.onHom f) (G.onHom f)) : F = G := by
+    (h_hom : ∀{A B}(f : CC.Hom A B), F.onHom f ≍ G.onHom f) : F = G := by
   cases F with | mk Fob Fhom Fid Fcomp =>
   cases G with | mk Gob Ghom Gid Gcomp =>
   have hob : Fob = Gob := funext h_ob
@@ -57,7 +57,7 @@ end FunctorProperties
 
 def functorId(CC: Cat): Fun CC CC := {
   onOb A := A,
-  onHom{_ _} f:= f,
+  onHom f:= f,
   id{A} := Eq.refl (CC.id A),
   compose{_ _ _ g f} := Eq.refl (g ≪ f)
 }

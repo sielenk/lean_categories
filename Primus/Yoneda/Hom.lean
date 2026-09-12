@@ -31,6 +31,8 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
     naturality{A B} f := by
       funext g
       simp [sortCat, homFun]
+      rw [@F.compose _ _ _ f g]
+      simp [sortCat]
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
@@ -44,6 +46,7 @@ theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   trans (λ x ↦ η Y (x ≪ f)) (CC.id X)
   rw [H1 f]
   simp
+  rw [CC.left_id f]
 
 def yonedaEmbedding(CC: Cat):
   Fun CC (functorCat (op CC) sortCat)
@@ -60,11 +63,13 @@ def yonedaEmbedding(CC: Cat):
   id := by
     simp [functorCat, sortCat, homFun, natTransId]
     intro A
+    congr
     funext B f
     simp
   compose := by
     simp [functorCat, sortCat, homFun, natTransComp]
     intro B C D h g
+    congr
     funext A f
     rw [CC.assoc]
 }
@@ -83,6 +88,7 @@ theorem yoneda_fully_faithful(CC: Cat):
     change g (CC.id X) = _
     rw [←H1]
     simp
+    eq_refl
   · intro X Y f1 f2 H1
     let ye := yonedaEmbedding CC
     let nt₁ := (ye.onHom f1)
