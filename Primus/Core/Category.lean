@@ -28,6 +28,11 @@ structure InitialObject(CC: Cat): Sort _ where
 attribute [coe] InitialObject.I
 instance{CC}: Coe (InitialObject CC) CC.Ob where coe i := i.I
 
+/-- Any two morphisms out of an initial object with the same target agree. -/
+theorem InitialObject.hom_ext{CC: Cat}(I: InitialObject CC){X: CC.Ob}
+  (g₁ g₂: CC.Hom I X): g₁ = g₂
+:= Eq.trans (I.unique X g₁) (Eq.symm (I.unique X g₂))
+
 @[ext]
 theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}:
   A.I = B.I -> A = B
@@ -51,6 +56,15 @@ structure TerminalObject(CC: Cat): Sort _ where
 
 attribute [coe] TerminalObject.T
 instance{CC}: Coe (TerminalObject CC) CC.Ob where coe t := t.T
+
+/-- Any two morphisms into a terminal object with the same source agree.
+
+    Since `Lim` and `CoLim` are abbreviations for `TerminalObject (coneCat F)`
+    and `InitialObject (coConeCat F)`, this and its dual apply to every limit
+    and colimit directly, with no cone-specific wrapper. -/
+theorem TerminalObject.hom_ext{CC: Cat}(T: TerminalObject CC){X: CC.Ob}
+  (g₁ g₂: CC.Hom X T): g₁ = g₂
+:= Eq.trans (T.unique X g₁) (Eq.symm (T.unique X g₂))
 
 @[ext]
 theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}:
