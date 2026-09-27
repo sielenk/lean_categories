@@ -125,3 +125,37 @@ def Equalizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
       apply Eq.symm
       apply H3 Hh
   }
+
+/-- The equalizing morphism of an equalizer is mono.
+
+    Nothing of `Equalizer.mk`'s hypotheses survives into `Equalizer f₁ f₂` — it is
+    a `TerminalObject`, whose fields are `T`, `hom` and `unique` — so this has to
+    be rebuilt from terminality: form the cone whose legs are `E`'s composed with
+    `u₁`, exhibit both `u₁` and `u₂` as morphisms into `E` from it, and conclude
+    by uniqueness. -/
+theorem Equalizer.mono{CC: Cat}{A B: CC.Ob}{f₁ f₂: CC.Hom A B}(E: Equalizer f₁ f₂):
+  mono (E.T.π equalizerDiagram.A)
+:= by
+  intro O u₁ u₂ Hu
+  let X: ConeOb (equalizerFunctor f₁ f₂) := {
+    N := O
+    π J := match J with
+      | EqualizerOb.A => E.T.π equalizerDiagram.A ≪ u₁
+      | EqualizerOb.B => E.T.π equalizerDiagram.B ≪ u₁
+    comm f := match f with
+      | EqualizerHom.idA => CC.left_id _
+      | EqualizerHom.idB => CC.left_id _
+      | EqualizerHom.f₁ => by
+          rw [CC.assoc]
+          exact congrArg (· ≪ u₁) (E.T.comm EqualizerHom.f₁)
+      | EqualizerHom.f₂ => by
+          rw [CC.assoc]
+          exact congrArg (· ≪ u₁) (E.T.comm EqualizerHom.f₂)
+  }
+  let g₁: ConeHom X E.T := ⟨u₁, by intro J; cases J <;> rfl⟩
+  let g₂: ConeHom X E.T := ⟨u₂, by
+    intro J; cases J
+    · exact Hu.symm
+    · show E.T.π equalizerDiagram.B ≪ u₂ = E.T.π equalizerDiagram.B ≪ u₁
+      rw [←E.T.comm EqualizerHom.f₁, ←CC.assoc, ←CC.assoc, Hu]⟩
+  exact congrArg ConeHom.h (TerminalObject.hom_ext E g₁ g₂)
