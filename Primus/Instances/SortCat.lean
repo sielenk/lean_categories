@@ -20,11 +20,11 @@ def sortCat.{m}: Cat.{m+1, m} := {
     so proofs no longer have to pass `sortCat` itself and unfold the category into
     raw function application. -/
 
-@[simp] theorem sortCat.id_apply{A: sortCat.Ob}(x: A):
+theorem sortCat.id_apply{A: sortCat.Ob}(x: A):
   sortCat.id A x = x
 := rfl
 
-@[simp] theorem sortCat.compose_apply{A B C: sortCat.Ob}
+theorem sortCat.compose_apply{A B C: sortCat.Ob}
   (g: sortCat.Hom B C)(f: sortCat.Hom A B)(x: A):
   (g ≪ f) x = g (f x)
 := rfl

@@ -32,7 +32,7 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
       funext g
       simp [sortCat, homFun]
       rw [@F.compose _ _ _ f g]
-      simp
+      simp [sortCat.compose_apply]
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
