@@ -24,25 +24,25 @@ def natTransComp{CC DD: Cat}{F G H: Fun CC DD}
     rw [DD.assoc, ←ntG.naturality f, ←DD.assoc, ntF.naturality f, DD.assoc]
   }
 
+/-! The component lemmas. With these the laws below are proved through the
+    `η` interface rather than by `unfold`ing the definitions and `cases`ing the
+    transformations open. -/
+
+@[simp] theorem natTransId_η{CC DD: Cat}(F: Fun CC DD)(A: CC.Ob):
+  (natTransId F).η A = DD.id (F A)
+:= rfl
+
+@[simp] theorem natTransComp_η{CC DD: Cat}{F G H: Fun CC DD}
+  (ntG: NaturalTransformation G H)(ntF: NaturalTransformation F G)(A: CC.Ob):
+  (natTransComp ntG ntF).η A = ntG.η A ≪ ntF.η A
+:= rfl
+
 def functorCat(CC DD: Cat): Cat := {
   Ob := Fun CC DD,
   Hom := NaturalTransformation,
   id := natTransId,
   compose := natTransComp,
-  left_id {A B} f := by
-    unfold natTransComp natTransId
-    cases f
-    simp
-  right_id {A B} f := by
-    unfold natTransComp natTransId
-    cases f
-    simp
-  assoc {A B C D} h g f := by
-    unfold natTransComp
-    cases h
-    cases g
-    cases f
-    simp
-    funext
-    rw [DD.assoc]
+  left_id f := by ext A; simp
+  right_id f := by ext A; simp
+  assoc h g f := by ext A; apply DD.assoc
 }

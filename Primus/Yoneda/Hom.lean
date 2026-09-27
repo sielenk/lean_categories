@@ -32,7 +32,7 @@ def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
       funext g
       simp [sortCat, homFun]
       rw [@F.compose _ _ _ f g]
-      simp [sortCat]
+      simp
   }
 
 theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
@@ -56,7 +56,7 @@ def yonedaEmbedding(CC: Cat):
   onHom {C D} h := {
     η C := CC.compose h
     naturality := by
-      simp [sortCat, homFun]
+      simp [homFun]
       intro B A f
       funext g
       apply CC.assoc

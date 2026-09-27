@@ -13,6 +13,18 @@ attribute [simp] Cat.left_id Cat.right_id
 infixl:80 " ≪ " => Cat.compose _
 infixl:80 " ≫ " => fun f g => g ≪ f
 
+/-! Print `Cat.compose` applications back as `≪`.
+
+Without this the notation is one-way: `g ≪ f` elaborates fine, but every goal and
+every `#check` displays the raw `CC.compose g f`, so proofs get read in a form
+nobody writes. `≫` is a lambda rather than a constant, so it has no head symbol of
+its own and composites always print in the `≪` direction. -/
+open Lean PrettyPrinter in
+@[app_unexpander Cat.compose]
+def unexpandCatCompose: Unexpander
+  | `($_ $_ $g $f) => `($g ≪ $f)
+  | _ => throw ()
+
 
 structure InitialObject(CC: Cat): Sort _ where
   I: CC.Ob
