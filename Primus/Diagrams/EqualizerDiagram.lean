@@ -80,7 +80,8 @@ def Equalizer.{m, n}{CC: Cat.{m, n}}{A B: CC.Ob}
   Lim (equalizerFunctor f₁ f₂)
 
 def Equalizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
-  E (eq: CC.Hom E A)
+  E
+  (eq: CC.Hom E A)
   (H1: f₁ ≪ eq = f₂ ≪ eq)
   (H2: ∀{O}(m: CC.Hom O A), f₁ ≪ m = f₂ ≪ m -> { u // eq ≪ u = m })
   (H3: mono eq):
@@ -104,7 +105,7 @@ def Equalizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
         | EqualizerHom.f₁ => rfl
         | EqualizerHom.f₂ => Eq.symm H1
     }
-    hom X := by
+    u X := by
       let ⟨h, Hh⟩ := H2' X
 
       refine {
@@ -194,7 +195,7 @@ def CoEqualizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
         | EqualizerHom.f₁ => rfl
         | EqualizerHom.f₂ => Eq.symm H1
     }
-    hom X := by
+    u X := by
       let ⟨h, Hh⟩ := H2' X
 
       refine {

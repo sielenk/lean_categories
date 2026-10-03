@@ -45,7 +45,7 @@ theorem yoneda{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   funext Y f; simp
   apply @Eq.trans _ _ ((λ x ↦ η Y (x ≪ f)) (CC.id X))
   . rw [H1 f]
-  . simp
+  . simp only
     rw [CC.left_id f]
 
 def yonedaEmbedding CC:
@@ -55,10 +55,7 @@ def yonedaEmbedding CC:
   onHom {C D} h := {
     η C := CC.compose h
     naturality := by
-      simp [sortCat, homFun]
-      intro B A f
-      funext g
-      apply CC.assoc
+      simp only [sortCat, homFun, Cat.assoc, implies_true]
   }
   preserves_id := by
     simp [functorCat, sortCat, homFun]
