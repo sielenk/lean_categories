@@ -90,6 +90,18 @@ def Cat.Iso.inverse{CC: Cat}{A B: CC.Ob}:
   intro ⟨f, g, H1, H2⟩
   exact ⟨g, f, H2, H1⟩
 
+def Cat.Iso.compose{CC: Cat}{A B C: CC.Ob}:
+  CC.Iso B C -> CC.Iso A B -> CC.Iso A C
+:= by
+  intros g f
+  refine ⟨g.f ≪ f.f, f.g ≪ g.g, ?_, ?_ ⟩
+  · apply Eq.trans (b := f.g ≪ (g.g ≪ g.f) ≪ f.f)
+    · simp only [CC.assoc]
+    · rw [g.gf_is_id, CC.right_id, f.gf_is_id]
+  · apply Eq.trans (b := g.f ≪ (f.f ≪ f.g) ≪ g.g)
+    · simp only [CC.assoc]
+    · rw [f.fg_is_id, CC.right_id, g.fg_is_id]
+
 @[ext]
 theorem Cat.Iso.ext{CC: Cat}{A B: CC.Ob}{i₁ i₂: CC.Iso A B}:
   i₁.f = i₂.f -> i₁ = i₂
