@@ -87,3 +87,51 @@ def Cat.core.opIso(CC: Cat): IsoFun (op CC.core) CC.core :=
     rfl,
     rfl
   ⟩
+
+
+def equivalence_terminal {CC DD}:
+    IsoFun CC DD -> TerminalObject CC -> TerminalObject DD
+  := by
+    intro ⟨F, G, H1, H2⟩ T
+
+    let nt₁ := NaturalIso.ofEq H1
+    let nt₂ := NaturalIso.ofEq H2
+
+    have H3 A: (nt₂.η (F.onOb A)) = F.onIso (nt₁.η A) := by
+      show (NaturalIso.ofEq H2).η _ = F.onIso ((NaturalIso.ofEq H1).η A)
+      rw [NaturalIso.ofEq_eta, NaturalIso.ofEq_eta, Fun.onIso_eq_as_iso]
+      rfl
+
+    refine ⟨
+        F T.T,
+        λ D => (F.onHom (T.u (G D))) ≪ (nt₂.η D).g,
+        λ D g => ?uniqe
+      ⟩
+    case uniqe =>
+      rw [←T.unique (G D) ((nt₁.η T).f ≪ (G.onHom g))]
+      have H: @F.onHom _ T ((nt₁.η T).f ≪ G.onHom g) = _ := F.preserves_compose
+      rw [H]
+      clear H
+      show g = F.onHom (nt₁.η T).f ≪ _ ≪ (nt₂.η D).g
+      have H := @DD.assoc _ _ _ _ (F.onHom (nt₁.η T).f) (F.onHom (G.onHom g)) (nt₂.η D).g
+      show _ = (F.onHom (nt₁.η T).f) ≪ (F.onHom (G.onHom g)) ≪ (nt₂.η D).g
+      rw [←H]
+      clear H
+      let x := (F.onHom (G.onHom g)) ≪ (nt₂.η D).g
+      have H: (nt₂.η (F.onOb T)).g ≪ g = x := nt₂.inverse.naturality g
+      show g = F.onHom (nt₁.η T).f ≪ x
+      rw [←H]
+      clear H x
+      have H := DD.assoc (F.onHom (nt₁.η T).f) ((nt₂.η (F.onOb T)).g) g
+      show g = F.onHom (nt₁.η T).f ≪ ((nt₂.η (F.onOb T)).g ≪ g)
+      rw [H]
+      clear H
+      apply Eq.trans (b := DD.id _ ≪ g)
+      · simp
+      · congr
+        clear g D
+        apply Eq.trans
+        apply ((nt₂.η (F.onOb ↑T)).fg_is_id).symm
+        congr
+        rw [H3]
+        rfl
