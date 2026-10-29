@@ -16,7 +16,7 @@ structure NaturalIso{CC DD: Cat}(F G: Fun CC DD): Sort _ where
   η: (A: CC.Ob) -> DD.Iso (F A) (G A)
   naturality{A B}(f: CC.Hom A B): (η B).f ≪ F.onHom f = G.onHom f ≪ (η A).f
 
-instance {CC DD: Cat} {F G: Fun CC DD} :
+instance {CC DD: Cat}{F G: Fun CC DD} :
     CoeFun (NaturalIso F G) (λ _ => ∀ A : CC.Ob, DD.Iso (F A) (G A)) where
   coe α := α.η
 
@@ -86,15 +86,16 @@ def NaturalIso.toIso{CC DD: Cat}{F G: Fun CC DD}(n: NaturalIso F G): (functorCat
 }
 
 def NaturalIso.ofIso{CC DD: Cat}{F G: Fun CC DD}(i: (functorCat CC DD).Iso F G): NaturalIso F G := {
-  η A := ⟨i.f.η A, i.g.η A, by
-    show (i.g ≪ i.f).η A = _
-    rw [i.gf_is_id]
-    rfl
-  , by
-    show (i.f ≪ i.g).η A = _
-    rw [i.fg_is_id]
-    rfl
-  ⟩
+  η A := ⟨i.f.η A, i.g.η A
+    , by
+      show (i.g ≪ i.f).η A = _
+      rw [i.gf_is_id]
+      rfl
+    , by
+      show (i.f ≪ i.g).η A = _
+      rw [i.fg_is_id]
+      rfl
+    ⟩
   naturality := i.f.naturality
 }
 

@@ -124,14 +124,14 @@ section MorphismProperties
   def epi: Prop :=
     ∀{X: CC.Ob}{g1 g2: CC.Hom B X}, g1 ≪ f = g2 ≪ f → g1 = g2
 
+  def inverse(g: CC.Hom B A): Prop :=
+    g ≪ f = CC.id A ∧ f ≪ g = CC.id B
+
   def splitMono: Prop :=
     ∃(g: CC.Hom B A), g ≪ f = CC.id A
 
   def splitEpi: Prop :=
     ∃(g: CC.Hom B A), f ≪ g = CC.id B
-
-  def inverse(g: CC.Hom B A): Prop :=
-    g ≪ f = CC.id A ∧ f ≪ g = CC.id B
 
   def iso: Prop :=
     ∃(g: CC.Hom B A), inverse f g

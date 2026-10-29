@@ -77,8 +77,8 @@ theorem yonedaEmbedding.is_faithful CC:
 := by
   intro X Y f1 f2 H1
   let ye := yonedaEmbedding CC
-  let nt₁ := (ye.onHom f1)
-  let nt₂ := (ye.onHom f2)
+  let nt₁ := ye.onHom f1
+  let nt₂ := ye.onHom f2
   change nt₁ = nt₂ at H1
   have H2: nt₁.η X (CC.id X) = nt₂.η X (CC.id X) := by rw [H1]
   simp only [yonedaEmbedding, Cat.right_id, ye, nt₁, nt₂] at H2
