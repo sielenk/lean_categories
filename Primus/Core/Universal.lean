@@ -103,12 +103,12 @@ theorem coneCat_equivalent_overCat{JJ: Cat}(F: Fun JJ CC):
 := by
   let AA := (coneCat F)
   let BB := (overCat (deltaFun JJ CC) F)
-  change equivalent AA BB
+  show equivalent AA BB
   let onOb : AA.Ob → BB.Ob := by
       intro ⟨N, π, comm⟩
       refine ⟨N, ⟨π, ?_⟩⟩
       intros J₁ J₂ f
-      change _ ≪ CC.id N = _
+      show _ ≪ CC.id N = _
       rw [CC.right_id, ←comm f]
       rfl
   let onHom : {A B : AA.Ob} → AA.Hom A B → BB.Hom (onOb A) (onOb B) := by
@@ -117,7 +117,7 @@ theorem coneCat_equivalent_overCat{JJ: Cat}(F: Fun JJ CC):
       change ∀ J, Bπ J ≪ _ = Aπ J at fac
       refine ⟨h, ?_⟩
       apply NaturalTransformation.ext
-      change (Bπ · ≪ h) = Aπ
+      show (Bπ · ≪ h) = Aπ
       funext J
       apply fac
 

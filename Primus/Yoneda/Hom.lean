@@ -97,7 +97,7 @@ theorem yonedaEmbedding.is_full CC:
   funext Z f
   let g: CC.Hom X X → CC.Hom Z Y := λ h ↦ (nt.η X h) ≪ f
   have H1 : (λ h ↦ nt.η Z (h ≪ f)) = g := nt.naturality f
-  change g (CC.id X) = _
+  show g (CC.id X) = _
   rw [←H1]
   simp only [Cat.left_id]
   eq_refl
