@@ -103,7 +103,7 @@ def NaturalIso.ofIso{CC DD: Cat}{F G: Fun CC DD}(i: (functorCat CC DD).Iso F G):
 theorem NaturalIso.toIso_ofIso{CC DD: Cat}{F G: Fun CC DD}(i: (functorCat CC DD).Iso F G):
   (ofIso i).toIso = i
 := by
-  apply Cat.Iso.ext
+  ext
   apply NaturalTransformation.ext
   funext A
   rfl
