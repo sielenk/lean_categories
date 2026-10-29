@@ -104,7 +104,7 @@ def Equalizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
         | EqualizerHom.f₁ => rfl
         | EqualizerHom.f₂ => Eq.symm H1
     }
-    hom X := by
+    u X := by
       let ⟨h, Hh⟩ := H2' X
 
       refine {
@@ -194,7 +194,7 @@ def CoEqualizer.mk{CC: Cat}{A B}(f₁ f₂: CC.Hom A B)
         | EqualizerHom.f₁ => rfl
         | EqualizerHom.f₂ => Eq.symm H1
     }
-    hom X := by
+    u X := by
       let ⟨h, Hh⟩ := H2' X
 
       refine {

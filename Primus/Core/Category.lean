@@ -22,8 +22,8 @@ def unexpandCatCompose: Unexpander
 
 structure InitialObject(CC: Cat): Sort _ where
   I: CC.Ob
-  hom(X: CC.Ob): CC.Hom I X
-  unique(X: CC.Ob): ∀g: CC.Hom I X, g = hom X
+  u(X: CC.Ob): CC.Hom I X
+  unique(X: CC.Ob): ∀g: CC.Hom I X, g = u X
 
 attribute [coe] InitialObject.I
 instance{CC}: Coe (InitialObject CC) CC.Ob where coe i := i.I
@@ -51,8 +51,8 @@ theorem InitialObject.ext{CC: Cat}{A B: InitialObject CC}:
 
 structure TerminalObject(CC: Cat): Sort _ where
   T: CC.Ob
-  hom(X: CC.Ob): CC.Hom X T
-  unique(X: CC.Ob): ∀g, g = hom X
+  u X: CC.Hom X T
+  unique X: ∀g, g = u X
 
 attribute [coe] TerminalObject.T
 instance{CC}: Coe (TerminalObject CC) CC.Ob where coe t := t.T

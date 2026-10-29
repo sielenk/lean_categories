@@ -84,7 +84,7 @@ def categoryCat.{m, n} : Cat.{(max m n) + 1, max 1 (max m n)} := {
 
 def categoryCat.terminal: TerminalObject categoryCat := {
   T := one
-  hom X := {
+  u X := {
     onOb A := PUnit.unit
     onHom f := PUnit.unit
     preserves_id := rfl
