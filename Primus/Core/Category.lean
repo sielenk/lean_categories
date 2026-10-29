@@ -165,6 +165,11 @@ theorem Cat.Iso.is_epi{CC: Cat}{A B: CC.Ob}(i: CC.Iso A B):
   intros C g₁ g₂ H1
   rw [←CC.right_id g₁, ←i.fg_is_id, CC.assoc, H1, ←CC.assoc, i.fg_is_id, CC.right_id g₂]
 
+theorem Cat.Iso.is_iso{CC: Cat}{A B: CC.Ob}(i: CC.Iso A B):
+  iso i.f
+:=
+  ⟨i.g, i.gf_is_id, i.fg_is_id⟩
+
 
 theorem split_mono_to_mono{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
   splitMono f → mono f
@@ -178,34 +183,12 @@ theorem split_epi_to_epi{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
   intro ⟨g, H1⟩ X g1 g2 H2
   rw [←CC.right_id g1, ←CC.right_id g2, ←H1, CC.assoc, CC.assoc, H2]
 
-theorem split_mono_epi_to_iso{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
-  splitMono f -> epi f → iso f
-:= by
-  intro ⟨g, H1⟩ H2
-  refine ⟨g, ⟨H1, H2 ?_⟩⟩
-  rw [←CC.assoc, H1]
-  simp
-
-theorem split_epi_mono_to_iso{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
-  splitEpi f -> mono f → iso f
-:= by
-  intro ⟨g, H1⟩ H2
-  refine ⟨g, ⟨H2 ?_, H1⟩⟩
-  rw [CC.assoc, H1]
-  simp
-
 theorem iso_to_isomorphic{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
   iso f -> isomorphic A B
 := by
   intro ⟨g, ⟨H1, H2⟩⟩
   exists f
   exists g
-
-theorem id_is_iso{CC: Cat}(A: CC.Ob): iso (CC.id A) := by
-  exists CC.id A
-  and_intros
-  apply CC.left_id
-  apply CC.left_id
 
 def id_as_iso{CC: Cat}(A: CC.Ob): CC.Iso A A :=
   ⟨CC.id A, CC.id A, CC.left_id _, CC.left_id _⟩
@@ -230,6 +213,19 @@ def Cat.Iso.of_split_epi{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B)(g: CC.Hom B A):
   refine ⟨f, g, H2 ?_, H1⟩
   rw [CC.assoc, H1]
   simp only [right_id, left_id]
+
+theorem split_mono_epi_to_iso{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
+  splitMono f -> epi f → iso f
+:=
+  λ ⟨g, H1⟩ H2 => (Cat.Iso.of_split_mono f g H1 H2).is_iso
+
+theorem split_epi_mono_to_iso{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B):
+  splitEpi f -> mono f → iso f
+:=
+  λ ⟨g, H1⟩ H2 => (Cat.Iso.of_split_epi f g H1 H2).is_iso
+
+theorem id_is_iso{CC: Cat}(A: CC.Ob): iso (CC.id A) :=
+  (id_as_iso A).is_iso
 
 
 abbrev Cat.Iso.refl{CC: Cat} := @id_as_iso CC
