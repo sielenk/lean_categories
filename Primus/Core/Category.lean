@@ -205,6 +205,13 @@ theorem id_is_iso{CC: Cat}(A: CC.Ob): iso (CC.id A) := by
   apply CC.left_id
   apply CC.left_id
 
+def id_as_iso{CC: Cat}(A: CC.Ob): CC.Iso A A :=
+  ⟨CC.id A, CC.id A, CC.left_id _, CC.left_id _⟩
+
+def eq_as_iso{CC: Cat}{A B: CC.Ob}(H: A = B): CC.Iso A B :=
+  match H with
+  | rfl => id_as_iso A
+
 
 def Cat.Iso.of_split_mono{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B)(g: CC.Hom B A):
   g ≪ f = CC.id A -> epi f -> CC.Iso A B
