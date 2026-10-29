@@ -20,12 +20,12 @@ def homFun.{m, n}{CC: Cat.{m, n}}(X: CC.Ob): Fun (op CC) sortCat.{n} := {
 def yonedaDown{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   sortCat.Hom (NaturalTransformation (homFun X) F) (F X)
 :=
-  fun nt => nt X (CC.id X)
+  λ nt => nt X (CC.id X)
 
 def yonedaUp{CC: Cat}(F: Fun (op CC) sortCat)(X: CC.Ob):
   sortCat.Hom (F X) (NaturalTransformation (homFun X) F)
 :=
-  fun x => {
+  λ x => {
     η Y f := F.onHom f x,
     naturality{A B} f := by
       funext g
