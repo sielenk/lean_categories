@@ -53,13 +53,6 @@ theorem IsoFun.ext{CC DD: Cat}{I₁ I₂: IsoFun CC DD}:
   . assumption
   . rw [←Fun.left_id G₁, ←HFG₂, ←H1, ←Fun.assoc, HGF₁, Fun.right_id]
 
-theorem Fun.onIso_eq_as_iso{CC DD: Cat}(F: Fun CC DD){A B: CC.Ob}(H: A = B):
-  F.onIso (eq_as_iso H) = eq_as_iso (congrArg F.onOb H)
-:= by
-  cases H
-  ext
-  exact F.preserves_id
-
 @[simp]
 theorem Fun.onIso_f{CC DD: Cat}(F: Fun CC DD){A B: CC.Ob}(i: CC.Iso A B):
   (F.onIso i).f = F.onHom i.f

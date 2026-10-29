@@ -113,18 +113,6 @@ theorem NaturalIso.ofIso_toIso{CC DD: Cat}{F G: Fun CC DD}(n: NaturalIso F G):
   rfl
 
 
-def NaturalIso.ofEq{CC DD: Cat}{F G: Fun CC DD}(H: F = G):
-  NaturalIso F G
-:= by
-  subst H
-  refine ⟨λ A => id_as_iso (F A), λ f => ?_⟩
-  simp only [id_as_iso, DD.left_id, DD.right_id]
-
-theorem NaturalIso.ofEq_eta{CC DD: Cat}{F G: Fun CC DD}(H: F = G)(A: CC.Ob):
-  (NaturalIso.ofEq H).η A = eq_as_iso (congrFun (congrArg Fun.onOb H) A)
-:= by cases H; rfl
-
-
 def NaturalIso.trans{CC DD: Cat}{F G H: Fun CC DD}:
   NaturalIso F G -> NaturalIso G H -> NaturalIso F H
 :=
