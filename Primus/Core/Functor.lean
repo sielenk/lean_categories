@@ -125,6 +125,21 @@ def categoryCat.terminal: TerminalObject categoryCat := {
     congr
 }
 
+def categoryCat.initial: InitialObject categoryCat := {
+  I := zero
+  u X := {
+    onOb A := A.elim
+    onHom f := f.elim
+    preserves_id {A} := A.elim
+    preserves_compose {A} := A.elim
+  }
+  unique{CC} F := by
+    apply Fun.ext
+    intro A; exact A.elim
+    intro A; exact A.elim
+}
+
+
 theorem faithful_comp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB):
   faithful F -> faithful G → faithful (categoryCat.compose G F)
 := by
