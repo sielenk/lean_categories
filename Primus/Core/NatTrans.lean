@@ -123,3 +123,13 @@ def NaturalIso.ofEq{CC DD: Cat}{F G: Fun CC DD}(H: F = G):
 theorem NaturalIso.ofEq_eta{CC DD: Cat}{F G: Fun CC DD}(H: F = G)(A: CC.Ob):
   (NaturalIso.ofEq H).η A = eq_as_iso (congrFun (congrArg Fun.onOb H) A)
 := by cases H; rfl
+
+
+def NaturalIso.trans{CC DD: Cat}{F G H: Fun CC DD}:
+  NaturalIso F G -> NaturalIso G H -> NaturalIso F H
+:=
+  λ n m => NaturalIso.ofIso (n.toIso.trans m.toIso)
+
+instance{CC DD: Cat}: Trans (@NaturalIso CC DD) NaturalIso NaturalIso
+where
+  trans := NaturalIso.trans
