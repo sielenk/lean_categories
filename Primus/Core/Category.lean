@@ -13,6 +13,8 @@ attribute [simp] Cat.left_id Cat.right_id Cat.assoc
 infixl:80 " ≪ " => Cat.compose _
 infixl:80 " ≫ " => λ f g => g ≪ f
 
+instance{CC: Cat}: Trans CC.Hom CC.Hom CC.Hom where trans f g := g ≪ f
+
 open Lean PrettyPrinter in
 @[app_unexpander Cat.compose]
 def unexpandCatCompose: Unexpander
