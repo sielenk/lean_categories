@@ -8,7 +8,7 @@ structure Cat.{m, n}: Sort _ where
   assoc{A B C D: Ob}(h: Hom C D)(g: Hom B C)(f: Hom A B):
          compose h (compose g f) = compose (compose h g) f
 
-attribute [simp] Cat.left_id Cat.right_id
+attribute [simp] Cat.left_id Cat.right_id Cat.assoc
 
 infixl:80 " ≪ " => Cat.compose _
 infixl:80 " ≫ " => λ f g => g ≪ f
@@ -68,7 +68,7 @@ theorem TerminalObject.ext{CC: Cat}{A B: TerminalObject CC}:
 := by
   let ⟨T, ha, Ha⟩ := A
   let ⟨T', hb, Hb⟩ := B
-  simp
+  simp only [mk.injEq]
   intro H
   subst H
   constructor

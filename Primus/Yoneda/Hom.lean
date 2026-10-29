@@ -55,13 +55,10 @@ def yonedaEmbedding CC:
   onHom {C D} h := {
     η C := CC.compose h
     naturality := by
-      simp [sortCat, homFun]
-      intro B A f
-      funext g
-      apply CC.assoc
+      simp only [sortCat, homFun, Cat.assoc, implies_true]
   }
   preserves_id := by
-    simp [functorCat, sortCat, homFun]
+    simp only [sortCat, functorCat, homFun]
     intro A
     congr
     funext B f
