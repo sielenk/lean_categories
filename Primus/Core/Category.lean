@@ -235,3 +235,38 @@ abbrev Cat.Iso.symm{CC: Cat} := @Cat.Iso.inverse CC
 abbrev Cat.Iso.trans{CC: Cat}{A B C} f g := @Cat.Iso.compose CC A B C g f
 
 instance{CC: Cat}: Trans CC.Iso CC.Iso CC.Iso where trans := Cat.Iso.trans
+
+
+def Cat.core(CC: Cat): Cat := {
+  Ob := CC.Ob,
+  Hom := CC.Iso,
+  id := id_as_iso,
+  compose g := g.compose,
+  left_id f := by
+    ext
+    simp only [Cat.Iso.compose, id_as_iso, Cat.left_id]
+  right_id f := by
+    ext
+    simp only [Cat.Iso.compose, id_as_iso, Cat.right_id]
+  assoc h g f:= by
+    ext
+    simp only [Cat.Iso.compose, Cat.assoc]
+}
+
+namespace Cat.core
+  @[ext]
+  theorem hom_ext{CC: Cat}{A B: CC.core.Ob}{i₁ i₂: CC.core.Hom A B}:
+    i₁.f = i₂.f -> i₁ = i₂
+  := Cat.Iso.ext
+
+  @[simp]
+  theorem compose_f{CC: Cat}{A B C: CC.core.Ob}
+    (g: CC.core.Hom B C)(f: CC.core.Hom A B):
+    (g ≪ f).f = g.f ≪ f.f
+  := rfl
+
+  @[simp]
+  theorem id_f{CC: Cat}(A: CC.core.Ob):
+    (CC.core.id A).f = CC.id A
+  := rfl
+end Cat.core
