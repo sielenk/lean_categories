@@ -44,6 +44,19 @@ def Fun.onIso{CC DD: Cat}(F: Fun CC DD){A B: CC.Ob}:
     rw [H2]
     simp only [F.preserves_id]
 
+def fun_eq_as_iso{CC DD: Cat}{F G: Fun CC DD}(H: F = G)(A: CC.Ob):
+  DD.Iso (F A) (G A)
+:=
+  match H with
+  | rfl => id_as_iso _
+
+theorem Fun.congr_hom{CC DD: Cat}{F G: Fun CC DD}(H: F = G)
+  {X Y: CC.Ob}(f: CC.Hom X Y):
+  F.onHom f = (fun_eq_as_iso H Y).g ≪ G.onHom f ≪ (fun_eq_as_iso H X).f
+:= by
+  subst H
+  simp only [fun_eq_as_iso, id_as_iso, DD.left_id, DD.right_id]
+
 
 section FunctorProperties
   variable {CC DD: Cat}
