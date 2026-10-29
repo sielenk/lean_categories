@@ -30,6 +30,20 @@ theorem Fun.ext{CC DD: Cat}{F G: Fun CC DD}
   funext A B f
   apply eq_of_heq (h_hom f)
 
+def Fun.onIso{CC DD: Cat}(F: Fun CC DD){A B: CC.Ob}:
+  CC.Iso A B -> DD.Iso (F.onOb A) (F.onOb B)
+:= by
+  intro ⟨f, g, H1, H2⟩
+  refine ⟨F.onHom f, F.onHom g, ?H1, ?H2⟩
+  case H1 =>
+    rw [←F.preserves_compose]
+    rw [H1]
+    simp only [F.preserves_id]
+  case H2 =>
+    rw [←F.preserves_compose]
+    rw [H2]
+    simp only [F.preserves_id]
+
 
 section FunctorProperties
   variable {CC DD: Cat}
