@@ -40,11 +40,8 @@ def NaturalIso.inverse{CC DD: Cat}{F G: Fun CC DD}:
 
 def NaturalIso.toNaturalTransformation{CC DD: Cat}{F G: Fun CC DD}:
   NaturalIso F G -> NaturalTransformation F G
-:= by
-  intro nt
-  refine ⟨λ A => (nt.η A).f, ?_⟩
-  intros A B f
-  apply nt.naturality
+:=
+  λ nt => ⟨λ A => (nt.η A).f, nt.naturality⟩
 
 
 def NaturalTransformation.id{CC DD: Cat}(F: Fun CC DD):
