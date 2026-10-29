@@ -52,3 +52,24 @@ theorem IsoFun.ext{CC DD: Cat}{I₁ I₂: IsoFun CC DD}:
   and_intros
   . assumption
   . rw [←Fun.left_id G₁, ←HFG₂, ←H1, ←Fun.assoc, HGF₁, Fun.right_id]
+
+def Cat.opOpIso(CC: Cat): IsoFun (op (op CC)) CC :=
+  IsoFun.refl CC
+
+def Cat.core.opIso(CC: Cat): IsoFun (op CC.core) CC.core :=
+  ⟨
+    {
+      onOb A := A
+      onHom f := f.inverse
+      preserves_id := rfl
+      preserves_compose := rfl
+    },
+    {
+      onOb A := A
+      onHom f := f.inverse
+      preserves_id := rfl
+      preserves_compose := rfl
+    },
+    rfl,
+    rfl
+  ⟩
