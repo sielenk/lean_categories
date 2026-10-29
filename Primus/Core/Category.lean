@@ -228,3 +228,10 @@ def Cat.Iso.of_split_epi{CC: Cat}{A B: CC.Ob}(f: CC.Hom A B)(g: CC.Hom B A):
   refine ⟨f, g, H2 ?_, H1⟩
   rw [CC.assoc, H1]
   simp only [right_id, left_id]
+
+
+abbrev Cat.Iso.refl{CC: Cat} := @id_as_iso CC
+abbrev Cat.Iso.symm{CC: Cat} := @Cat.Iso.inverse CC
+abbrev Cat.Iso.trans{CC: Cat}{A B C} f g := @Cat.Iso.compose CC A B C g f
+
+instance{CC: Cat}: Trans CC.Iso CC.Iso CC.Iso where trans := Cat.Iso.trans
