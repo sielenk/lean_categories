@@ -44,6 +44,13 @@ def Fun.onIso{CC DD: Cat}(F: Fun CC DD){A B: CC.Ob}:
     rw [H2]
     simp only [F.preserves_id]
 
+def Fun.core{CC DD: Cat}(F: Fun CC DD): Fun CC.core DD.core := {
+  onOb := F
+  onHom := F.onIso
+  preserves_id := Cat.core.hom_ext F.preserves_id
+  preserves_compose := Cat.core.hom_ext F.preserves_compose
+}
+
 def fun_eq_as_iso{CC DD: Cat}{F G: Fun CC DD}(H: F = G)(A: CC.Ob):
   DD.Iso (F A) (G A)
 :=
