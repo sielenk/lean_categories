@@ -18,19 +18,14 @@ def sortCat.{m}: Cat.{m+1, m} := {
 
 def sortCat.initial: InitialObject sortCat := {
   I := PEmpty
-  u X := PEmpty.elim
-  unique X g := by
-    funext x
-    cases x
+  u _ := PEmpty.elim
+  unique _ _ := funext (nomatch ·)
 }
 
 def sortCat.terminal: TerminalObject sortCat := {
   T := PUnit
-  u X _ := PUnit.unit
-  unique X g := by
-    funext x
-    cases g x
-    rfl
+  u _ := λ _ => PUnit.unit
+  unique _ g := funext (match g · with | _ => rfl)
 }
 
 def sortCat.obToHom{A: sortCat.Ob}(x: A):
@@ -40,15 +35,13 @@ def sortCat.obToHom{A: sortCat.Ob}(x: A):
 
 theorem sortCat.obToHom.injective(A: sortCat.Ob):
   Function.Injective (@obToHom A)
-:= by
-  intro x1 x2 H1
-  exact congrFun H1 PUnit.unit
+:=
+  λ _ _ H1 => congrFun H1 PUnit.unit
 
 theorem sortCat.obToHom.surjective(A: sortCat.Ob):
   Function.Surjective (@obToHom A)
-:= by
-  intro f
-  exists (f PUnit.unit)
+:=
+  λ f => ⟨f PUnit.unit, rfl⟩
 
 theorem sortCat.mono_to_injective{A B: sortCat.Ob}(f: sortCat.Hom A B):
   mono f → Function.Injective f
@@ -65,7 +58,7 @@ theorem sortCat.injective_to_mono{A B: sortCat.Ob}(f: sortCat.Hom A B):
   intro H1 X g1 g2 H2
   funext x
   apply H1
-  change (f ≪ g1) x = _
+  show (f ≪ g1) x = _
   rw [H2]
   rfl
 
@@ -80,7 +73,7 @@ theorem sortCat.epi_to_surjective{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   intro Hepi b
   let g1: sortCat.Hom B _ := λ b' => ULift.up True
   let g2: sortCat.Hom B _ := λ b' => ULift.up (∃a, f a = b')
-  change (g2 b).down
+  show (g2 b).down
   rw [←@Hepi _ g1 g2 ?_]
   exact True.intro
   funext a'
@@ -94,7 +87,7 @@ theorem sortCat.surjective_to_epi{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
   funext b
   have ⟨a, Heq2⟩ := Hsurj b
   rw [←Heq2]
-  change (g1 ≪ f) a = (g2 ≪ f) a
+  show (g1 ≪ f) a = (g2 ≪ f) a
   rw [Heq1]
 
 theorem sortCat.epi_iff_surjective{A B: sortCat.{m+1}.Ob}(f: sortCat.Hom A B):
@@ -108,7 +101,7 @@ theorem sortCat.split_epi_to_surjective{A B: sortCat.Ob}(f: sortCat.Hom A B):
 := by
   intro ⟨g, H1⟩ b
   refine  ⟨g b, ?_⟩
-  change (f ≪ g) b = b
+  show (f ≪ g) b = b
   exact (congrFun H1 b)
 
 theorem sortCat.surjective_to_split_epi{A B: sortCat.Ob}(f: sortCat.Hom A B):
@@ -140,7 +133,7 @@ def sortCat.equalizer{A B: sortCat.Ob}(f₁ f₂: sortCat.Hom A B):
   case H2 =>
     intro O m Hm
     refine ⟨λ o => ⟨m o, ?_⟩ , ?_⟩
-    . change (f₁ ≪ m) o = _
+    . show (f₁ ≪ m) o = _
       rw [Hm]
       rfl
     . funext o
@@ -149,7 +142,7 @@ def sortCat.equalizer{A B: sortCat.Ob}(f₁ f₂: sortCat.Hom A B):
     intro A' g₁ g₂ Hg
     funext a
     apply Subtype.ext
-    change (Subtype.val ≪ g₁) a = (Subtype.val ≪ g₂) a
+    show (Subtype.val ≪ g₁) a = (Subtype.val ≪ g₂) a
     rw [Hg]
 
 def sortCat.coequalizer{A B: sortCat.Ob}(f₁ f₂: sortCat.Hom A B):
@@ -226,7 +219,7 @@ def sortCat.lim{JJ: Cat}(F: Fun JJ sortCat): Lim F :=
     }
     u X := {
       h x := ⟨
-        fun J => X.π J x,
+        λ J => X.π J x,
         by
           intro J₁ J₂ f
           simp
