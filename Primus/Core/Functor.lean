@@ -175,23 +175,54 @@ def categoryCat.initial: InitialObject categoryCat := {
 
 
 theorem faithful_comp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB):
-  faithful F -> faithful G → faithful (categoryCat.compose G F)
+  faithful F → faithful G → faithful (categoryCat.compose G F)
 := by
   intro H1 H2 A B f1 f2 H3
   apply H1
   apply H2
-  assumption
+  apply H3
 
 theorem full_comp{AA BB CC}(G: Fun BB CC)(F: Fun AA BB):
-  full F -> full G → full (categoryCat.compose G F)
+  full F → full G → full (categoryCat.compose G F)
 := by
   intro H1 H2 A B g
   let ⟨a, H3⟩ := (H2 g)
   let ⟨b, H4⟩ := (H1 a)
   exists b
   rw [←H3, ←H4]
-  simp only [categoryCat, Fun.compose]
+  rfl
 
 
 def equivalent(CC DD: Cat): Prop :=
   ∃(F: Fun CC DD), equivalence F
+
+
+def Cat.core_inclusion CC: Fun CC.core CC := {
+  onOb A := A
+  onHom i := i.f
+  preserves_id := (Cat.core.id_f _).symm
+  preserves_compose := Cat.core.compose_f _ _
+}
+
+theorem Cat.core_inclusion.faithful(CC: Cat):
+  faithful CC.core_inclusion
+:= by
+  intros A B f₁ f₂ H
+  apply Cat.Iso.ext H
+
+
+def Cat.core_functor: Fun categoryCat categoryCat := {
+  onOb := Cat.core
+  onHom := Fun.core
+  preserves_id := by
+    intro A
+    rfl
+  preserves_compose := by
+    intros A B C g f
+    rfl
+}
+
+theorem Fun.core_inclusion_naturality{CC DD: Cat}(F: Fun CC DD):
+  DD.core_inclusion.compose F.core = F.compose CC.core_inclusion
+:= by
+  ext A B i <;> rfl
